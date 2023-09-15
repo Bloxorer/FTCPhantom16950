@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.autonom;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -8,6 +10,9 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.methods.Methods;
 import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
 import org.firstinspires.ftc.teamcode.methods.Methods_move;
+import org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -32,10 +37,10 @@ import java.util.List;
  * monitor: 640 x 480
  *YES
  */
-@Autonomous(name= "CamTestNew", group="Autonomous")
+@Autonomous(name= "RRtest", group="Autonomous")
 
 //
-public class NewCamTest extends Methods {
+public class RRtest extends Methods {
     private final ElapsedTime runtime = new ElapsedTime();
     private static int valLeft;
     private static int valRight;
@@ -63,9 +68,15 @@ public class NewCamTest extends Methods {
         drin = hardwareMap.dcMotor.get("drin");
         big = hardwareMap.crservo.get("big");
         zaxvat = hardwareMap.crservo.get("zx");
-
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         initGyro();
         waitForStart();
+        TrajectorySequence untitled0 = drive.trajectorySequenceBuilder(new Pose2d(-35.76, -60.68, Math.toRadians(90.00)))
+                .splineTo(new Vector2d(-35.32, 8.88), Math.toRadians(90.58))
+
+                .build();
+
+
 
         runtime.reset();
         while (opModeIsActive()) {
@@ -74,23 +85,16 @@ public class NewCamTest extends Methods {
             sleep (150);
 
             if (valLeft == 255) {
-                drin_castom(500);
-                move.vpered(800, 0.25);
-                sleep(250);
-                move.razvarot(540,0.25);
-                move.vpered(700, 0.3);
+               drive.followTrajectorySequence(untitled0);
+               stop_all();
                 sleep(30000);
             } else if (valRight  == 255) {
-                drin_castom(500);
-                move.vpered(800, 0.25);
-                move.vpered(250, 0.3);
+                drive.followTrajectorySequence(untitled0);
+                stop_all();
                 sleep(30000);
             } else {
-                drin_castom(500);
-                move.vpered(800, 0.25);
-                sleep(250);
-                move.razvarot(-540,0.25);
-                move.vpered(700, 0.3);
+                drive.followTrajectorySequence(untitled0);
+                stop_all();
                 sleep(30000);
             }
         }}

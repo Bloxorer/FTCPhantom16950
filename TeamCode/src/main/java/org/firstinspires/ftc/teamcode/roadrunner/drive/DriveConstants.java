@@ -34,7 +34,7 @@ public class DriveConstants {
      * from DriveVelocityPIDTuner.
      */
     public static final boolean RUN_USING_ENCODER = true;
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0, 13.511);
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(-14.3, 0, -12.5, 13.511);
 
     // getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV)
 
@@ -88,8 +88,8 @@ public class DriveConstants {
      * You are free to raise this on your own if you would like. It is best determined through experimentation.
      
      */
-    public static double MAX_VEL = 38.730;
-    public static double MAX_ACCEL = 34.98861272220352;
+    public static double MAX_VEL = 15;
+    public static double MAX_ACCEL = 10;
     public static double MAX_ANG_VEL = Math.toRadians(216.724307027027);
     public static double MAX_ANG_ACCEL = Math.toRadians(216.724307027027);
 
