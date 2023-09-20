@@ -51,7 +51,7 @@ public class VisionPortal {
 
             // Create a TFOD Processor by calling build()
             myTfodProcessor = myTfodProcessorBuilder.build();
-        }//
+        }///
 
     }
 
