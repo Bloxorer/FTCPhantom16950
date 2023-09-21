@@ -1,27 +1,15 @@
 package org.firstinspires.ftc.teamcode.opmodes.autonom;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.methods.Methods;
 import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
 import org.firstinspires.ftc.teamcode.methods.Methods_move;
-import org.firstinspires.ftc.teamcode.methods.VisionPortal;
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
-import org.opencv.core.Point;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
+import org.firstinspires.ftc.teamcode.methods.VisionPortall;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
-import org.openftc.easyopencv.OpenCvPipeline;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by maryjaneb  on 11/13/2016.
@@ -45,7 +33,7 @@ public class NewCamTest extends Methods {
     private int cols;
     @Override
     public void runOpMode() throws InterruptedException {
-        VisionPortal visionPortal = new VisionPortal();
+        VisionPortall visionPortall = new VisionPortall();
 
         Methods_move move = new Methods_move();
         Methods_for_OpenCV cameramethd = new Methods_for_OpenCV();

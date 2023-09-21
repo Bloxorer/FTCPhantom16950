@@ -1,23 +1,31 @@
 package org.firstinspires.ftc.teamcode.methods;
 
+
+import android.util.Size;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
+import java.util.ArrayList;
+
 // Todo: there will be code that combines opencv april tags and tensorflow
-public class VisionPortal {
-  /*  public static class  AprilTags extends Methods {
+public class VisionPortall {
+
+
+    public static class AprilTags extends Methods {
         Methods methods = new Methods();
+
         private void AprilTag() {
             AprilTagProcessor.Builder myAprilTagProcessorBuilder;
             AprilTagProcessor myAprilTagProcessor;
 
-            // Create a new AprilTag Processor Builder object.
+            //Create a new AprilTag Processor Builder object.
             myAprilTagProcessorBuilder = new AprilTagProcessor.Builder();
 
-            // Optional: specify a custom Library of AprilTags.
-            // myAprilTagProcessorBuilder.setTagLibrary(myAprilTagLibrary);   // The OpMode must have already created a Library.
+            // The OpMode must have already created a Library.
 
             // Optional: set other custom features of the AprilTag Processor (4 are shown here).
             myAprilTagProcessorBuilder.setDrawTagID(true);       // Default: true, for all detections.
@@ -44,20 +52,69 @@ public class VisionPortal {
             myTfodProcessorBuilder.setTrackerMinSize(16);  // Min. size of object that the object tracker will track
 
             // Enable or disable the AprilTag processor.
+            VisionPortal myVisionPortal = null;
             myVisionPortal.setProcessorEnabled(myAprilTagProcessor, true);
 
             // Create a VisionPortal, with the specified camera and AprilTag processor, and assign it to a variable.
             myVisionPortal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "Webcam 1"), myAprilTagProcessor);
 
+
+            myVisionPortal = new VisionPortal.Builder()
+                    .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                    .addProcessor(myAprilTagProcessor)
+                    .setCameraResolution(new Size(640, 480))
+                    .setStreamFormat(VisionPortal.StreamFormat.YUY2)
+                    .enableLiveView(true)
+                    .setAutoStopLiveView(true)
+                    .build();
+
+            myVisionPortal.setProcessorEnabled(myAprilTagProcessor, true);
+
             // Create a TFOD Processor by calling build()
             myTfodProcessor = myTfodProcessorBuilder.build();
+
+
+
+            AprilTagDetection myAprilTagDetection = null;
+            int myAprilTagIdCode = myAprilTagDetection.id;
+
+            ArrayList<AprilTagDetection> myAprilTagDetections;  // list of all detections
+            myAprilTagDetection = null;
+            int myAprilTagIdCode;                           // ID code of current detection, in for() loop
+
+// Get a list of AprilTag detections.
+            myAprilTagDetections = myAprilTagProcessor.getDetections();
+
+// Cycle through through the list and process each AprilTag.
+            for (myAprilTagDetection :
+                 {
+                 }) {
+
+                if (myAprilTagDetection.metadata != null) {  // This check for non-null Metadata is not needed for reading only ID code.
+                    myAprilTagIdCode = myAprilTagDetection.id;
+
+                    // Now take action based on this tag's ID code, or store info for later action.
+
+                }
+            }
+
         }///
 
-     }
+
+    }
 
 
+    private static org.firstinspires.ftc.vision.VisionPortal easyCreateWithDefaults(WebcamName webcamName, AprilTagProcessor myAprilTagProcessor) {
+        return null;
+    }
 
-   } */
+    private void setProcessorEnabled(AprilTagProcessor myAprilTagProcessor, boolean b) {
+
+    }
+
 
 
 }
+
+
+
