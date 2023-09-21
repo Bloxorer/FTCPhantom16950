@@ -49,15 +49,12 @@ public class RRtest extends Methods {
     @Override
     public void runOpMode() throws InterruptedException {
         Methods_move move = new Methods_move();
-        Methods_for_OpenCV cameramethd = new Methods_for_OpenCV();
-        valLeft = cameramethd.getValLeft();
-        valRight = cameramethd.getValRight();
-        rows = cameramethd.getRows();
-        cols = cameramethd.getCols();
+
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         phoneCam.openCameraDevice();
-        phoneCam.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
+
         phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
         leftF = hardwareMap.dcMotor.get("lf");
         leftB = hardwareMap.dcMotor.get("lr");

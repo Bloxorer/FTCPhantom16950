@@ -8,9 +8,10 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 //Todo: create there all necessary for OpenCV instead of creating new instance in every Autonomous Method
-public class Methods_for_OpenCV {
+public class Methods_for_OpenCV extends  LinearOpMode{
     static int valLeft;
     static int valRight;
     private static float rectHeight = 0.5f / 8f;
@@ -50,6 +51,12 @@ public class Methods_for_OpenCV {
     public static void setValRight(int valRight) {
         Methods_for_OpenCV.valRight = valRight;
     }
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+
+    }
+
     public static class StageSwitchingPipeline extends OpenCvPipeline {
         Mat yCbCrChan2Mat = new Mat();
         Mat thresholdMat = new Mat();
@@ -90,12 +97,25 @@ public class Methods_for_OpenCV {
              * This pipeline finds the contours of yellow blobs such as the Gold Mineral
              * from the Rover Ruckus game.
              */
+            Scalar lowHSV = new Scalar(0, 0, 100); // lower bound HSV for yellow
+            Scalar highHSV = new Scalar(0, 0, 255);// higher bound HSV for yellow
+
+
+
 
             //color diff cb.
             //lower cb = more blue = skystone = white
             //higher cb = less blue = oyellow stne = grey
+
             Imgproc.cvtColor(input, yCbCrChan2Mat, Imgproc.COLOR_RGB2YCrCb);//converts rgb to ycrcb
+            Thread newr =  new Thread(() -> {while(true){
+                Core.inRange(yCbCrChan2Mat, lowHSV, highHSV, thresholdMat);
+            }
+
+            });
+
             Core.extractChannel(yCbCrChan2Mat, yCbCrChan2Mat, 2);//takes cb difference and stores
+
 
             //b&w
             Imgproc.threshold(yCbCrChan2Mat, thresholdMat, 120, 255, Imgproc.THRESH_BINARY_INV);
