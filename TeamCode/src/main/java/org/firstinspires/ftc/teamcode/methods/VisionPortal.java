@@ -7,7 +7,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 // Todo: there will be code that combines opencv april tags and tensorflow
 public class VisionPortal {
-    public static class  AprilTags extends Methods {
+  /*  public static class  AprilTags extends Methods {
         Methods methods = new Methods();
         private void AprilTag() {
             AprilTagProcessor.Builder myAprilTagProcessorBuilder;
@@ -53,14 +53,11 @@ public class VisionPortal {
             myTfodProcessor = myTfodProcessorBuilder.build();
         }///
 
-    }
+     }
 
-    public class TFOD{
-        private void TFOD(){
 
-        }
 
-    }
+   } */
 
 
 }

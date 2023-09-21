@@ -22,6 +22,7 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
+import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
 
@@ -40,6 +41,7 @@ public class Methods extends LinearOpMode {
     public VoltageSensor sensor;
     public double speed;
     public OpenCvWebcam phoneCam;
+    public OpenCvInternalCamera phoneCam1;
 
     //private DistanceSensor sensorRange;
 

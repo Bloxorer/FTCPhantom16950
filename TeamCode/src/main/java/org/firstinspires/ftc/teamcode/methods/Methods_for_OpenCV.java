@@ -93,7 +93,7 @@ public class Methods_for_OpenCV {
 
             //color diff cb.
             //lower cb = more blue = skystone = white
-            //higher cb = less blue = yellow stone = grey
+            //higher cb = less blue = oyellow stne = grey
             Imgproc.cvtColor(input, yCbCrChan2Mat, Imgproc.COLOR_RGB2YCrCb);//converts rgb to ycrcb
             Core.extractChannel(yCbCrChan2Mat, yCbCrChan2Mat, 2);//takes cb difference and stores
 
@@ -103,7 +103,7 @@ public class Methods_for_OpenCV {
             //outline/contour
             Imgproc.findContours(thresholdMat, contoursList, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
             yCbCrChan2Mat.copyTo(all);//copies mat object
-            //Imgproc.drawContours(all, contoursList, -1, new Scalar(255, 0, 0), 3, 8);//draws blue contours
+            // Imgproc.drawContours(all, contoursList, -1, new Scalar(255, 0, 0), 3, 8);//draws blue contours
 
 
             //get values from frame
@@ -120,8 +120,8 @@ public class Methods_for_OpenCV {
             Point pointRight = new Point((int) (input.cols() * rightPos[0]), (int) (input.rows() * rightPos[1]));
 
             //draw circles on those points
-            Imgproc.circle(all, pointLeft, 5, new Scalar(255, 0, 0), 1);//draws circle
-            Imgproc.circle(all, pointRight, 5, new Scalar(255, 0, 0), 1);//draws circle
+            Imgproc.circle(all, pointLeft, 5, new Scalar(0, 0, 255), 1);//draws circle
+            Imgproc.circle(all, pointRight, 5, new Scalar(0, 0, 255), 1);//draws circle
 
             //draw 3 rectangles
             Imgproc.rectangle(//1-3
@@ -132,7 +132,7 @@ public class Methods_for_OpenCV {
                     new Point(
                             input.cols() * (leftPos[0] + rectWidth1 / 2),
                             input.rows() * (leftPos[1] + rectHeight1 / 2)),
-                    new Scalar(0, 255, 0), 3);
+                    new Scalar(0, 0, 255), 3);
 
             Imgproc.rectangle(//5-7
                     all,
@@ -142,7 +142,7 @@ public class Methods_for_OpenCV {
                     new Point(
                             input.cols() * (rightPos[0] + rectWidth / 2),
                             input.rows() * (rightPos[1] + rectHeight / 2)),
-                    new Scalar(0, 255, 0), 3);
+                    new Scalar(0, 0, 255), 3);
 
             switch (stageToRenderToViewport) {
                 case THRESHOLD: {
