@@ -8,6 +8,9 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
+
+
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 //Todo: create there all necessary for OpenCV instead of creating new instance in every Autonomous Method
@@ -97,9 +100,27 @@ public class Methods_for_OpenCV extends  LinearOpMode{
              * This pipeline finds the contours of yellow blobs such as the Gold Mineral
              * from the Rover Ruckus game.
              */
-            Scalar lowHSV = new Scalar(0, 0, 100); // lower bound HSV for yellow
-            Scalar highHSV = new Scalar(0, 0, 255);// higher bound HSV for yellow
 
+            Scalar blueLowHSV = new Scalar(0, 0, 0); // lower bound HSV for blue
+            Scalar blueHighHSV = new Scalar(360, 100.0, 100.0);// higher bound HSV for blue
+            Scalar redLowHSV = new Scalar(0,0,0);
+            Scalar redHighHSV = new Scalar(0,100.0,100.0);
+            Mat hsvImage = new Mat();
+            Imgproc.cvtColor(input, hsvImage, Imgproc.COLOR_BGR2HSV);
+            Mat colorMaskblue = new Mat();
+            Mat colorMaskred = new Mat();
+            Core.inRange(hsvImage, blueLowHSV, blueHighHSV, colorMaskblue); // filter for blue
+            Core.inRange(hsvImage, redLowHSV, redHighHSV, colorMaskred); // filter for red
+            //Core.inRange(hsvImage, lowHSV, blueHighHSV, colorMask);
+           // Core.inRange(hsvImage, lowHSV, blueHighHSV, colorMask);
+            //Core.inRange(hsvImage, lowHSV, blueHighHSV, colorMask);
+            Mat coloredImage = new Mat();
+            Core.bitwise_and(input, input, coloredImage, colorMaskblue);
+            Core.bitwise_and(coloredImage, coloredImage, coloredImage, colorMaskred);
+            Imgproc.cvtColor(coloredImage, coloredImage, Imgproc.COLOR_BGR2HSV);
+            Core.add(coloredImage, new Scalar(60, 100.0, 100.0), coloredImage, colorMaskblue);
+            Core.add(coloredImage, new Scalar(60, 100.0,100.0), coloredImage, colorMaskred);
+            Imgproc.cvtColor(coloredImage, input, Imgproc.COLOR_HSV2RGB);
 
 
 
@@ -107,12 +128,9 @@ public class Methods_for_OpenCV extends  LinearOpMode{
             //lower cb = more blue = skystone = white
             //higher cb = less blue = oyellow stne = grey
 
-            Imgproc.cvtColor(input, yCbCrChan2Mat, Imgproc.COLOR_RGB2YCrCb);//converts rgb to ycrcb
-            Thread newr =  new Thread(() -> {while(true){
-                Core.inRange(yCbCrChan2Mat, lowHSV, highHSV, thresholdMat);
-            }
 
-            });
+            Imgproc.cvtColor(input, yCbCrChan2Mat, Imgproc.COLOR_RGB2YCrCb);//converts rgb to ycrcb
+
 
             Core.extractChannel(yCbCrChan2Mat, yCbCrChan2Mat, 2);//takes cb difference and stores
 

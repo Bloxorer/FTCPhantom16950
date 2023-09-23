@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class VisionPortall {
 
 
-    public static class AprilTags extends Methods {
+   /* public static class AprilTags extends Methods {
         Methods methods = new Methods();
 
         private void AprilTag() {
@@ -110,7 +110,7 @@ public class VisionPortall {
 
     private void setProcessorEnabled(AprilTagProcessor myAprilTagProcessor, boolean b) {
 
-    }
+   }*/
 
 
 

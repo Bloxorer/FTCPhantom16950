@@ -33,7 +33,6 @@ public class NewCamTest extends Methods {
     private int cols;
     @Override
     public void runOpMode() throws InterruptedException {
-        VisionPortall visionPortall = new VisionPortall();
 
         Methods_move move = new Methods_move();
         Methods_for_OpenCV cameramethd = new Methods_for_OpenCV();
