@@ -108,7 +108,7 @@ public class Methods_for_OpenCV extends  LinearOpMode{
             Mat hsvImage = new Mat();
             Imgproc.cvtColor(input, hsvImage, Imgproc.COLOR_BGR2HSV);
             Mat colorMaskblue = new Mat();
-            Mat colorMaskred = new Mat();
+            Mat colorMaskred = new Mat();//
             Core.inRange(hsvImage, blueLowHSV, blueHighHSV, colorMaskblue); // filter for blue
             Core.inRange(hsvImage, redLowHSV, redHighHSV, colorMaskred); // filter for red
             //Core.inRange(hsvImage, lowHSV, blueHighHSV, colorMask);
