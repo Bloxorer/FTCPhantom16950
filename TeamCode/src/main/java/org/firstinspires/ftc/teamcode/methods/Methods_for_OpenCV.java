@@ -11,6 +11,7 @@ import java.util.List;
 
 
 
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 //Todo: create there all necessary for OpenCV instead of creating new instance in every Autonomous Method
@@ -100,27 +101,42 @@ public class Methods_for_OpenCV extends  LinearOpMode{
              * This pipeline finds the contours of yellow blobs such as the Gold Mineral
              * from the Rover Ruckus game.
              */
+            Mat rgbImage = new Mat();
+            Imgproc.cvtColor(input, rgbImage, Imgproc.COLOR_BGR2RGB);
 
-            Scalar blueLowHSV = new Scalar(0, 0, 0); // lower bound HSV for blue
-            Scalar blueHighHSV = new Scalar(360, 100.0, 100.0);// higher bound HSV for blue
-            Scalar redLowHSV = new Scalar(0,0,0);
-            Scalar redHighHSV = new Scalar(0,100.0,100.0);
+            // Преобразование RGB в HSV
             Mat hsvImage = new Mat();
-            Imgproc.cvtColor(input, hsvImage, Imgproc.COLOR_BGR2HSV);
-            Mat colorMaskblue = new Mat();
-            Mat colorMaskred = new Mat();//
-            Core.inRange(hsvImage, blueLowHSV, blueHighHSV, colorMaskblue); // filter for blue
-            Core.inRange(hsvImage, redLowHSV, redHighHSV, colorMaskred); // filter for red
-            //Core.inRange(hsvImage, lowHSV, blueHighHSV, colorMask);
-           // Core.inRange(hsvImage, lowHSV, blueHighHSV, colorMask);
-            //Core.inRange(hsvImage, lowHSV, blueHighHSV, colorMask);
-            Mat coloredImage = new Mat();
-            Core.bitwise_and(input, input, coloredImage, colorMaskblue);
-            Core.bitwise_and(coloredImage, coloredImage, coloredImage, colorMaskred);
-            Imgproc.cvtColor(coloredImage, coloredImage, Imgproc.COLOR_BGR2HSV);
-            Core.add(coloredImage, new Scalar(60, 100.0, 100.0), coloredImage, colorMaskblue);
-            Core.add(coloredImage, new Scalar(60, 100.0,100.0), coloredImage, colorMaskred);
-            Imgproc.cvtColor(coloredImage, input, Imgproc.COLOR_HSV2RGB);
+            Imgproc.cvtColor(rgbImage, hsvImage, Imgproc.COLOR_RGB2HSV);
+
+            // Определение диапазона красного цвета в HSV
+            Scalar lowerRed = new Scalar(0, 50, 50);
+            Scalar upperRed = new Scalar(15, 255, 255);
+
+            // Определение диапазона синего цвета в HSV
+            Scalar lowerBlue = new Scalar(80, 30, 30);
+            Scalar upperBlue = new Scalar(160, 255, 255);
+
+            // Создание масок для красного и синего цветов
+            Mat redMask = new Mat();
+            Mat blueMask = new Mat();
+            Core.inRange(hsvImage, lowerRed, upperRed, redMask);
+            Core.inRange(hsvImage, lowerBlue, upperBlue, blueMask);
+
+            // Создание маски для желтого цвета
+            Mat yellowMask = new Mat();
+            //Core.addWeighted(redMask, 1.0, blueMask, 1.0, 0.0, yellowMask);
+            // Core.bitwise_or(redMask, blueMask, yellowMask);
+
+            // Применение маски к изображению
+            Mat hsvImageBlue = new Mat();
+            Mat hsvImageRed = new Mat();
+
+            Mat yellowResult = new Mat();
+            Core.add(hsvImage, new Scalar(60, 100, 100), rgbImage, blueMask);
+            Core.add(hsvImage, new Scalar(60, 100, 100), rgbImage, redMask);
+            Core.bitwise_and(rgbImage, rgbImage, yellowResult, yellowMask);
+            Mat yellowResultRGB = new Mat();
+            Imgproc.cvtColor(yellowResult, yellowResultRGB, Imgproc.COLOR_HSV2RGB);
 
 
 
@@ -129,7 +145,8 @@ public class Methods_for_OpenCV extends  LinearOpMode{
             //higher cb = less blue = oyellow stne = grey
 
 
-            Imgproc.cvtColor(input, yCbCrChan2Mat, Imgproc.COLOR_RGB2YCrCb);//converts rgb to ycrcb
+
+            Imgproc.cvtColor(yellowResultRGB, yCbCrChan2Mat, Imgproc.COLOR_RGB2YCrCb);//converts rgb to ycrcb
 
 
             Core.extractChannel(yCbCrChan2Mat, yCbCrChan2Mat, 2);//takes cb difference and stores
@@ -158,8 +175,8 @@ public class Methods_for_OpenCV extends  LinearOpMode{
             Point pointRight = new Point((int) (input.cols() * rightPos[0]), (int) (input.rows() * rightPos[1]));
 
             //draw circles on those points
-            Imgproc.circle(all, pointLeft, 5, new Scalar(0, 0, 255), 1);//draws circle
-            Imgproc.circle(all, pointRight, 5, new Scalar(0, 0, 255), 1);//draws circle
+            Imgproc.circle(all, pointLeft, 5, new Scalar(240, 100, 100), 1);//draws circle
+            Imgproc.circle(all, pointRight, 5, new Scalar(240, 100, 100), 1);//draws circle
 
             //draw 3 rectangles
             Imgproc.rectangle(//1-3
@@ -170,7 +187,7 @@ public class Methods_for_OpenCV extends  LinearOpMode{
                     new Point(
                             input.cols() * (leftPos[0] + rectWidth1 / 2),
                             input.rows() * (leftPos[1] + rectHeight1 / 2)),
-                    new Scalar(0, 0, 255), 3);
+                    new Scalar(240, 100, 100), 3);
 
             Imgproc.rectangle(//5-7
                     all,
@@ -180,7 +197,7 @@ public class Methods_for_OpenCV extends  LinearOpMode{
                     new Point(
                             input.cols() * (rightPos[0] + rectWidth / 2),
                             input.rows() * (rightPos[1] + rectHeight / 2)),
-                    new Scalar(0, 0, 255), 3);
+                    new Scalar(240, 100, 100), 3);
 
             switch (stageToRenderToViewport) {
                 case THRESHOLD: {
