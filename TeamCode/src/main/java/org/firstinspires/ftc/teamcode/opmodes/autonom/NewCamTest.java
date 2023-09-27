@@ -1,12 +1,17 @@
 package org.firstinspires.ftc.teamcode.opmodes.autonom;
 
+import android.util.Size;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.methods.Methods;
 import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
 import org.firstinspires.ftc.teamcode.methods.Methods_move;
 import org.firstinspires.ftc.teamcode.methods.VisionPortall;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
@@ -33,7 +38,9 @@ public class NewCamTest extends Methods {
     private int cols;
     @Override
     public void runOpMode() throws InterruptedException {
-
+        VisionPortal visionPortall;
+        VisionPortall visionPortall1 = new VisionPortall();
+        AprilTagProcessor proceesor = visionPortall1.myAprilTagProcessor;
         Methods_move move = new Methods_move();
         Methods_for_OpenCV cameramethd = new Methods_for_OpenCV();
         valLeft = cameramethd.getValLeft();
@@ -47,9 +54,17 @@ public class NewCamTest extends Methods {
         phoneCam1.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
 
         waitForStart();
-
+        visionPortall = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .addProcessor(proceesor)
+                .setCameraResolution(new Size(640, 480))
+                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
+                .enableLiveView(true)
+                .setAutoStopLiveView(true)
+                .build();
         runtime.reset();
         while (opModeIsActive()) {
+
             telemetry.addData("Values", valLeft + "  " + valRight);
             telemetry.update();
             sleep (150);
