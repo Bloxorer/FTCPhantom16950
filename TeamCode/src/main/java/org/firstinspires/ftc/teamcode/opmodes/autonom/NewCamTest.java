@@ -1,16 +1,22 @@
 package org.firstinspires.ftc.teamcode.opmodes.autonom;
 
-import android.util.Size;
 
+
+import org.firstinspires.ftc.robotcore.external.android.util.Size;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.teamcode.methods.Methods;
 import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
 import org.firstinspires.ftc.teamcode.methods.Methods_move;
 import org.firstinspires.ftc.teamcode.methods.VisionPortall;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -42,7 +48,9 @@ public class NewCamTest extends Methods {
         VisionPortall visionPortall1 = new VisionPortall();
         AprilTagProcessor proceesor = visionPortall1.myAprilTagProcessor;
         Methods_move move = new Methods_move();
-        Methods_for_OpenCV cameramethd = new Methods_for_OpenCV();
+        Size size = new Size(rows, cols);
+
+        /*Methods_for_OpenCV cameramethd = new Methods_for_OpenCV();
         valLeft = cameramethd.getValLeft();
         valRight = cameramethd.getValRight();
         rows = cameramethd.getRows();
@@ -52,17 +60,16 @@ public class NewCamTest extends Methods {
         phoneCam1.openCameraDevice();
         phoneCam1.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
         phoneCam1.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
-
-        waitForStart();
-        visionPortall = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+        */visionPortall = new VisionPortal.Builder()
+                .setCamera(BuiltinCameraDirection.BACK)
                 .addProcessor(proceesor)
-                .setCameraResolution(new Size(640, 480))
-                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
                 .enableLiveView(true)
+                .setCameraResolution(new android.util.Size(640, 480))
                 .setAutoStopLiveView(true)
                 .build();
         runtime.reset();
+        waitForStart();
+
         while (opModeIsActive()) {
 
             telemetry.addData("Values", valLeft + "  " + valRight);
@@ -70,10 +77,13 @@ public class NewCamTest extends Methods {
             sleep (150);
 
             if (valLeft == 255) {
+                visionPortall.resumeLiveView();;
                 sleep(30000);
             } else if (valRight  == 255) {
+                visionPortall.resumeLiveView();;
                 sleep(30000);
             } else {
+                visionPortall.resumeLiveView();;
                 sleep(30000);
             }
         }}

@@ -58,22 +58,13 @@ public class VisionPortall extends Methods {
         myTfodProcessorBuilder.setTrackerMaxOverlap((float) 0.2);  // Max. % of box overlapped by another box at recognition time
         myTfodProcessorBuilder.setTrackerMinSize(16);  // Min. size of object that the object tracker will track
 
-        // Enable or disable the AprilTag processor.
+        // Enable or disable the AperilTag processor.
         VisionPortal myVisionPortal = null;
         myVisionPortal.setProcessorEnabled(myAprilTagProcessor, true);
 
-        // Create a VisionPortal, with the specified camera and AprilTag processor, and assign it to a variable.
-        myVisionPortal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "Webcam 1"), myAprilTagProcessor);
 
 
-        myVisionPortal = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                .addProcessor(myAprilTagProcessor)
-                .setCameraResolution(new Size(640, 480))
-                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
-                .enableLiveView(true)
-                .setAutoStopLiveView(true)
-                .build();
+
 
         myVisionPortal.setProcessorEnabled(myAprilTagProcessor, true);
 
@@ -126,23 +117,23 @@ public class VisionPortall extends Methods {
 
 
 // Add a tag to the AprilTagLibrary.Builder.
-        myAprilTagLibraryBuilder.addTag(myAprilTagMetadata);
+        //myAprilTagLibraryBuilder.addTag(myAprilTagMetadata);
 
 // Build the AprilTag library and assign it to a variable.
-        myAprilTagLibrary = myAprilTagLibraryBuilder.build();
+        //myAprilTagLibrary = myAprilTagLibraryBuilder.build();
 
 // Create a new AprilTagProcessor.Builder object and assign it to a variable.
-        myAprilTagProcessorBuilder = new AprilTagProcessor.Builder();
+        //myAprilTagProcessorBuilder = new AprilTagProcessor.Builder();
 
 // Set the tag library.
-        myAprilTagProcessorBuilder.setTagLibrary(myAprilTagLibrary);
+        //myAprilTagProcessorBuilder.setTagLibrary(myAprilTagLibrary);
 
 // Build the AprilTag processor and assign it to a variable.
-        myAprilTagProcessor = myAprilTagProcessorBuilder.build();
+        //myAprilTagProcessor = myAprilTagProcessorBuilder.build();
 
 
         // Temporarily stop the live view (RC preview).
-        myVisionPortal.stopLiveView();
+        //myVisionPortal.stopLiveView();
 
 // Start the live view (RC preview) again.
         //myVisionPortal.resumeLiveView();
@@ -166,7 +157,7 @@ public class VisionPortall extends Methods {
 
 // Save computing resources by closing VisionPortal at any time, if no
 // longer needed.
-        myVisionPortal.close();
+        //myVisionPortal.close();
 
         for (AprilTagDetection detection : myAprilTagProcessor.getDetections())  {
 
