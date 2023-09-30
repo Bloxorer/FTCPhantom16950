@@ -58,7 +58,9 @@ public class NewCamTest extends Methods {
         phoneCam1.openCameraDevice();
         phoneCam1.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
         phoneCam1.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
+
         runtime.reset();
+
         waitForStart();
 
         while (opModeIsActive()) {
@@ -68,13 +70,13 @@ public class NewCamTest extends Methods {
             sleep (150);
 
             if (valLeft == 255) {
-                visionPortall.initAprilTag();
+
                 sleep(30000);
             } else if (valRight  == 255) {
-                visionPortall.initAprilTag();
+
                 sleep(30000);
             } else {
-                visionPortall.initAprilTag();
+
                 sleep(30000);
             }
         }}
