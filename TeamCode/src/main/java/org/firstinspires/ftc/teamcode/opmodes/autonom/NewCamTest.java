@@ -44,13 +44,11 @@ public class NewCamTest extends Methods {
     private int cols;
     @Override
     public void runOpMode() throws InterruptedException {
-        VisionPortal visionPortall;
-        VisionPortall visionPortall1 = new VisionPortall();
-        AprilTagProcessor proceesor = visionPortall1.myAprilTagProcessor;
+
         Methods_move move = new Methods_move();
         Size size = new Size(rows, cols);
-
-        /*Methods_for_OpenCV cameramethd = new Methods_for_OpenCV();
+        VisionPortall visionPortall = new VisionPortall();
+        Methods_for_OpenCV cameramethd = new Methods_for_OpenCV();
         valLeft = cameramethd.getValLeft();
         valRight = cameramethd.getValRight();
         rows = cameramethd.getRows();
@@ -60,13 +58,6 @@ public class NewCamTest extends Methods {
         phoneCam1.openCameraDevice();
         phoneCam1.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
         phoneCam1.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
-        */visionPortall = new VisionPortal.Builder()
-                .setCamera(BuiltinCameraDirection.BACK)
-                .addProcessor(proceesor)
-                .enableLiveView(true)
-                .setCameraResolution(new android.util.Size(640, 480))
-                .setAutoStopLiveView(true)
-                .build();
         runtime.reset();
         waitForStart();
 
@@ -77,13 +68,13 @@ public class NewCamTest extends Methods {
             sleep (150);
 
             if (valLeft == 255) {
-                visionPortall.resumeLiveView();;
+                visionPortall.initAprilTag();
                 sleep(30000);
             } else if (valRight  == 255) {
-                visionPortall.resumeLiveView();;
+                visionPortall.initAprilTag();
                 sleep(30000);
             } else {
-                visionPortall.resumeLiveView();;
+                visionPortall.initAprilTag();
                 sleep(30000);
             }
         }}
