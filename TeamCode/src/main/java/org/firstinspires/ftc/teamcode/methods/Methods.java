@@ -41,7 +41,7 @@ public class Methods extends LinearOpMode {
     public VoltageSensor sensor;
     public double speed;
     public OpenCvWebcam phoneCam;
-    public OpenCvInternalCamera phoneCam1;
+    public OpenCvInternalCamera phoneCam1, phoneCam2;
 
     //private DistanceSensor sensorRange;
 

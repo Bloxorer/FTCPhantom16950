@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.methods.VisionPortall;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
@@ -42,6 +43,7 @@ public class NewCamTest extends Methods {
     private static int valRight;
     private int rows;
     private int cols;
+    private VisionPortal visionPortal;
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -49,16 +51,23 @@ public class NewCamTest extends Methods {
         Size size = new Size(rows, cols);
         VisionPortall visionPortall = new VisionPortall();
         Methods_for_OpenCV cameramethd = new Methods_for_OpenCV();
+
         valLeft = cameramethd.getValLeft();
         valRight = cameramethd.getValRight();
         rows = cameramethd.getRows();
         cols = cameramethd.getCols();
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+
         phoneCam1 = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+
         phoneCam1.openCameraDevice();
         phoneCam1.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
-        phoneCam1.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
 
+         phoneCam1.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
+
+        visionPortall.telemetryAprilTag();
+        visionPortall.initAprilTag();
         runtime.reset();
 
         waitForStart();
@@ -68,15 +77,18 @@ public class NewCamTest extends Methods {
             telemetry.addData("Values", valLeft + "  " + valRight);
             telemetry.update();
             sleep (150);
-
             if (valLeft == 255) {
-
+                telemetry.addData("Values", valLeft + "  " + valRight);
+                telemetry.update();
                 sleep(30000);
             } else if (valRight  == 255) {
+                telemetry.addData("Values", valLeft + "  " + valRight);
+                telemetry.update();
 
                 sleep(30000);
             } else {
-
+                telemetry.addData("Values", valLeft + "  " + valRight);
+                telemetry.update();
                 sleep(30000);
             }
         }}

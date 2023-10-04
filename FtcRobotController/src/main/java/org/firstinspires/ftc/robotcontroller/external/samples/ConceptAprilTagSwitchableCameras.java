@@ -56,6 +56,7 @@ public class ConceptAprilTagSwitchableCameras extends LinearOpMode {
     /*
      * Variables used for switching cameras.
      */
+
     private WebcamName webcam1, webcam2;
     private boolean oldLeftBumper;
     private boolean oldRightBumper;

@@ -19,33 +19,82 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 // Todo: there will be code that combines opencv april tags and tensorflow
 public class VisionPortall extends Methods {
-    private static final boolean USE_WEBCAM = true;
+    private static final boolean USE_WEBCAM = false;  // true for webcam, false for phone camera
 
     /**
      * The variable to store our instance of the AprilTag processor.
      */
-    private AprilTagProcessor aprilTag;
+    public AprilTagProcessor aprilTag;
+
+    /**
+     * The variable to store our instance of the TensorFlow Object Detection processor.
+     */
+    public TfodProcessor tfod;
 
     /**
      * The variable to store our instance of the vision portal.
      */
-    public VisionPortal visionPortal;
+    public VisionPortal myVisionPortal;
+
     public void initAprilTag() {
+        // -----------------------------------------------------------------------------------------
+        // AprilTag Configuration
+        // -----------------------------------------------------------------------------------------
 
-        // Create the AprilTag processor the easy way.
-        aprilTag = AprilTagProcessor.easyCreateWithDefaults();
+        aprilTag = new AprilTagProcessor.Builder()
+                .setLensIntrinsics(578.272, 578.272, 402.145, 221.506)
+                .build();
 
-        // Create the vision portal the easy way.
+        // -----------------------------------------------------------------------------------------
+        // TFOD Configuration
+        // -----------------------------------------------------------------------------------------
+
+        //tfod = new TfodProcessor.Builder()
+         //       .build();
+
+        // -----------------------------------------------------------------------------------------
+        // Camera Configuration
+        // -----------------------------------------------------------------------------------------
         if (USE_WEBCAM) {
-            visionPortal = VisionPortal.easyCreateWithDefaults(
-                   BuiltinCameraDirection.BACK, aprilTag);
-        } else {
-            visionPortal = VisionPortal.easyCreateWithDefaults(
-                    BuiltinCameraDirection.BACK, aprilTag);
-        }
+            myVisionPortal = new VisionPortal.Builder()
+                    .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                    .addProcessors( aprilTag)
 
-    }   // end method initAprilTag()
+                    .build();
+        } else {
+            myVisionPortal = new VisionPortal.Builder()
+                    .setCamera(BuiltinCameraDirection.BACK)
+                    .addProcessors(aprilTag)
+                    .build();
+        }
+    }
+    public void telemetryAprilTag() {
+
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        telemetry.addData("# AprilTags Detected", currentDetections.size());
+
+        // Step through the list of detections and display info for each one.
+        for (AprilTagDetection detection : currentDetections) {
+            if (detection.metadata != null) {
+                telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
+                telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
+                telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
+                telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
+            } else {
+                telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
+                telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
+            }
+        }   // end for() loop
+
+        // Add "key" information to telemetry
+        telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
+        telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
+        telemetry.addLine("RBE = Range, Bearing & Elevation");
+
+    }   // end method telemetryAprilTag()
+    // end method initAprilTag()
 }
