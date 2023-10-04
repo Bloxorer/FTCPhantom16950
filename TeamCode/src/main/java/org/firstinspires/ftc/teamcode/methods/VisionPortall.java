@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.methods;
 
 
+import static org.firstinspires.ftc.vision.VisionPortal.makeMultiPortalView;
+
 import android.util.Size;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -46,9 +48,10 @@ public class VisionPortall extends Methods {
         // -----------------------------------------------------------------------------------------
 
         aprilTag = new AprilTagProcessor.Builder()
-                .setLensIntrinsics(578.272, 578.272, 402.145, 221.506)
-                .build();
 
+                .setLensIntrinsics(578.272, 578.272, 402.145, 221.506)
+                .build();;
+        VisionPortal.makeMultiPortalView(2, VisionPortal.MultiPortalLayout.VERTICAL);
         // -----------------------------------------------------------------------------------------
         // TFOD Configuration
         // -----------------------------------------------------------------------------------------
@@ -61,12 +64,14 @@ public class VisionPortall extends Methods {
         // -----------------------------------------------------------------------------------------
         if (USE_WEBCAM) {
             myVisionPortal = new VisionPortal.Builder()
+
                     .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                     .addProcessors( aprilTag)
 
                     .build();
         } else {
             myVisionPortal = new VisionPortal.Builder()
+                    .setLiveViewContainerId(1)
                     .setCamera(BuiltinCameraDirection.BACK)
                     .addProcessors(aprilTag)
                     .build();
