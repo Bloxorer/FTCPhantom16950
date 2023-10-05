@@ -56,18 +56,19 @@ public class NewCamTest extends Methods {
         valRight = cameramethd.getValRight();
         rows = cameramethd.getRows();
         cols = cameramethd.getCols();
+        Thread thread = new Thread(() -> {int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+            phoneCam1 = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
 
-        phoneCam1 = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+            phoneCam1.openCameraDevice();
+            phoneCam1.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
 
-        phoneCam1.openCameraDevice();
-        phoneCam1.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
-
-         phoneCam1.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
-
-        visionPortall.telemetryAprilTag();
+            phoneCam1.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);});
         visionPortall.initAprilTag();
+
+
+        // visionPortall.telemetryAprilTag();
+
         runtime.reset();
 
         waitForStart();
