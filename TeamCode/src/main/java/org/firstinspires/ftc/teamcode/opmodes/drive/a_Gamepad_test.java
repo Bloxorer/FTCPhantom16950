@@ -7,28 +7,32 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
+import org.firstinspires.ftc.teamcode.methods.Methods;
 
 
 //TODO: РџР РћР›Р•РўРђР РР™, РџР•Р Р•Р” РўР•РњР¬, РљРђРљ РњР•РќРЇРўР¬ Р§РўРћ-РўРћ Р’ Р“РђРњРђРџР•Р”Р•, РџР РћР’Р•Р Р¬ РЎРќРђР§РђР›Рђ РњРђРўР¬ РђР“РђРџРђ!!!
 @TeleOp(name = "Gamepad_test", group = "TeleOP")
 public class a_Gamepad_test extends OpMode {
-    DcMotor leftF, rightF, leftB, rightB, pod, drin;
+    DcMotor leftF, rightF, leftB, rightB, pod, drin, motor;
     CRServo zaxvat, pisun, big;
     DigitalChannel knopka;
     private ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
     @Override
     public void init() {
+
         leftF = hardwareMap.dcMotor.get("lf");
         leftB = hardwareMap.dcMotor.get("lr");
         rightF = hardwareMap.dcMotor.get("rf");
         rightB = hardwareMap.dcMotor.get("rr");
-        pisun = hardwareMap.crservo.get("pis");
+        /*pisun = hardwareMap.crservo.get("pis");
         pod = hardwareMap.dcMotor.get("pod");
         drin = hardwareMap.dcMotor.get("drin");
         big = hardwareMap.crservo.get("big");
         zaxvat = hardwareMap.crservo.get("zx");
         knopka = hardwareMap.get(DigitalChannel.class, "knp");
-        knopka.setMode(DigitalChannel.Mode.INPUT);
+        knopka.setMode(DigitalChannel.Mode.INPUT);*/
+        zaxvat = hardwareMap.crservo.get("zaxvat");
+        motor = hardwareMap.dcMotor.get("motor");
 
     }
 
@@ -36,71 +40,23 @@ public class a_Gamepad_test extends OpMode {
     @Override
 
     public void loop() {
-        float pwrTrigger = (gamepad1.left_trigger);
-        float pwrTrigger2 = (gamepad1.right_trigger);
-        float pwrTrigger6 = (gamepad2.left_trigger);
-        float pwrTrigger5 = (gamepad2.right_trigger);
-        float pwrTrigger3 = (float) (gamepad2.left_trigger * 0.66);
-        float pwrTrigger4 = (float) (gamepad2.right_trigger * 0.66);
-        boolean Bumper_left = (gamepad1.left_bumper);
-        boolean Bumper_right = (gamepad1.right_bumper);
-        float StickX = (gamepad1.right_stick_x);
-        float StickY = (gamepad1.right_stick_y);
-        float Stick2X = (float) (gamepad1.left_stick_x * 0.3);
-        float Stick2Y = (float) (gamepad1.left_stick_y * 0.3);
-        //korob.setTargetPosition(720);
-        double power = -1;
-        new Thread(() -> {
+        Methods methods = new Methods();
+        Thread thread1 = new Thread(() -> {
+            float StickX = (gamepad1.right_stick_x);
+            float StickY = (gamepad1.right_stick_y);
+            float pwrTrigger = (gamepad1.left_trigger);
+            float pwrTrigger2 = (gamepad1.right_trigger);
+            float pwrTrigger6 = (gamepad2.left_trigger);
+            float pwrTrigger5 = (gamepad2.right_trigger);
+            float pwrTrigger3 = (float) (gamepad2.left_trigger * 0.66);
+            float pwrTrigger4 = (float) (gamepad2.right_trigger * 0.66);
+            boolean Bumper_left = (gamepad1.left_bumper);
+            boolean Bumper_right = (gamepad1.right_bumper);
+
+            float Stick2X = (float) (gamepad1.left_stick_x * 0.3);
+            float Stick2Y = (float) (gamepad1.left_stick_y * 0.3);
             try {
-                if (gamepad1.dpad_down){
-                    drin.setPower(1);
-                } else if (gamepad1.dpad_up){
-                    while (knopka.getState() == true){
-                        drin.setPower(-1);
-                    }
-                } else{
-                    drin.setPower(0);
-                }
-            } catch (Exception e) {
-
-                throw new RuntimeException(e);
-            }
-
-        }).start();
-        if (knopka.getState() == true) {
-            telemetry.addData("Digital Touch", "Is Not Pressed");
-            telemetry.update();
-        } else {
-            telemetry.addData("Digital Touch", "Is Pressed");
-            telemetry.update();
-        }
-        // Р·Р°РЅСЏС‚Рѕ 1 РіРµР№РјРїР°Рґ: СЃС‚РёРєРё , С‚СЂРёРіРіРµСЂС‹ , Р±Р°РјРїРµСЂР°
-        // Р·Р°РЅСЏС‚Рѕ 2 РіРµР№РјРїР°Рґ: РєСЂРµСЃС‚РѕРІРёРЅР° РІРІРµСЂС… Рё РІРЅРёР·, Р±Р°РјРїРµСЂР°, Р±СѓРєРІС‹, С‚СЂРёРіРіРµСЂС‹
-        // идея для поворота в движении
-
-        Thread thread = new Thread(() -> {
-            try {
-                if(StickY != 0 || StickX != 0 && gamepad1.left_bumper){
-                    leftF.setPower((+StickY - StickX) + pwrTrigger + 0.4);
-                    leftB.setPower((+StickY + StickX) + pwrTrigger + 0.4);
-                    rightB.setPower((-StickY + StickX) + pwrTrigger2 + 0.4);
-                    rightF.setPower((-StickY - StickX) - pwrTrigger2 + 0.4);
-                } else if (StickY != 0 || StickX != 0 && gamepad1.right_bumper) {
-                    leftF.setPower((+StickY - StickX) + pwrTrigger - 0.4);
-                    leftB.setPower((+StickY + StickX) + pwrTrigger - 0.4);
-                    rightB.setPower((-StickY + StickX) + pwrTrigger2 - 0.4);
-                    rightF.setPower((-StickY - StickX) - pwrTrigger2 - 0.4);
-                } else if(Stick2Y != 0 || Stick2X != 0 && gamepad1.left_bumper){
-                    leftF.setPower((+Stick2Y - Stick2X) + pwrTrigger + 0.4);
-                    leftB.setPower((+Stick2Y + Stick2X) + pwrTrigger + 0.4);
-                    rightB.setPower((-Stick2Y + Stick2X) + pwrTrigger2 + 0.4);
-                    rightF.setPower((-Stick2Y - Stick2X) - pwrTrigger2 + 0.4);
-                } else if (Stick2Y != 0 || Stick2X != 0 && gamepad1.right_bumper) {
-                    leftF.setPower((+Stick2Y - Stick2X) + pwrTrigger - 0.4);
-                    leftB.setPower((+Stick2Y + Stick2X) + pwrTrigger - 0.4);
-                    rightB.setPower((-Stick2Y + Stick2X) + pwrTrigger2 - 0.4);
-                    rightF.setPower((-Stick2Y - Stick2X) - pwrTrigger2 - 0.4);
-                } else if (StickY != 0 || StickX != 0) {
+                if (StickY != 0 || StickX != 0) {
                     leftF.setPower((+StickY - StickX) + pwrTrigger);
                     leftB.setPower((+StickY + StickX) + pwrTrigger);
                     rightB.setPower((-StickY + StickX) + pwrTrigger2);
@@ -142,8 +98,41 @@ public class a_Gamepad_test extends OpMode {
             }
 
         });
+        thread1.start();
+        //korob.setTargetPosition(720);
+        telemetry.addData("Encoder ", motor.getCurrentPosition());
+        telemetry.update();
+        double power = -1;
+        if (gamepad1.a){
+            zaxvat.setPower(0.2);
+        } else if (gamepad1.b){
+            zaxvat.setPower(-0.2);
+        } else{
+            zaxvat.setPower(0);
+        }
+        Thread thread = new Thread(methods::vverx);
+        thread.start();
 
-        if (gamepad2.dpad_down){
+
+
+
+        }
+       /* if (knopka.getState() == true) {
+            telemetry.addData("Digital Touch", "Is Not Pressed");
+            telemetry.update();
+        } else {
+            telemetry.addData("Digital Touch", "Is Pressed");
+            telemetry.update();
+        }
+        // Р·Р°РЅСЏС‚Рѕ 1 РіРµР№РјРїР°Рґ: СЃС‚РёРєРё , С‚СЂРёРіРіРµСЂС‹ , Р±Р°РјРїРµСЂР°
+        // Р·Р°РЅСЏС‚Рѕ 2 РіРµР№РјРїР°Рґ: РєСЂРµСЃС‚РѕРІРёРЅР° РІРІРµСЂС… Рё РІРЅРёР·, Р±Р°РјРїРµСЂР°, Р±СѓРєРІС‹, С‚СЂРёРіРіРµСЂС‹
+        // идея для поворота в движении
+        */
+
+
+}
+
+        /*if (gamepad2.dpad_down){
             pod.setPower(0.7);
         } else if (gamepad2.dpad_up) {
             pod.setPower(-1);
@@ -181,8 +170,8 @@ public class a_Gamepad_test extends OpMode {
         if (gamepad2.x){
             big.setPower(-0.86);
         } else {
-            big.setPower(0.86);
-        }}}
+            big.setPower(0.86);*/
+       // }
 
         /*if (pwrTrigger5 != 0) {
             vobla.setPower(0.5 * pwrTrigger5);

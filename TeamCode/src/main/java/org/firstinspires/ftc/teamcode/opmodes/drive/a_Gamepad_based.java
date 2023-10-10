@@ -22,13 +22,13 @@ public class a_Gamepad_based extends OpMode {
         leftB = hardwareMap.dcMotor.get("lr");
         rightF = hardwareMap.dcMotor.get("rf");
         rightB = hardwareMap.dcMotor.get("rr");
-        pisun = hardwareMap.crservo.get("pis");
+        /*pisun = hardwareMap.crservo.get("pis");
         pod = hardwareMap.dcMotor.get("pod");
         drin = hardwareMap.dcMotor.get("drin");
         big = hardwareMap.crservo.get("big");
         zaxvat = hardwareMap.crservo.get("zx");
         knopka = hardwareMap.get(DigitalChannel.class, "knp");
-        knopka.setMode(DigitalChannel.Mode.INPUT);
+        knopka.setMode(DigitalChannel.Mode.INPUT);*/
     }
 
 
@@ -47,7 +47,7 @@ public class a_Gamepad_based extends OpMode {
         float Stick2Y = (float) (gamepad1.left_stick_y * 0.3);
         //korob.setTargetPosition(720);
         double power = -1;
-        new Thread(() -> {
+        /*new Thread(() -> {
             if (gamepad1.dpad_down){
                 drin.setPower(1);
             } else if (gamepad1.dpad_up){
@@ -69,7 +69,7 @@ public class a_Gamepad_based extends OpMode {
         // Р·Р°РЅСЏС‚Рѕ 1 РіРµР№РјРїР°Рґ: СЃС‚РёРєРё , С‚СЂРёРіРіРµСЂС‹ , Р±Р°РјРїРµСЂР°
         // Р·Р°РЅСЏС‚Рѕ 2 РіРµР№РјРїР°Рґ: РєСЂРµСЃС‚РѕРІРёРЅР° РІРІРµСЂС… Рё РІРЅРёР·, Р±Р°РјРїРµСЂР°, Р±СѓРєРІС‹, С‚СЂРёРіРіРµСЂС‹
 
-        if (StickY != 0 || StickX != 0) {
+        */if (StickY != 0 || StickX != 0) {
             leftF.setPower((+StickY - StickX) + pwrTrigger);
             leftB.setPower((+StickY + StickX) + pwrTrigger);
             rightB.setPower((-StickY + StickX) + pwrTrigger2);
@@ -108,7 +108,7 @@ public class a_Gamepad_based extends OpMode {
 
 
         }
-        if (gamepad2.dpad_down){
+        /*if (gamepad2.dpad_down){
             pod.setPower(0.7);
         } else if (gamepad2.dpad_up) {
             pod.setPower(-1);
