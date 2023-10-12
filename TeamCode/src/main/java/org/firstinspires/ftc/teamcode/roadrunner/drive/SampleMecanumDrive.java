@@ -127,14 +127,6 @@ public class SampleMecanumDrive extends MecanumDrive {
         rightF = hardwareMap.get(DcMotorEx.class, "rf");
 
 
-
-
-        pisun = hardwareMap.crservo.get("pis");
-        pod = hardwareMap.dcMotor.get("pod");
-        drin = hardwareMap.dcMotor.get("drin");
-        big = hardwareMap.crservo.get("big");
-        zaxvat = hardwareMap.crservo.get("zx");
-
         motors = Arrays.asList(leftF, leftB, rightB, rightF);
 
         for (DcMotorEx motor : motors) {

@@ -176,39 +176,11 @@ public class Methods extends LinearOpMode {
         }
     }
     public void vverx(){
-        final double NEW_P = 2.5;
-        final double NEW_I = 0;
-        final double NEW_D = 0.2;
-        final double NEW_F = 0.5;
-        DcMotor vverx = hardwareMap.get(DcMotor.class, "motor");
-        // Get a reference to the motor controller and cast it as an extended functionality controller.
-        // We assume it's a REV Robotics Expansion Hub, which supports the extended controller functions.
-        DcMotorControllerEx motorControllerEx = (DcMotorControllerEx)vverx.getController();
-        // Get the port number of our configured motor.
-        int motorIndex = ((DcMotorEx)vverx).getPortNumber();
 
-        PIDFCoefficients pidfOrig = motorControllerEx.getPIDFCoefficients(motorIndex, DcMotor.RunMode.RUN_USING_ENCODER);
-        PIDFCoefficients pidfModified = pidfOrig;
-        //change coefficients
-        PIDFCoefficients pidfNew = new PIDFCoefficients(NEW_P, NEW_I, NEW_D, NEW_F);
         // Start code
-        if (gamepad1.dpad_down){
-            vverx.setPower(0.4);
-        } else if (gamepad1.dpad_up) {
-            vverx.setPower(-0.4);
-        } else{
-            int motorPosition = motor.getCurrentPosition();
-            vverx.setTargetPosition(motorPosition);
-            motorControllerEx.setPIDFCoefficients(motorIndex, DcMotor.RunMode.RUN_USING_ENCODER, pidfNew);
-            pidfModified = motorControllerEx.getPIDFCoefficients(motorIndex, DcMotor.RunMode.RUN_USING_ENCODER);
-        }
+
         // Telemetry
-        telemetry.addData("Runtime (sec)", "%.01f", getRuntime());
-        telemetry.addData("P,I,D,F (orig)", "%.04f, %.04f, %.04f, %.04f",
-                pidfOrig.p, pidfOrig.i, pidfOrig.d, pidfOrig.f);
-        telemetry.addData("P,I,D,F (modified)", "%.04f, %.04f, %.04f, %.04f",
-                pidfModified.p, pidfModified.i, pidfModified.d, pidfModified.f);
-        telemetry.update();
+
     }
 
 
