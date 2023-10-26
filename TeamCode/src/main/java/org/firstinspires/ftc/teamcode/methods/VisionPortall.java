@@ -13,7 +13,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 
 
-// Todo: there will be code that combines opencv april tags and tensorflow
+/// Todo: there will be code that combines opencv april tags and tensorflow
 public class VisionPortall extends Methods {
     private static final String TFOD_MODEL_ASSET = "CenterStageRed.tflite";
     private static final String[] LABELS = {
