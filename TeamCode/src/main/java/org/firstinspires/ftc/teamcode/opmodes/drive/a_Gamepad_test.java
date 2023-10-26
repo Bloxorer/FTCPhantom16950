@@ -16,50 +16,55 @@ import org.firstinspires.ftc.teamcode.methods.Methods;
 //TODO: РџР РћР›Р•РўРђР РР™, РџР•Р Р•Р” РўР•РњР¬, РљРђРљ РњР•РќРЇРўР¬ Р§РўРћ-РўРћ Р’ Р“РђРњРђРџР•Р”Р•, РџР РћР’Р•Р Р¬ РЎРќРђР§РђР›Рђ РњРђРўР¬ РђР“РђРџРђ!!!
 @TeleOp(name = "Gamepad_test", group = "TeleOP")
 public class a_Gamepad_test extends OpMode {
-    DcMotor leftF, rightF, leftB, rightB, pod, drin, motor;
-    CRServo zaxvat, pisun, big;
+    DcMotor leftF, rightF, leftB, rightB, pod, ryka, actu;
+    CRServo zaxvatLeft, zaxvatRight, pisun, big;
     DigitalChannel knopka;
+    int motorPosition;
     private ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
     @Override
     public void init() {
-
-        leftF = hardwareMap.dcMotor.get("lf");
-        leftB = hardwareMap.dcMotor.get("lr");
-        rightF = hardwareMap.dcMotor.get("rf");
-        rightB = hardwareMap.dcMotor.get("rr");
-        /*pisun = hardwareMap.crservo.get("pis");
-        pod = hardwareMap.dcMotor.get("pod");
-        drin = hardwareMap.dcMotor.get("drin");
-        big = hardwareMap.crservo.get("big");
-        zaxvat = hardwareMap.crservo.get("zx");
-        knopka = hardwareMap.get(DigitalChannel.class, "knp");
-        knopka.setMode(DigitalChannel.Mode.INPUT);*/
-        zaxvat = hardwareMap.crservo.get("zaxvat");
-        motor = hardwareMap.dcMotor.get("motor");
-
+        try{
+            leftF = hardwareMap.dcMotor.get("lf");
+            leftB = hardwareMap.dcMotor.get("lr");
+            rightF = hardwareMap.dcMotor.get("rf");
+            rightB = hardwareMap.dcMotor.get("rr");
+           //pisun = hardwareMap.crservo.get("pis");
+            /*
+            drin = hardwareMap.dcMotor.get("drin");
+            big = hardwareMap.crservo.get("big");
+            zaxvat = hardwareMap.crservo.get("zx");
+            knopka = hardwareMap.get(DigitalChannel.class, "knp");
+            knopka.setMode(DigitalChannel.Mode.INPUT);*/
+            zaxvatLeft = hardwareMap.crservo.get("zxl");
+            zaxvatRight = hardwareMap.crservo.get("zxr");
+            ryka = hardwareMap.dcMotor.get("rk");
+            actu = hardwareMap.dcMotor.get("ac");
+            pod = hardwareMap.dcMotor.get("pod");
+        } catch (Exception e){
+            telemetry.addData("init error", " yes");
+            throw new RuntimeException(e);
+        }
     }
 
 
     @Override
 
     public void loop() {
+
         Methods methods = new Methods();
         final double NEW_P = 0;
         final double NEW_I = 0;
         final double NEW_D = 0;
         final double NEW_F = 0;
-        DcMotor vverx = hardwareMap.get(DcMotor.class, "motor");
+
         // Get a reference to the motor controller and cast it as an extended functionality controller.
         // We assume it's a REV Robotics Expansion Hub, which supports the extended controller functions.
-        DcMotorControllerEx motorControllerEx = (DcMotorControllerEx)vverx.getController();
-        // Get the port number of our configured motor.
-        int motorIndex = ((DcMotorEx)vverx).getPortNumber();
 
-        PIDFCoefficients pidfOrig = motorControllerEx.getPIDFCoefficients(motorIndex, DcMotor.RunMode.RUN_USING_ENCODER);
-        PIDFCoefficients pidfModified = new PIDFCoefficients();
-        //change coefficients
-        PIDFCoefficients pidfNew = new PIDFCoefficients(NEW_P, NEW_I, NEW_D, NEW_F);
-        Thread thread1 = new Thread(() -> {
+        // Get the port number of our configured motor.
+
+
+
+        Thread tmovement = new Thread(() -> {
             float StickX = (gamepad1.right_stick_x);
             float StickY = (gamepad1.right_stick_y);
             float pwrTrigger = (gamepad1.left_trigger);
@@ -95,15 +100,15 @@ public class a_Gamepad_test extends OpMode {
                     rightF.setPower(-0.6 * pwrTrigger2);
                     leftB.setPower(-0.6 * pwrTrigger2);
                 } else if (gamepad1.left_bumper) {
-                    leftF.setPower(0.4);
-                    rightB.setPower(0.4);
-                    rightF.setPower(0.4);
-                    leftB.setPower(0.4);
+                    leftF.setPower(0.2);
+                    rightB.setPower(0.2);
+                    rightF.setPower(0.2);
+                    leftB.setPower(0.2);
                 } else if (gamepad1.right_bumper) {
-                    leftF.setPower(-0.4);
-                    rightB.setPower(-0.4);
-                    rightF.setPower(-0.4);
-                    leftB.setPower(-0.4);
+                    leftF.setPower(-0.2);
+                    rightB.setPower(-0.2);
+                    rightF.setPower(-0.2);
+                    leftB.setPower(-0.2);
                 } else {
                     leftF.setPower(0);
                     rightB.setPower(0);
@@ -116,53 +121,73 @@ public class a_Gamepad_test extends OpMode {
             }
 
         });
-        thread1.start();
-        //korob.setTargetPosition(720);
-        telemetry.addData("Encoder ", motor.getCurrentPosition());
-        telemetry.update();
-        double power = -1;
-        if (gamepad1.a){
-            zaxvat.setPower(0.2);
-        } else if (gamepad1.b){
-            zaxvat.setPower(-0.2);
+
+        // actuactor
+        Thread tactu = new Thread(() -> {
+            if (gamepad1.dpad_up){
+                actu.setPower(1);
+            } else if(gamepad1.dpad_down){
+                actu.setPower(-1);
+            } else {
+                actu.setPower(0);
+            }
+        });
+        // sbros pixel autonom
+        Thread tsbros = new Thread(() -> {
+            if(gamepad1.dpad_up){
+                pisun.setPower(0.2);
+            } else if (gamepad1.dpad_down){
+                pisun.setPower(-0.2);
+            } else {
+                pisun.setPower(0);
+            }
+        });
+
+        // zaxvat na ryke
+        Thread tzaxvat = new Thread(() -> {
+        if (gamepad2.dpad_left){
+            zaxvatLeft.setPower(-0.2);
+        } else if (gamepad2.right_bumper){
+            zaxvatLeft.setPower(0.2);
         } else{
-            zaxvat.setPower(0);
+            zaxvatLeft.setPower(0);
         }
-        Thread thread2 = new Thread(() -> {
-            if (gamepad1.dpad_down){
-                vverx.setPower(0.4);
-            } else if (gamepad1.dpad_up) {
-                vverx.setPower(-0.4);
+        if (gamepad2.dpad_right){
+            zaxvatRight.setPower(0.6);
+        } else if (gamepad2.dpad_right){
+            zaxvatRight.setPower(1);
+        } else{
+            zaxvatRight.setPower(0.8);
+        }});
+        // ryka
+        Thread tryka = new Thread(() -> {
+            if(gamepad2.dpad_up){
+                ryka.setPower(0.6);
+            } else if (gamepad2.dpad_down) {
+                ryka.setPower(-0.6);
             } else{
-                if (motor.getCurrentPosition() >= -1700){
-                    vverx.setPower(-0.02);
-                } else {
-                    vverx.setPower(0.02);
-                }
-
+                ryka.setPower(-0.05);
             }
         });
-        thread2.start();
-        // pid controlled
-        Thread thread = new Thread(() -> {
-            if (gamepad1.dpad_left){
-                vverx.setPower(0.4);
-            } else if (gamepad1.dpad_right) {
-                vverx.setPower(-0.4);
-            } else{
-                int motorPosition = motor.getCurrentPosition();
-                vverx.setTargetPosition(motorPosition);
-                motorControllerEx.setPIDFCoefficients(motorIndex, DcMotor.RunMode.RUN_USING_ENCODER, pidfNew);
-
+        //podtmnik actuatora
+        Thread tpod = new Thread(() -> {
+            if (gamepad2.y){
+                pod.setPower(0.3);
+            } else if (gamepad2.a) {
+                pod.setPower(-0.3);
+            } else {
+                pod.setPower(0);
             }
         });
-        //thread.start();
-        telemetry.addData("Runtime (sec)", "%.01f", getRuntime());
-        telemetry.addData("P,I,D,F (orig)", "%.04f, %.04f, %.04f, %.04f",
-                pidfOrig.p, pidfOrig.i, pidfOrig.d, pidfOrig.f);
-        telemetry.addData("P,I,D,F (modified)", "%.04f, %.04f, %.04f, %.04f",
-                pidfModified.p, pidfModified.i, pidfModified.d, pidfModified.f);
-        telemetry.update();
+        //Starting threads
+        //tsbros.start();
+        tpod.start();
+        tmovement.start();
+        tactu.start();
+        tzaxvat.start();
+        tryka.start();
+
+
 
 
 

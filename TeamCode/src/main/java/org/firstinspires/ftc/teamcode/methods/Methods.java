@@ -36,7 +36,7 @@ import java.util.List;
 
 @Autonomous(name= "Methods", group="Autonomous")
 public class Methods extends LinearOpMode {
-    public DcMotor leftF, rightF, leftB, rightB, pod, drin, motor;
+    public DcMotor leftF, rightF, leftB, rightB, pod, drin, motor, ryka, motor2;
     public CRServo zaxvat, pisun, big;
     public BNO055IMU imu;
     public DigitalChannel knopka;
@@ -148,6 +148,17 @@ public class Methods extends LinearOpMode {
         leftF.setPower(0);
         drin.setPower(0);
         sleep(100);
+    }
+    public void xvatat(int pos, double power){
+        ryka.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ryka.setTargetPosition(pos);
+        ryka.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ryka.setPower(power);
+        while ((opModeIsActive() && (ryka.isBusy()))){
+
+        }
+        ryka.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ryka.setPower(-0.045);
     }
     //Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
     public void vziat(DistanceSensor sensorRange){
@@ -350,9 +361,6 @@ public class Methods extends LinearOpMode {
         sleep(100);
 
     }
-
-
-
 
     /*public void nazad() {
         leftF.setPower(speed);
@@ -558,6 +566,101 @@ public class Methods extends LinearOpMode {
 
     }
 
+    public void razvarot(int pos, double speed) {
+        leftF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftF.setTargetPosition(pos);
+        rightB.setTargetPosition(pos);
+        rightF.setTargetPosition(pos);
+        leftB.setTargetPosition(pos);
+        leftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftF.setPower(speed);
+        rightB.setPower(speed);
+        rightF.setPower(speed);
+        leftB.setPower(speed);
+        while (opModeIsActive() && (leftF.isBusy()) && (rightF.isBusy()) && (rightB.isBusy()) && (leftB.isBusy())) {
+
+            telemetry.addData("Path2", "Running at %7d :%7d : %7d :%7d",
+                    leftF.getCurrentPosition(),
+                    rightB.getCurrentPosition(), rightF.getCurrentPosition(), leftB.getCurrentPosition());
+            telemetry.update();
+        }
+        rightB.setPower(0);
+        leftB.setPower(0);
+        rightF.setPower(0);
+        leftF.setPower(0);
+    }
+    public void vpravo(int pos, double speed) {
+        leftF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftF.setTargetPosition(pos);
+        rightB.setTargetPosition(-pos);
+        rightF.setTargetPosition(pos);
+        leftB.setTargetPosition(-pos);
+        leftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftF.setPower(speed);
+        rightB.setPower(speed);
+        rightF.setPower(speed);
+        leftB.setPower(speed);
+        while (opModeIsActive() && (leftF.isBusy()) && (rightF.isBusy()) && (rightB.isBusy()) && (leftB.isBusy())) {
+
+        }
+
+        // Stop all motion;
+        rightB.setPower(0);
+        leftB.setPower(0);
+        rightF.setPower(0);
+        leftF.setPower(0);
+        sleep(100);
+
+    }
+    public void vlevo(int pos, double speed) {
+        vpravo(-pos, speed);
+    }
+    public void nazad(int pos, double speed) {
+        vpered(-pos, speed);
+    }
+
+    public void vpered(int pos, double speed) {
+        leftF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftF.setTargetPosition(pos);
+        rightB.setTargetPosition(-pos);
+        rightF.setTargetPosition(-pos);
+        leftB.setTargetPosition(pos);
+        leftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftF.setPower(speed);
+        rightB.setPower(speed);
+        rightF.setPower(speed);
+        leftB.setPower(speed);
+        while (opModeIsActive() && (leftF.isBusy()) && (rightF.isBusy()) && (rightB.isBusy()) && (leftB.isBusy())) {
+
+            telemetry.addData("Path2", "Running at %7d :%7d : %7d :%7d",
+                    leftF.getCurrentPosition(), rightB.getCurrentPosition(), rightF.getCurrentPosition(), leftB.getCurrentPosition());
+            telemetry.update();
+        }
+        rightB.setPower(0);
+        leftB.setPower(0);
+        rightF.setPower(0);
+        leftF.setPower(0);
+        sleep(100);
+    }
+
     public void initGyro() {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -598,6 +701,7 @@ public class Methods extends LinearOpMode {
             }
         }
         return result;
+
     }
 
 
