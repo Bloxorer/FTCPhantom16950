@@ -109,12 +109,12 @@ public class Methods_for_OpenCV extends  LinearOpMode{
             Imgproc.cvtColor(rgbImage, hsvImage, Imgproc.COLOR_RGB2HSV);
 
             // Определение диапазона красного цвета в HSV
-            Scalar lowerRed = new Scalar(0, 50, 50);
-            Scalar upperRed = new Scalar(15, 255, 255);
+            Scalar lowerRed = new Scalar(0,85,50);
+            Scalar upperRed = new Scalar(160,255,255);
 
             // Определение диапазона синего цвета в HSV
-            Scalar lowerBlue = new Scalar(80, 30, 30);
-            Scalar upperBlue = new Scalar(160, 255, 255);
+            Scalar lowerBlue = new Scalar(160, 30, 30);
+            Scalar upperBlue = new Scalar(255, 255, 255);
 
             // Создание масок для красного и синего цветов
             Mat redMask = new Mat();

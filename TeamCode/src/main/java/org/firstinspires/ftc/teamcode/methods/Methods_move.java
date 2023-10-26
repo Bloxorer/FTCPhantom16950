@@ -20,6 +20,7 @@ public class Methods_move extends LinearOpMode {
     public double speed;
     public OpenCvWebcam phoneCam;
 
+
     //private DistanceSensor sensorRange;
 
     private static int valLeft = -1;

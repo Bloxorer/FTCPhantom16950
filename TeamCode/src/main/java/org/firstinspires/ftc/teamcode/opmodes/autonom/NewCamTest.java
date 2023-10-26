@@ -1,24 +1,15 @@
 package org.firstinspires.ftc.teamcode.opmodes.autonom;
 
 
-
-import org.firstinspires.ftc.robotcore.external.android.util.Size;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
+import org.firstinspires.ftc.robotcore.external.android.util.Size;
 import org.firstinspires.ftc.teamcode.methods.Methods;
 import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
 import org.firstinspires.ftc.teamcode.methods.Methods_move;
 import org.firstinspires.ftc.teamcode.methods.VisionPortall;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
-import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
@@ -30,7 +21,7 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
  * 60 1680
  * 40 1120
  * 20 560
- *
+ * <p>
  * monitor: 640 x 480
  *YES
  */
@@ -64,7 +55,11 @@ public class NewCamTest extends Methods {
             phoneCam1.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
 
             phoneCam1.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);});
-        visionPortall.initAprilTag();
+
+        Thread thread1 = new Thread(() -> {
+            visionPortall.initVisionPortal();
+        });
+        thread1.start();
 
 
         // visionPortall.telemetryAprilTag();
