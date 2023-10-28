@@ -1,29 +1,51 @@
 package org.firstinspires.ftc.teamcode.opmodes.drive;
 
+import android.util.Size;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorControllerEx;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.methods.Methods;
+import org.firstinspires.ftc.teamcode.methods.VisionPortall;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+
+import java.util.List;
 
 
 //TODO: РџР РћР›Р•РўРђР РР™, РџР•Р Р•Р” РўР•РњР¬, РљРђРљ РњР•РќРЇРўР¬ Р§РўРћ-РўРћ Р’ Р“РђРњРђРџР•Р”Р•, РџР РћР’Р•Р Р¬ РЎРќРђР§РђР›Рђ РњРђРўР¬ РђР“РђРџРђ!!!
 @TeleOp(name = "Gamepad_test", group = "TeleOP")
 public class a_Gamepad_test extends OpMode {
+    public VisionPortal visionPortal;
+    public TfodProcessor tfod, tfod1;
+    public AprilTagProcessor aprilTag;
+    private WebcamName webcam1;
+    private static final String TFOD_MODEL_ASSET1 = "CenterStageobh.tflite";
+    private static final String TFOD_MODEL_ASSET2 = "CenterStageBlue.tflite";
+    private static final String[] LABELS = {
+            "red allience",
+            "blue allience"
+    };
+    private static final boolean USE_WEBCAM = true;
     DcMotor leftF, rightF, leftB, rightB, pod, ryka, actu;
-    CRServo zaxvatLeft, zaxvatRight, pisun, big;
+    CRServo zaxvatLeft, zaxvatRight, bros, big;
     DigitalChannel knopka;
     int motorPosition;
     private ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+    VisionPortall visionPortall = new VisionPortall();
     @Override
     public void init() {
+        //visionPortall.initVisionPortal();
         try{
+            webcam1 = hardwareMap.get(WebcamName.class, "Slava");
             leftF = hardwareMap.dcMotor.get("lf");
             leftB = hardwareMap.dcMotor.get("lr");
             rightF = hardwareMap.dcMotor.get("rf");
@@ -35,6 +57,7 @@ public class a_Gamepad_test extends OpMode {
             zaxvat = hardwareMap.crservo.get("zx");
             knopka = hardwareMap.get(DigitalChannel.class, "knp");
             knopka.setMode(DigitalChannel.Mode.INPUT);*/
+            bros = hardwareMap.crservo.get("bs");
             zaxvatLeft = hardwareMap.crservo.get("zxl");
             zaxvatRight = hardwareMap.crservo.get("zxr");
             ryka = hardwareMap.dcMotor.get("rk");
@@ -44,13 +67,14 @@ public class a_Gamepad_test extends OpMode {
             telemetry.addData("init error", " yes");
             throw new RuntimeException(e);
         }
+        initVisionPortal();
     }
 
 
     @Override
 
     public void loop() {
-
+        telemetryTfod();
         Methods methods = new Methods();
         final double NEW_P = 0;
         final double NEW_I = 0;
@@ -134,27 +158,19 @@ public class a_Gamepad_test extends OpMode {
         });
         // sbros pixel autonom
         Thread tsbros = new Thread(() -> {
-            if(gamepad1.dpad_up){
-                pisun.setPower(0.2);
-            } else if (gamepad1.dpad_down){
-                pisun.setPower(-0.2);
-            } else {
-                pisun.setPower(0);
+            if(gamepad2.dpad_left){
+                bros.setPower(1);
             }
         });
 
         // zaxvat na ryke
         Thread tzaxvat = new Thread(() -> {
-        if (gamepad2.dpad_left){
+        if (gamepad2.left_bumper){
             zaxvatLeft.setPower(-0.2);
-        } else if (gamepad2.right_bumper){
-            zaxvatLeft.setPower(0.2);
         } else{
             zaxvatLeft.setPower(0);
         }
-        if (gamepad2.dpad_right){
-            zaxvatRight.setPower(0.6);
-        } else if (gamepad2.dpad_right){
+        if (gamepad2.right_bumper){
             zaxvatRight.setPower(1);
         } else{
             zaxvatRight.setPower(0.8);
@@ -180,7 +196,8 @@ public class a_Gamepad_test extends OpMode {
             }
         });
         //Starting threads
-        //tsbros.start();
+
+        tsbros.start();
         tpod.start();
         tmovement.start();
         tactu.start();
@@ -203,7 +220,67 @@ public class a_Gamepad_test extends OpMode {
         // Р·Р°РЅСЏС‚Рѕ 2 РіРµР№РјРїР°Рґ: РєСЂРµСЃС‚РѕРІРёРЅР° РІРІРµСЂС… Рё РІРЅРёР·, Р±Р°РјРїРµСЂР°, Р±СѓРєРІС‹, С‚СЂРёРіРіРµСЂС‹
         // идея для поворота в движении
         */
+       public void initVisionPortal() {
 
+
+           // -----------------------------------------------------------------------------------------
+           // AprilTag Configuration
+           // -----------------------------------------------------------------------------------------
+           aprilTag = new AprilTagProcessor.Builder()
+                   .setLensIntrinsics(578.272, 578.272, 402.145, 221.506)
+                   .build();
+
+           // -----------------------------------------------------------------------------------------
+           // TFOD Configuration
+           // -----------------------------------------------------------------------------------------
+
+           tfod = new TfodProcessor.Builder()
+                   .setModelAssetName(TFOD_MODEL_ASSET1)
+                   .setModelLabels(LABELS)
+                   .setIsModelTensorFlow2(true)
+                   .build();
+           // tfod.setMinResultConfidence(0.85f);
+          /* tfod1 = new TfodProcessor.Builder()
+                   .setModelAssetName(TFOD_MODEL_ASSET2)
+                   .setModelLabels(LABELS)
+                   .build();
+           tfod1.setMinResultConfidence(0.85f);*/
+           // -----------------------------------------------------------------------------------------
+           // Camera Configuration
+           // -----------------------------------------------------------------------------------------
+
+           if (USE_WEBCAM) {
+               visionPortal = new VisionPortal.Builder()
+                       .setCamera(webcam1)
+                       .setStreamFormat(VisionPortal.StreamFormat.YUY2)
+                       .addProcessors(aprilTag, tfod)
+                       .setCameraResolution(new Size(640, 480))
+                       .enableLiveView(true)
+                       .build();
+           } else {
+               visionPortal = new VisionPortal.Builder()
+                       .setCamera(BuiltinCameraDirection.BACK)
+                       .addProcessors(aprilTag, tfod, tfod1)
+                       .build();
+           }
+
+       }
+    private void telemetryTfod() {
+
+        List<Recognition> currentRecognitions = tfod.getRecognitions();
+        telemetry.addData("# Objects Detected", currentRecognitions.size());
+
+        // Step through the list of recognitions and display info for each one.
+        for (Recognition recognition : currentRecognitions) {
+            double x = (recognition.getLeft() + recognition.getRight()) / 2;
+            double y = (recognition.getTop() + recognition.getBottom()) / 2;
+
+            telemetry.addData("", " ");
+            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+            telemetry.addData("- Position", "%.0f / %.0f", x, y);
+            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+        }
+    }
 
 }
 

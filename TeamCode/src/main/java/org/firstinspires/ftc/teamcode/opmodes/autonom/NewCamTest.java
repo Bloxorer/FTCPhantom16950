@@ -4,15 +4,10 @@ package org.firstinspires.ftc.teamcode.opmodes.autonom;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.android.util.Size;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.methods.Methods;
-import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
-import org.firstinspires.ftc.teamcode.methods.Methods_move;
 import org.firstinspires.ftc.teamcode.methods.VisionPortall;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 
 /**
  * Created by maryjaneb  on 11/13/2016.
@@ -30,32 +25,14 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 //
 public class NewCamTest extends Methods {
     private final ElapsedTime runtime = new ElapsedTime();
-    private static int valLeft;
-    private static int valRight;
-    private int rows;
-    private int cols;
+    private double x,y;
     private VisionPortal visionPortal;
     @Override
     public void runOpMode() throws InterruptedException {
 
-        Methods_move move = new Methods_move();
-        Size size = new Size(rows, cols);
         VisionPortall visionPortall = new VisionPortall();
-        Methods_for_OpenCV cameramethd = new Methods_for_OpenCV();
-
-        valLeft = cameramethd.getValLeft();
-        valRight = cameramethd.getValRight();
-        rows = cameramethd.getRows();
-        cols = cameramethd.getCols();
-        Thread thread = new Thread(() -> {int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-
-            phoneCam1 = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
-
-            phoneCam1.openCameraDevice();
-            phoneCam1.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
-
-            phoneCam1.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);});
-
+        x = visionPortall.getX();
+        y = visionPortall.getY();
         Thread thread1 = new Thread(() -> {
             visionPortall.initVisionPortal();
         });
@@ -69,22 +46,15 @@ public class NewCamTest extends Methods {
         waitForStart();
 
         while (opModeIsActive()) {
+            telemetry.addData("", " ");
+            telemetry.addData("- Position", "%.0f / %.0f", x, y);
 
-            telemetry.addData("Values", valLeft + "  " + valRight);
-            telemetry.update();
             sleep (150);
-            if (valLeft == 255) {
-                telemetry.addData("Values", valLeft + "  " + valRight);
-                telemetry.update();
+            if (true) {
                 sleep(30000);
-            } else if (valRight  == 255) {
-                telemetry.addData("Values", valLeft + "  " + valRight);
-                telemetry.update();
-
+            } else if (false) {
                 sleep(30000);
             } else {
-                telemetry.addData("Values", valLeft + "  " + valRight);
-                telemetry.update();
                 sleep(30000);
             }
         }}
