@@ -1,13 +1,31 @@
 package org.firstinspires.ftc.teamcode.opmodes.autonom;
 
 
+import android.util.Size;
+
+import com.google.ar.core.Frame;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraCaptureSession;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.internal.camera.delegating.DelegatingCaptureSession;
+
 import org.firstinspires.ftc.teamcode.methods.Methods;
+import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
 import org.firstinspires.ftc.teamcode.methods.VisionPortall;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvInternalCamera;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by maryjaneb  on 11/13/2016.
@@ -24,39 +42,66 @@ import org.firstinspires.ftc.vision.VisionPortal;
 
 //
 public class NewCamTest extends Methods {
+    private static final String TFOD_MODEL_ASSET1 = "CenterStageRed.tflite";
+    private static final String TFOD_MODEL_ASSET2 = "CenterStageBlue.tflite";
+    private static final String[] LABELS = {
+            "red allience",
+            "blue allience"
+    };
+    private static final boolean USE_WEBCAM = false;  // true for webcam, false for phone camera
+
+    /**
+     * The variable to store our instance of the AprilTag processor.
+     */
+    public AprilTagProcessor aprilTag;
+
+    /**
+     * The variable to store our instance of the TensorFlow Object Detection processor.
+     */
+    public TfodProcessor tfod, tfod1;
+
+    /**
+     * The variable to store our instance of the vision portal.
+     */
+    ExposureControl myExposureControl;
+    public VisionPortal visionPortal;
+    int rows = 640;
+     int cols = 480;
     private final ElapsedTime runtime = new ElapsedTime();
-    private double x,y;
-    private VisionPortal visionPortal;
     @Override
     public void runOpMode() throws InterruptedException {
-
         VisionPortall visionPortall = new VisionPortall();
-        x = visionPortall.getX();
-        y = visionPortall.getY();
-        Thread thread1 = new Thread(() -> {
-            visionPortall.initVisionPortal();
-        });
-        thread1.start();
+        tfod = visionPortall.getTfod();
+        aprilTag = visionPortall.getAprilTag();
+        /*Methods_for_OpenCV methodsForOpenCV = new Methods_for_OpenCV();
 
+        rows = methodsForOpenCV.getRows();
+        cols = methodsForOpenCV.getCols();
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 
-        // visionPortall.telemetryAprilTag();
+        phoneCam1 = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
 
+        phoneCam1.openCameraDevice();
+        phoneCam1.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
+
+        phoneCam1.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);*/
+        initVisionPortal();
+            // end method initAprilTag()
+        telemetryTfod();
         runtime.reset();
 
         waitForStart();
 
         while (opModeIsActive()) {
-            telemetry.addData("", " ");
-            telemetry.addData("- Position", "%.0f / %.0f", x, y);
-
+           telemetryTfod();
             sleep (150);
-            if (true) {
+           /* if (true) {
                 sleep(30000);
             } else if (false) {
                 sleep(30000);
             } else {
                 sleep(30000);
-            }
+            }*/
         }}
             /*
             if (valLeft == 255) {
@@ -64,8 +109,53 @@ public class NewCamTest extends Methods {
             } else {
             }*/
 
+    private void initVisionPortal() {
+
+        aprilTag = new AprilTagProcessor.Builder()
+                .setLensIntrinsics(578.272, 578.272, 402.145, 221.506)
+                .build();
+
+        tfod = new TfodProcessor.Builder()
+                .setModelAssetName(TFOD_MODEL_ASSET1)
+                .setModelLabels(LABELS)
+                .build();
+
+        if (USE_WEBCAM) {
+            visionPortal = new VisionPortal.Builder()
+                    .setCamera(hardwareMap.get(WebcamName.class, "Slava"))
+                    .setStreamFormat(VisionPortal.StreamFormat.YUY2)
+                    .addProcessors(aprilTag,tfod)
+                    .setCameraResolution(new Size(640, 480))
+                    .enableLiveView(true)
+
+                    .build();
+        } else {
+            visionPortal = new VisionPortal.Builder()
+                    .setCamera(BuiltinCameraDirection.BACK)
+                    .addProcessors(aprilTag,tfod)
+                    .setCameraResolution(new Size(640, 480))
+                    .enableLiveView(true)
+                    .build();
 
 
 
+        }
+    }
+    private void telemetryTfod() {
 
+        List<Recognition> currentRecognitions = tfod.getRecognitions();
+        telemetry.addData("# Objects Detected", currentRecognitions.size());
+
+        // Step through the list of recognitions and display info for each one.
+        for (Recognition recognition : currentRecognitions) {
+            double x = (recognition.getLeft() + recognition.getRight()) / 2;
+            double y = (recognition.getTop() + recognition.getBottom()) / 2;
+
+            telemetry.addData("", " ");
+            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+            telemetry.addData("- Position", "%.0f / %.0f", x, y);
+            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+            telemetry.update();
+        }
+    }
 }

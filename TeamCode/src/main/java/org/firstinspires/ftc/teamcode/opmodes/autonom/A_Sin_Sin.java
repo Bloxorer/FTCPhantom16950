@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.methods.Methods;
-import org.firstinspires.ftc.teamcode.methods.Methods_move;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -56,7 +56,6 @@ public class A_Sin_Sin extends Methods {
     private final int cols = 480;
     @Override
     public void runOpMode() throws InterruptedException {
-        Methods_move move = new Methods_move();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         phoneCam.openCameraDevice();
@@ -83,22 +82,22 @@ public class A_Sin_Sin extends Methods {
 
             if (valLeft == 255) {
                 drin_castom(500);
-                move.vpered(800, 0.25);
+                vpered(800, 0.25);
                 sleep(250);
-                move.razvarot(540,0.25);
-                move.vpered(700, 0.3);
+                razvarot(540,0.25);
+                vpered(700, 0.3);
                 sleep(30000);
             } else if (valRight  == 255) {
                 drin_castom(500);
-                move.vpered(800, 0.25);
-                move.vpered(250, 0.3);
+                vpered(800, 0.25);
+                vpered(250, 0.3);
                 sleep(30000);
             } else {
                 drin_castom(500);
-                move.vpered(800, 0.25);
+                vpered(800, 0.25);
                 sleep(250);
-                move.razvarot(-540,0.25);
-                move.vpered(700, 0.3);
+                razvarot(-540,0.25);
+                vpered(700, 0.3);
                 sleep(30000);
             }
         }}

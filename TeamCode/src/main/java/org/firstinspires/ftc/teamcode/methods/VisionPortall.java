@@ -6,8 +6,10 @@ package org.firstinspires.ftc.teamcode.methods;
 import android.util.Size;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraCaptureSession;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 
@@ -16,13 +18,13 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 /// Todo: there will be code that combines opencv april tags and tensorflow
 public class VisionPortall extends Methods {
     public double x;
     public double y;
-    private WebcamName webcam1;
     private static final String TFOD_MODEL_ASSET1 = "CenterStageobh.tflite";
     private static final String TFOD_MODEL_ASSET2 = "CenterStageBlue.tflite";
     private static final String[] LABELS = {
@@ -39,19 +41,16 @@ public class VisionPortall extends Methods {
     /**
      * The variable to store our instance of the TensorFlow Object Detection processor.
      */
-    public TfodProcessor tfod, tfod1;
+    public TfodProcessor tfod;
 
     /**
      * The variable to store our instance of the vision portal.
      */
 
     public VisionPortal visionPortal;
-
+    ExposureControl myExposureControl;
     public void initVisionPortal() {
-        List<Recognition> currentRecognitions = tfod.getRecognitions();
-        for (Recognition recognition : currentRecognitions) {
-            double x = (recognition.getLeft() + recognition.getRight()) / 2;
-            double y = (recognition.getTop() + recognition.getBottom()) / 2;
+
 
             // -----------------------------------------------------------------------------------------
             // AprilTag Configuration
@@ -65,55 +64,31 @@ public class VisionPortall extends Methods {
             // -----------------------------------------------------------------------------------------
 
             tfod = new TfodProcessor.Builder()
+                    
+                    .setMaxNumRecognitions(1)
                     .setModelAssetName(TFOD_MODEL_ASSET1)
                     .setModelLabels(LABELS)
-                    .setIsModelTensorFlow2(true)
                     .build();
-            // tfod.setMinResultConfidence(0.85f);
-          /* tfod1 = new TfodProcessor.Builder()
-                   .setModelAssetName(TFOD_MODEL_ASSET2)
-                   .setModelLabels(LABELS)
-                   .build();
-           tfod1.setMinResultConfidence(0.85f);*/
-            // -----------------------------------------------------------------------------------------
-            // Camera Configuration
-            // -----------------------------------------------------------------------------------------
+        CameraCaptureSession vuforia = null;
 
-            if (USE_WEBCAM) {
-                visionPortal = new VisionPortal.Builder()
-                        .setCamera(webcam1)
-                        .setStreamFormat(VisionPortal.StreamFormat.YUY2)
-                        .addProcessors(aprilTag,tfod)
-                        .setCameraResolution(new Size(640, 480))
-                        .enableLiveView(true)
-                        .build();
-            } else {
-                visionPortal = new VisionPortal.Builder()
-                        .setCamera(BuiltinCameraDirection.BACK)
-                        .addProcessors(aprilTag,tfod, tfod1)
-                        .build();
-            }
-
-
-
-
-            // end method initAprilTag()
-        }
-    }
-    public double getX() {
-        return x;
+        myExposureControl = vuforia.getCamera().getControl(ExposureControl.class);
+        myExposureControl.setMode(ExposureControl.Mode.Manual);
+        myExposureControl.setExposure(30, TimeUnit.MILLISECONDS);
     }
 
-    public void setX(double x) {
-        this.x = x;
+    public TfodProcessor getTfod() {
+        return tfod;
     }
 
-    public double getY() {
-        return y;
+    public void setTfod(TfodProcessor tfod) {
+        this.tfod = tfod;
     }
 
-    public void setY(double y) {
-        this.y = y;
+    public AprilTagProcessor getAprilTag() {
+        return aprilTag;
     }
 
+    public void setAprilTag(AprilTagProcessor aprilTag) {
+        this.aprilTag = aprilTag;
+    }
 }

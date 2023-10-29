@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.methods.Methods;
-import org.firstinspires.ftc.teamcode.methods.Methods_move;
+
 import org.firstinspires.ftc.teamcode.methods.Trajectories_old;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -62,7 +62,7 @@ public class A_Krasn_V51 extends Methods {
     @Override
     public void runOpMode() throws InterruptedException {
         Trajectories_old hkial = new Trajectories_old();
-        Methods_move move = new Methods_move();
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         phoneCam.openCameraDevice();
@@ -99,25 +99,25 @@ public class A_Krasn_V51 extends Methods {
             //sleep(Math.round(3000 + Math.random() * 3000));
             if (valLeft == 255) {
                 hkial.high_krasn_V51();
-                move.nazad(250,0.25);
-                move.razvarot(165, 0.25);
-                move.vlevo(800, 0.25);
-                move.nazad(100,0.3);
+                nazad(250,0.25);
+                razvarot(165, 0.25);
+                vlevo(800, 0.25);
+                nazad(100,0.3);
                 pod_castom(-1700);
                 stop_all();
                 sleep(30000);
             } else if(valRight == 255){
                 hkial.high_krasn_V51();
-                move.nazad(50,0.25);
-                move.nazad(150, 0.25);
+                nazad(50,0.25);
+                nazad(150, 0.25);
                 pod_castom(-1700);
                 stop_all();
                 sleep(30000);
             } else{
                 hkial.high_krasn_V51();
-                move.nazad(250,0.25);
-                move.razvarot(165, 0.25);
-                move.vpravo(1000, 0.25);
+                nazad(250,0.25);
+                razvarot(165, 0.25);
+                vpravo(1000, 0.25);
                 pod_castom(-1700);
                 stop_all();
                 sleep(30000);

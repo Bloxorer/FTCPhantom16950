@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.methods.Methods;
-import org.firstinspires.ftc.teamcode.methods.Methods_move;
+
 import org.firstinspires.ftc.teamcode.methods.Trajectories_old;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -61,7 +61,7 @@ public class middle_sin extends Methods {
     @Override
     public void runOpMode() throws InterruptedException {
         Trajectories_old hkial = new Trajectories_old();
-        Methods_move move = new Methods_move();
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         phoneCam.openCameraDevice();
@@ -139,26 +139,26 @@ public class middle_sin extends Methods {
             telemetry.update();
             if (valLeft == 255) {
                 hkial.middle_sin();
-                move.nazad(50,0.25);
-                move.razvarot(-232, 0.25);
-                move.vlevo(650, 0.25);
+                nazad(50,0.25);
+                razvarot(-232, 0.25);
+                vlevo(650, 0.25);
                 pod_castom(-1700);
                 stop_all();
                 sleep(30000);
             } else if(valRight == 255){
                 hkial.middle_sin();
-                move.nazad(150, 0.25);
-                move.razvarot(-232, 0.25);
-                move.vpravo(30,0.25);
+                nazad(150, 0.25);
+                razvarot(-232, 0.25);
+                vpravo(30,0.25);
                 pod_castom(-1700);
                 stop_all();
                 sleep(30000);
             } else{
                 hkial.middle_sin();
-                move.nazad(50,0.25);
-                move.razvarot(-232, 0.25);
-                move.vpravo(1100, 0.25);
-                move.vpered(100, 0.25);
+                nazad(50,0.25);
+                razvarot(-232, 0.25);
+                vpravo(1100, 0.25);
+                vpered(100, 0.25);
                 pod_castom(-1700);
                 stop_all();
                 sleep(30000);

@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.methods.Methods;
 import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
-import org.firstinspires.ftc.teamcode.methods.Methods_move;
+
 import org.firstinspires.ftc.teamcode.methods.VisionPortall;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -39,7 +39,6 @@ public class a_Sin_zad extends Methods {
     private VisionPortal visionPortal;
     @Override
     public void runOpMode() throws InterruptedException {
-        Methods_move move = new Methods_move();
         Size size = new Size(rows, cols);
         VisionPortall visionPortall = new VisionPortall();
         Methods_for_OpenCV cameramethd = new Methods_for_OpenCV();

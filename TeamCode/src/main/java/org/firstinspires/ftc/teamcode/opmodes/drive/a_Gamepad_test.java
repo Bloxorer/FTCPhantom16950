@@ -67,14 +67,14 @@ public class a_Gamepad_test extends OpMode {
             telemetry.addData("init error", " yes");
             throw new RuntimeException(e);
         }
-        initVisionPortal();
+
     }
 
 
     @Override
 
     public void loop() {
-        telemetryTfod();
+
         Methods methods = new Methods();
         final double NEW_P = 0;
         final double NEW_I = 0;
@@ -158,7 +158,7 @@ public class a_Gamepad_test extends OpMode {
         });
         // sbros pixel autonom
         Thread tsbros = new Thread(() -> {
-            if(gamepad2.dpad_left){
+            if(gamepad1.dpad_left){
                 bros.setPower(1);
             }
         });
@@ -220,67 +220,8 @@ public class a_Gamepad_test extends OpMode {
         // Р·Р°РЅСЏС‚Рѕ 2 РіРµР№РјРїР°Рґ: РєСЂРµСЃС‚РѕРІРёРЅР° РІРІРµСЂС… Рё РІРЅРёР·, Р±Р°РјРїРµСЂР°, Р±СѓРєРІС‹, С‚СЂРёРіРіРµСЂС‹
         // идея для поворота в движении
         */
-       public void initVisionPortal() {
 
 
-           // -----------------------------------------------------------------------------------------
-           // AprilTag Configuration
-           // -----------------------------------------------------------------------------------------
-           aprilTag = new AprilTagProcessor.Builder()
-                   .setLensIntrinsics(578.272, 578.272, 402.145, 221.506)
-                   .build();
-
-           // -----------------------------------------------------------------------------------------
-           // TFOD Configuration
-           // -----------------------------------------------------------------------------------------
-
-           tfod = new TfodProcessor.Builder()
-                   .setModelAssetName(TFOD_MODEL_ASSET1)
-                   .setModelLabels(LABELS)
-                   .setIsModelTensorFlow2(true)
-                   .build();
-           // tfod.setMinResultConfidence(0.85f);
-          /* tfod1 = new TfodProcessor.Builder()
-                   .setModelAssetName(TFOD_MODEL_ASSET2)
-                   .setModelLabels(LABELS)
-                   .build();
-           tfod1.setMinResultConfidence(0.85f);*/
-           // -----------------------------------------------------------------------------------------
-           // Camera Configuration
-           // -----------------------------------------------------------------------------------------
-
-           if (USE_WEBCAM) {
-               visionPortal = new VisionPortal.Builder()
-                       .setCamera(webcam1)
-                       .setStreamFormat(VisionPortal.StreamFormat.YUY2)
-                       .addProcessors(aprilTag, tfod)
-                       .setCameraResolution(new Size(640, 480))
-                       .enableLiveView(true)
-                       .build();
-           } else {
-               visionPortal = new VisionPortal.Builder()
-                       .setCamera(BuiltinCameraDirection.BACK)
-                       .addProcessors(aprilTag, tfod, tfod1)
-                       .build();
-           }
-
-       }
-    private void telemetryTfod() {
-
-        List<Recognition> currentRecognitions = tfod.getRecognitions();
-        telemetry.addData("# Objects Detected", currentRecognitions.size());
-
-        // Step through the list of recognitions and display info for each one.
-        for (Recognition recognition : currentRecognitions) {
-            double x = (recognition.getLeft() + recognition.getRight()) / 2;
-            double y = (recognition.getTop() + recognition.getBottom()) / 2;
-
-            telemetry.addData("", " ");
-            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
-            telemetry.addData("- Position", "%.0f / %.0f", x, y);
-            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-        }
-    }
 
 }
 
