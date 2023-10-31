@@ -1,23 +1,25 @@
 package org.firstinspires.ftc.teamcode.methods;
 
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.google.ar.core.Frame;
 
-import android.util.Size;
-
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.android.util.Size;
+import org.firstinspires.ftc.robotcore.external.function.Continuation;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.Camera;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraCaptureRequest;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraCaptureSequenceId;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraCaptureSession;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraException;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.CameraControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
-
-import org.firstinspires.ftc.vision.VisionPortal.Builder;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
@@ -56,6 +58,7 @@ public class VisionPortall extends Methods {
             // AprilTag Configuration
             // -----------------------------------------------------------------------------------------
             aprilTag = new AprilTagProcessor.Builder()
+
                     .setLensIntrinsics(578.272, 578.272, 402.145, 221.506)
                     .build();
 
@@ -64,16 +67,14 @@ public class VisionPortall extends Methods {
             // -----------------------------------------------------------------------------------------
 
             tfod = new TfodProcessor.Builder()
-                    
+
                     .setMaxNumRecognitions(1)
                     .setModelAssetName(TFOD_MODEL_ASSET1)
                     .setModelLabels(LABELS)
                     .build();
-        CameraCaptureSession vuforia = null;
 
-        myExposureControl = vuforia.getCamera().getControl(ExposureControl.class);
-        myExposureControl.setMode(ExposureControl.Mode.Manual);
-        myExposureControl.setExposure(30, TimeUnit.MILLISECONDS);
+
+
     }
 
     public TfodProcessor getTfod() {

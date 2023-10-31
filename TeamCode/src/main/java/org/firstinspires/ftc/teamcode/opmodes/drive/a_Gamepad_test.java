@@ -43,6 +43,7 @@ public class a_Gamepad_test extends OpMode {
     VisionPortall visionPortall = new VisionPortall();
     @Override
     public void init() {
+        int i = 0;
         //visionPortall.initVisionPortal();
         try{
             webcam1 = hardwareMap.get(WebcamName.class, "Slava");
@@ -158,7 +159,7 @@ public class a_Gamepad_test extends OpMode {
         });
         // sbros pixel autonom
         Thread tsbros = new Thread(() -> {
-            if(gamepad1.dpad_left){
+            if(gamepad1.b){
                 bros.setPower(1);
             }
         });
@@ -168,28 +169,28 @@ public class a_Gamepad_test extends OpMode {
         if (gamepad2.left_bumper){
             zaxvatLeft.setPower(-0.2);
         } else{
-            zaxvatLeft.setPower(0);
+            zaxvatLeft.setPower(0.05);
         }
         if (gamepad2.right_bumper){
             zaxvatRight.setPower(1);
         } else{
-            zaxvatRight.setPower(0.8);
+            zaxvatRight.setPower(0.75);
         }});
         // ryka
         Thread tryka = new Thread(() -> {
             if(gamepad2.dpad_up){
-                ryka.setPower(0.6);
+                ryka.setPower(0.55);
             } else if (gamepad2.dpad_down) {
-                ryka.setPower(-0.6);
+                ryka.setPower(-0.55);
             } else{
-                ryka.setPower(-0.05);
+                ryka.setPower(-0.085);
             }
         });
         //podtmnik actuatora
         Thread tpod = new Thread(() -> {
-            if (gamepad2.y){
+            if (gamepad1.y){
                 pod.setPower(0.3);
-            } else if (gamepad2.a) {
+            } else if (gamepad1.a) {
                 pod.setPower(-0.3);
             } else {
                 pod.setPower(0);

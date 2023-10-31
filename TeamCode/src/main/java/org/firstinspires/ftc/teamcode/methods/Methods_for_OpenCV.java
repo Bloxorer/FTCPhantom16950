@@ -26,8 +26,8 @@ public class Methods_for_OpenCV extends  LinearOpMode{
     private static float offsetX = 0f / 8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
     private static float offsetY = 0f / 8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
 
-    private static float[] leftPos = {2f / 8f + offsetX, 4f / 8f + offsetY};
-    private static float[] rightPos = {3f / 8f + offsetX, 4 / 8f + offsetY};
+    private static float[] leftPos = {3f / 9f + offsetX, 4f / 8f + offsetY};
+    private static float[] rightPos = {5f / 8f + offsetX, 3 / 8.7f + offsetY};
 
     final int rows = 640;
     final int cols = 480;
@@ -109,7 +109,7 @@ public class Methods_for_OpenCV extends  LinearOpMode{
             Imgproc.cvtColor(rgbImage, hsvImage, Imgproc.COLOR_RGB2HSV);
 
             // Определение диапазона красного цвета в HSV
-            Scalar lowerRed = new Scalar(0,85,50);
+            Scalar lowerRed = new Scalar(0,15,15);
             Scalar upperRed = new Scalar(160,255,255);
 
             // Определение диапазона синего цвета в HSV

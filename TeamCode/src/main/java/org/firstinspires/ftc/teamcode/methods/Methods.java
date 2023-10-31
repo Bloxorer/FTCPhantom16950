@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -36,8 +37,9 @@ import java.util.List;
 
 @Autonomous(name= "Methods", group="Autonomous")
 public class Methods extends LinearOpMode {
-    public DcMotor leftF, rightF, leftB, rightB, pod, drin, motor, ryka, motor2;
-    public CRServo zaxvat, pisun, big;
+    public DcMotor leftF, rightF, leftB, rightB, pod, drin, motor,ryka, actu ;
+    public CRServo zaxvat, pisun, big, zaxvatLeft, zaxvatRight, bros;
+    public WebcamName webcam1;
     public BNO055IMU imu;
     public DigitalChannel knopka;
     public Orientation angles;
@@ -148,6 +150,12 @@ public class Methods extends LinearOpMode {
         leftF.setPower(0);
         drin.setPower(0);
         sleep(100);
+    }
+    public void act(int mills, double power){
+        pod.setPower(power);
+        sleep(mills);
+        pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        pod.setPower(0);
     }
     public void xvatat(int pos, double power){
         ryka.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

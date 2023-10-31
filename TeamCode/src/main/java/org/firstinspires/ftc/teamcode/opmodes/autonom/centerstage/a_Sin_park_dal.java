@@ -36,10 +36,10 @@ import java.util.List;
  * monitor: 640 x 480
  *YES
  */
-@Autonomous(name= "a_Sin_zad", group="Autonomous")
+@Autonomous(name= "a_Sin_park_dal", group="Autonomous")
 
 //
-public class a_Sin_zad extends Methods {
+public class a_Sin_park_dal extends Methods {
 
     private final ElapsedTime runtime = new ElapsedTime();
     private static int valLeft = -1;
@@ -54,6 +54,7 @@ public class a_Sin_zad extends Methods {
 
     private static float[] leftPos = {2.0f / 8f + offsetX, 4f / 8f + offsetY};
     private static float[] rightPos = {2.8f / 8f + offsetX, 4 / 8f + offsetY};
+
     public void runOpMode() throws InterruptedException {
         VisionPortall visionPortall = new VisionPortall();
 
@@ -70,8 +71,8 @@ public class a_Sin_zad extends Methods {
         pod = hardwareMap.dcMotor.get("pod");
         Methods_for_OpenCV methodsForOpenCV = new Methods_for_OpenCV();
 
-       int rows = methodsForOpenCV.getRows();
-       int cols = methodsForOpenCV.getCols();
+        int rows = methodsForOpenCV.getRows();
+        int cols = methodsForOpenCV.getCols();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 
         phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Slava"), cameraMonitorViewId);
@@ -80,7 +81,6 @@ public class a_Sin_zad extends Methods {
         phoneCam.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
 
         phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
-
 
 
         telemetry.addData("Values", valLeft + "  " + valRight);
@@ -96,72 +96,33 @@ public class a_Sin_zad extends Methods {
             telemetry.update();
 
             telemetry.update();
-            sleep (150);
+            sleep(150);
             // 291 221
             if (valLeft == 255) {
                 bros.setPower(1);
                 act(400, 0.4);
                 zaxvatLeft.setPower(0.05);
-                nazad(750, 0.25);
+                nazad(100,0.25);
                 razvarot(450, 0.25);
-                bros.setPower(0.2);
-                vpered(100,0.25);
-                bros.setPower(1);
-                razvarot(450, 0.25);
-                vpered(750,0.25);
-                razvarot(-450, 0.25);
-                nazad(1100,0.25);
+                nazad(2400, 0.25);
                 sleep(30000);
             } else if (valRight == 255) {
                 bros.setPower(1);
                 act(400, 0.4);
                 zaxvatLeft.setPower(0.05);
-                nazad(750, 0.25);
-                bros.setPower(0.2);
                 nazad(100,0.25);
-                vpered(200,0.25);
-                bros.setPower(1);
-                vpered(750,0.25);
                 razvarot(450, 0.25);
-                nazad(1100,0.25);
+                nazad(2400, 0.25);
                 sleep(30000);
             } else {
                 bros.setPower(1);
                 act(400, 0.4);
                 zaxvatLeft.setPower(0.05);
-                nazad(650, 0.25);
-                bros.setPower(0.2);
-
                 nazad(100,0.25);
-                vpered(200,0.25);
-                bros.setPower(1);
-                vpered(450,0.25);
                 razvarot(450, 0.25);
-                nazad(1100,0.25);
+                nazad(2400, 0.25);
                 sleep(30000);
-                /*bros.setPower(1);
-                act(400, 0.4);
-                zaxvatLeft.setPower(0.05);
-                nazad(750, 0.25);
-                razvarot(-450, 0.25);
-                bros.setPower(0.2);
-                vpered(100,0.25);
-                bros.setPower(1);
-                razvarot(450, 0.25);
-                vpered(750,0.25);
-                razvarot(450, 0.25);
-                nazad(1000,0.25);
-                sleep(30000);*/
             }
-        }}
-            /*
-            if (valLeft == 255) {
-            } else if (valRight == 255) {
-            } else {
-            }*/
-
-
-
-
-
+        }
+    }
 }

@@ -36,10 +36,10 @@ import java.util.List;
  * monitor: 640 x 480
  *YES
  */
-@Autonomous(name= "a_Sin_zad", group="Autonomous")
+@Autonomous(name= "a_Sin_Parkovka", group="Autonomous")
 
 //
-public class a_Sin_zad extends Methods {
+public class a_Sin_PArkovka extends Methods {
 
     private final ElapsedTime runtime = new ElapsedTime();
     private static int valLeft = -1;
@@ -70,8 +70,8 @@ public class a_Sin_zad extends Methods {
         pod = hardwareMap.dcMotor.get("pod");
         Methods_for_OpenCV methodsForOpenCV = new Methods_for_OpenCV();
 
-       int rows = methodsForOpenCV.getRows();
-       int cols = methodsForOpenCV.getCols();
+        int rows = methodsForOpenCV.getRows();
+        int cols = methodsForOpenCV.getCols();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 
         phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Slava"), cameraMonitorViewId);
@@ -102,56 +102,23 @@ public class a_Sin_zad extends Methods {
                 bros.setPower(1);
                 act(400, 0.4);
                 zaxvatLeft.setPower(0.05);
-                nazad(750, 0.25);
                 razvarot(450, 0.25);
-                bros.setPower(0.2);
-                vpered(100,0.25);
-                bros.setPower(1);
-                razvarot(450, 0.25);
-                vpered(750,0.25);
-                razvarot(-450, 0.25);
-                nazad(1100,0.25);
+                nazad(1100, 0.25);
                 sleep(30000);
             } else if (valRight == 255) {
                 bros.setPower(1);
                 act(400, 0.4);
                 zaxvatLeft.setPower(0.05);
-                nazad(750, 0.25);
-                bros.setPower(0.2);
-                nazad(100,0.25);
-                vpered(200,0.25);
-                bros.setPower(1);
-                vpered(750,0.25);
                 razvarot(450, 0.25);
-                nazad(1100,0.25);
+                nazad(1100, 0.25);
                 sleep(30000);
             } else {
                 bros.setPower(1);
                 act(400, 0.4);
                 zaxvatLeft.setPower(0.05);
-                nazad(650, 0.25);
-                bros.setPower(0.2);
-
-                nazad(100,0.25);
-                vpered(200,0.25);
-                bros.setPower(1);
-                vpered(450,0.25);
                 razvarot(450, 0.25);
-                nazad(1100,0.25);
+                nazad(1100, 0.25);
                 sleep(30000);
-                /*bros.setPower(1);
-                act(400, 0.4);
-                zaxvatLeft.setPower(0.05);
-                nazad(750, 0.25);
-                razvarot(-450, 0.25);
-                bros.setPower(0.2);
-                vpered(100,0.25);
-                bros.setPower(1);
-                razvarot(450, 0.25);
-                vpered(750,0.25);
-                razvarot(450, 0.25);
-                nazad(1000,0.25);
-                sleep(30000);*/
             }
         }}
             /*

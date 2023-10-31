@@ -3,17 +3,14 @@ package org.firstinspires.ftc.teamcode.opmodes.autonom;
 
 import android.util.Size;
 
-import com.google.ar.core.Frame;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraCaptureSession;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.internal.camera.delegating.DelegatingCaptureSession;
 
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.methods.Methods;
 import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
 import org.firstinspires.ftc.teamcode.methods.VisionPortall;
@@ -25,7 +22,6 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by maryjaneb  on 11/13/2016.
@@ -42,6 +38,9 @@ import java.util.concurrent.TimeUnit;
 
 //
 public class NewCamTest extends Methods {
+    // Declare class members
+    private static final String VUFORIA_KEY = "8a87a69a26024507ac03fedb5a601be6";
+
     private static final String TFOD_MODEL_ASSET1 = "CenterStageRed.tflite";
     private static final String TFOD_MODEL_ASSET2 = "CenterStageBlue.tflite";
     private static final String[] LABELS = {
@@ -50,50 +49,38 @@ public class NewCamTest extends Methods {
     };
     private static final boolean USE_WEBCAM = false;  // true for webcam, false for phone camera
 
-    /**
-     * The variable to store our instance of the AprilTag processor.
-     */
     public AprilTagProcessor aprilTag;
-
-    /**
-     * The variable to store our instance of the TensorFlow Object Detection processor.
-     */
     public TfodProcessor tfod, tfod1;
-
-    /**
-     * The variable to store our instance of the vision portal.
-     */
-    ExposureControl myExposureControl;
     public VisionPortal visionPortal;
     int rows = 640;
-     int cols = 480;
+    int cols = 480;
     private final ElapsedTime runtime = new ElapsedTime();
     @Override
     public void runOpMode() throws InterruptedException {
         VisionPortall visionPortall = new VisionPortall();
         tfod = visionPortall.getTfod();
         aprilTag = visionPortall.getAprilTag();
-        /*Methods_for_OpenCV methodsForOpenCV = new Methods_for_OpenCV();
+        Methods_for_OpenCV methodsForOpenCV = new Methods_for_OpenCV();
 
         rows = methodsForOpenCV.getRows();
         cols = methodsForOpenCV.getCols();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 
-        phoneCam1 = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Slava"), cameraMonitorViewId);
 
-        phoneCam1.openCameraDevice();
-        phoneCam1.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
+        phoneCam.openCameraDevice();
+        phoneCam.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
 
-        phoneCam1.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);*/
-        initVisionPortal();
+        phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
+        //initVisionPortal();
             // end method initAprilTag()
-        telemetryTfod();
+        //telemetryTfod();
         runtime.reset();
 
         waitForStart();
 
         while (opModeIsActive()) {
-           telemetryTfod();
+          // telemetryTfod();
             sleep (150);
            /* if (true) {
                 sleep(30000);
