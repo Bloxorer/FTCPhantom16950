@@ -39,7 +39,7 @@ import java.util.List;
 @Disabled
 //
 public class A_Krasn_V5 extends Methods {
-    double rand = Math.random();
+    double rand = Math.random();    
     private final ElapsedTime runtime = new ElapsedTime();
     private DistanceSensor sensorRange;
     DigitalChannel knopka;
@@ -98,7 +98,7 @@ public class A_Krasn_V5 extends Methods {
             telemetry.update();
             //sleep(Math.round(3000 + Math.random() * 3000));
 
-            if (valLeft == 255) {
+            if (valLeft == 255) { 
                 sleep(5000);
                 hkial.high_krasn();
                 stop_all();

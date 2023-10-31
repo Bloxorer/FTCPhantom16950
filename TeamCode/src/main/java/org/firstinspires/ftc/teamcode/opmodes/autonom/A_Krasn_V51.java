@@ -64,23 +64,24 @@ public class A_Krasn_V51 extends Methods {
         Trajectories_old hkial = new Trajectories_old();
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        phoneCam.openCameraDevice();
-        phoneCam.setPipeline(new StageSwitchingPipeline());
-        phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
+        webcam1 = hardwareMap.get(WebcamName.class, "Webcam1");
         leftF = hardwareMap.dcMotor.get("lf");
         leftB = hardwareMap.dcMotor.get("lr");
         rightF = hardwareMap.dcMotor.get("rf");
         rightB = hardwareMap.dcMotor.get("rr");
-        pisun = hardwareMap.crservo.get("pis");
+        //pisun = hardwareMap.crservo.get("pis");
+            /*
+            drin = hardwareMap.dcMotor.get("drin");
+            big = hardwareMap.crservo.get("big");
+            zaxvat = hardwareMap.crservo.get("zx");
+            knopka = hardwareMap.get(DigitalChannel.class, "knp");
+            knopka.setMode(DigitalChannel.Mode.INPUT);*/
+        bros = hardwareMap.crservo.get("bs");
+        zaxvatLeft = hardwareMap.crservo.get("zxl");
+        zaxvatRight = hardwareMap.crservo.get("zxr");
+        ryka = hardwareMap.dcMotor.get("rk");
+        actu = hardwareMap.dcMotor.get("ac");
         pod = hardwareMap.dcMotor.get("pod");
-        drin = hardwareMap.dcMotor.get("drin");
-        big = hardwareMap.crservo.get("big");
-        zaxvat = hardwareMap.crservo.get("zx");
-        sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
-        knopka = hardwareMap.get(DigitalChannel.class, "knp");
-        knopka.setMode(DigitalChannel.Mode.INPUT);
-        rand = rand * 1000;
 
         int time = (int) rand;
         if (time == 5000){
