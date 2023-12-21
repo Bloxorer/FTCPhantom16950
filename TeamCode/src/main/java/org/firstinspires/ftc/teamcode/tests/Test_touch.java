@@ -69,7 +69,7 @@ public class Test_touch extends Methods {
         rightB = hardwareMap.dcMotor.get("rr");
         pisun = hardwareMap.crservo.get("pis");
         pod = hardwareMap.dcMotor.get("pod");
-        drin = hardwareMap.dcMotor.get("drin");
+
         big = hardwareMap.crservo.get("big");
         zaxvat = hardwareMap.crservo.get("zx");
         sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
@@ -83,7 +83,7 @@ public class Test_touch extends Methods {
         while (opModeIsActive()) {
             telemetry.addData("Values", valLeft + "  " + valRight);
             telemetry.update();
-            drin_verx(1000, 0.3, knopka);
+
         }}
 
 

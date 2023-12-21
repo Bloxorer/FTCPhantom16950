@@ -46,18 +46,10 @@ public class a_Gamepad_test extends OpMode {
         int i = 0;
         //visionPortall.initVisionPortal();
         try{
-            webcam1 = hardwareMap.get(WebcamName.class, "Slava");
             leftF = hardwareMap.dcMotor.get("lf");
             leftB = hardwareMap.dcMotor.get("lr");
             rightF = hardwareMap.dcMotor.get("rf");
             rightB = hardwareMap.dcMotor.get("rr");
-           //pisun = hardwareMap.crservo.get("pis");
-            /*
-            drin = hardwareMap.dcMotor.get("drin");
-            big = hardwareMap.crservo.get("big");
-            zaxvat = hardwareMap.crservo.get("zx");
-            knopka = hardwareMap.get(DigitalChannel.class, "knp");
-            knopka.setMode(DigitalChannel.Mode.INPUT);*/
             bros = hardwareMap.crservo.get("bs");
             zaxvatLeft = hardwareMap.crservo.get("zxl");
             zaxvatRight = hardwareMap.crservo.get("zxr");
@@ -77,17 +69,10 @@ public class a_Gamepad_test extends OpMode {
     public void loop() {
 
         Methods methods = new Methods();
-        final double NEW_P = 0;
-        final double NEW_I = 0;
-        final double NEW_D = 0;
-        final double NEW_F = 0;
-
         // Get a reference to the motor controller and cast it as an extended functionality controller.
         // We assume it's a REV Robotics Expansion Hub, which supports the extended controller functions.
 
         // Get the port number of our configured motor.
-
-
 
         Thread tmovement = new Thread(() -> {
             float StickX = (gamepad1.right_stick_x);

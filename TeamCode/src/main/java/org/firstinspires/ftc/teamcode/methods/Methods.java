@@ -37,7 +37,7 @@ import java.util.List;
 
 @Autonomous(name= "Methods", group="Autonomous")
 public class Methods extends LinearOpMode {
-    public DcMotor leftF, rightF, leftB, rightB, pod, drin, motor,ryka, actu ;
+    public DcMotor leftF, rightF, leftB, rightB, pod, actu , zx, pnap;
     public CRServo zaxvat, pisun, big, zaxvatLeft, zaxvatRight, bros;
     public WebcamName webcam1;
     public BNO055IMU imu;
@@ -118,56 +118,14 @@ public class Methods extends LinearOpMode {
         pod.setPower(0);
         sleep(1);
     }
-    public  void drin_verx ( int pos, double speed, DigitalChannel knop) {
-        leftF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftF.setTargetPosition(pos);
-        rightB.setTargetPosition(-pos);
-        rightF.setTargetPosition(-pos);
-        leftB.setTargetPosition(pos);
-        leftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        drin.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftF.setPower(speed);
-        rightB.setPower(speed);
-        rightF.setPower(speed);
-        leftB.setPower(speed);
-        drin.setPower(-1);
-        while (opModeIsActive() && (leftF.isBusy()) && (rightF.isBusy()) && (rightB.isBusy()) && (leftB.isBusy()) && knop.getState() == true) {
 
-            telemetry.addData("Path2", "Running at %7d :%7d : %7d :%7d",
-                    leftF.getCurrentPosition(),
-                    rightB.getCurrentPosition(), rightF.getCurrentPosition(), leftB.getCurrentPosition());
-            telemetry.update();
-        }
-        rightB.setPower(0);
-        leftB.setPower(0);
-        rightF.setPower(0);
-        leftF.setPower(0);
-        drin.setPower(0);
-        sleep(100);
-    }
     public void act(int mills, double power){
         pod.setPower(power);
         sleep(mills);
         pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         pod.setPower(0);
     }
-    public void xvatat(int pos, double power){
-        ryka.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        ryka.setTargetPosition(pos);
-        ryka.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ryka.setPower(power);
-        while ((opModeIsActive() && (ryka.isBusy()))){
 
-        }
-        ryka.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        ryka.setPower(-0.045);
-    }
     //Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
     public void vziat(DistanceSensor sensorRange){
         //60 - есть 100 - нету
@@ -203,18 +161,7 @@ public class Methods extends LinearOpMode {
     }
 
 
-    public void drin_castom(int uroven){
-        drin.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        drin.setTargetPosition(uroven);
-        drin.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        drin.setPower(1);
-        while ((opModeIsActive() && (drin.isBusy()))){telemetry.addData("2", drin.getCurrentPosition());
-            telemetry.update();
-        }
-        drin.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        drin.setPower(0);
-        sleep(100);
-    }
+
 
     public void pod_castom(int uroven){
         pod.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -667,6 +614,114 @@ public class Methods extends LinearOpMode {
         rightF.setPower(0);
         leftF.setPower(0);
         sleep(100);
+    }
+    public void drive_pnap(){
+        Thread tpnap = new Thread(()->{
+            if (gamepad2.dpad_left){
+                pnap.setPower(0.5);
+            } else if (gamepad2.dpad_right) {
+                pnap.setPower(-0.5);
+            } else{
+                pnap.setPower(0);
+            }
+        });
+        tpnap.start();
+    }
+    public void  drive_tp(){
+        Thread tmovement = new Thread(() -> {
+            float StickX = (gamepad1.right_stick_x);
+            float StickY = (gamepad1.right_stick_y);
+            float pwrTrigger = (gamepad1.left_trigger);
+            float pwrTrigger2 = (gamepad1.right_trigger);
+            float pwrTrigger6 = (gamepad2.left_trigger);
+            float pwrTrigger5 = (gamepad2.right_trigger);
+            float pwrTrigger3 = (float) (gamepad2.left_trigger * 0.66);
+            float pwrTrigger4 = (float) (gamepad2.right_trigger * 0.66);
+            boolean Bumper_left = (gamepad1.left_bumper);
+            boolean Bumper_right = (gamepad1.right_bumper);
+
+            float Stick2X = (float) (gamepad1.left_stick_x * 0.3);
+            float Stick2Y = (float) (gamepad1.left_stick_y * 0.3);
+            try {
+                if (StickY != 0 || StickX != 0) {
+                    leftF.setPower((+StickY - StickX) + pwrTrigger);
+                    leftB.setPower((+StickY + StickX) + pwrTrigger);
+                    rightB.setPower((-StickY + StickX) + pwrTrigger2);
+                    rightF.setPower((-StickY - StickX) - pwrTrigger2);
+                } else if (Stick2Y != 0 || Stick2X != 0) {
+                    leftF.setPower((+Stick2Y - Stick2X) + pwrTrigger);
+                    rightB.setPower((-Stick2Y + Stick2X) + pwrTrigger2);
+                    rightF.setPower((-Stick2Y - Stick2X) + pwrTrigger2);
+                    leftB.setPower((+Stick2Y + Stick2X) + pwrTrigger);
+                } else if (pwrTrigger != 0) {
+                    leftF.setPower(0.6 * pwrTrigger);
+                    rightB.setPower(0.6 * pwrTrigger);
+                    rightF.setPower(0.6 * pwrTrigger);
+                    leftB.setPower(0.6 * pwrTrigger);
+                } else if (pwrTrigger2 != 0) {
+                    leftF.setPower(-0.6 * pwrTrigger2);
+                    rightB.setPower(-0.6 * pwrTrigger2);
+                    rightF.setPower(-0.6 * pwrTrigger2);
+                    leftB.setPower(-0.6 * pwrTrigger2);
+                } else if (gamepad1.left_bumper) {
+                    leftF.setPower(0.2);
+                    rightB.setPower(0.2);
+                    rightF.setPower(0.2);
+                    leftB.setPower(0.2);
+                } else if (gamepad1.right_bumper) {
+                    leftF.setPower(-0.2);
+                    rightB.setPower(-0.2);
+                    rightF.setPower(-0.2);
+                    leftB.setPower(-0.2);
+                } else {
+                    leftF.setPower(0);
+                    rightB.setPower(0);
+                    rightF.setPower(0);
+                    leftB.setPower(0);
+                }
+            } catch (Exception e) {
+                telemetry.addData("Motion error", "yes");
+                throw new RuntimeException(e);
+            }
+
+        });
+        tmovement.start();
+    }
+    public void drive_act(){
+        Thread tactu = new Thread(() -> {
+            if (gamepad2.dpad_up){
+                actu.setPower(1);
+            } else if(gamepad2.dpad_down){
+                actu.setPower(-1);
+            } else {
+                actu.setPower(0);
+            }
+        });
+        tactu.start();
+    }
+    public void drive_pod(){
+        Thread tpod = new Thread(() ->{
+            if(gamepad2.y){
+                pod.setPower(0.5);
+            } else if (gamepad2.a) {
+                pod.setPower(-0.5);
+            } else{
+                pod.setPower(0);
+            }
+        });
+        tpod.start();
+    }
+    public void drive_zx(){
+        Thread tzx = new Thread(() -> {
+            if (gamepad1.x){
+                zx.setPower(0.5);
+            } else if (gamepad1.b) {
+                zx.setPower(-0.5);
+            } else {
+                zx.setPower(0);
+            }
+        });
+        tzx.start();
     }
 
     public void initGyro() {

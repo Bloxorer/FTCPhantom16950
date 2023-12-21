@@ -48,7 +48,7 @@ public class RRtest extends Methods {
         rightB = hardwareMap.dcMotor.get("rr");
         pisun = hardwareMap.crservo.get("pis");
         pod = hardwareMap.dcMotor.get("pod");
-        drin = hardwareMap.dcMotor.get("drin");
+
         big = hardwareMap.crservo.get("big");
         zaxvat = hardwareMap.crservo.get("zx");
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);

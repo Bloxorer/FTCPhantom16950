@@ -57,7 +57,7 @@ public class a_Sin_zad extends Methods {
     public void runOpMode() throws InterruptedException {
         VisionPortall visionPortall = new VisionPortall();
 
-        webcam1 = hardwareMap.get(WebcamName.class, "Webcam1");
+        webcam1 = hardwareMap.get(WebcamName.class, "Webcam 1");
         leftF = hardwareMap.dcMotor.get("lf");
         leftB = hardwareMap.dcMotor.get("lr");
         rightF = hardwareMap.dcMotor.get("rf");
@@ -65,7 +65,6 @@ public class a_Sin_zad extends Methods {
         bros = hardwareMap.crservo.get("bs");
         zaxvatLeft = hardwareMap.crservo.get("zxl");
         zaxvatRight = hardwareMap.crservo.get("zxr");
-        ryka = hardwareMap.dcMotor.get("rk");
         actu = hardwareMap.dcMotor.get("ac");
         pod = hardwareMap.dcMotor.get("pod");
         Methods_for_OpenCV methodsForOpenCV = new Methods_for_OpenCV();
@@ -74,7 +73,7 @@ public class a_Sin_zad extends Methods {
        int cols = methodsForOpenCV.getCols();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 
-        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam1"), cameraMonitorViewId);
+        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
         phoneCam.openCameraDevice();
         phoneCam.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());

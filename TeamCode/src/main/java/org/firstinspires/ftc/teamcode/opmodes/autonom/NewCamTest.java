@@ -66,7 +66,7 @@ public class NewCamTest extends Methods {
         cols = methodsForOpenCV.getCols();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 
-        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Slava"), cameraMonitorViewId);
+        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
         phoneCam.openCameraDevice();
         phoneCam.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
@@ -109,7 +109,7 @@ public class NewCamTest extends Methods {
 
         if (USE_WEBCAM) {
             visionPortal = new VisionPortal.Builder()
-                    .setCamera(hardwareMap.get(WebcamName.class, "Slava"))
+                    .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                     .setStreamFormat(VisionPortal.StreamFormat.YUY2)
                     .addProcessors(aprilTag,tfod)
                     .setCameraResolution(new Size(640, 480))
