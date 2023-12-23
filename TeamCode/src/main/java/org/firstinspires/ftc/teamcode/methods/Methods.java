@@ -38,7 +38,7 @@ import java.util.List;
 @Autonomous(name= "Methods", group="Autonomous")
 public class Methods extends LinearOpMode {
     public DcMotor leftF, rightF, leftB, rightB, pod, actu , zx, pnap;
-    public CRServo zaxvat, pisun, big, zaxvatLeft, zaxvatRight, bros;
+    public CRServo zaxvat, pisun, big, zaxvatLeft, zaxvatRight, bros, kr;
     public WebcamName webcam1;
     public BNO055IMU imu;
     public DigitalChannel knopka;
@@ -118,7 +118,12 @@ public class Methods extends LinearOpMode {
         pod.setPower(0);
         sleep(1);
     }
-
+    public void plun(int mills, double power){
+        zx.setPower(power);
+        sleep(mills);
+        zx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        zx.setPower(0);
+    }
     public void act(int mills, double power){
         pod.setPower(power);
         sleep(mills);
@@ -701,9 +706,9 @@ public class Methods extends LinearOpMode {
     }
     public void drive_pod(){
         Thread tpod = new Thread(() ->{
-            if(gamepad2.y){
+            if(gamepad1.y){
                 pod.setPower(0.5);
-            } else if (gamepad2.a) {
+            } else if (gamepad1.a) {
                 pod.setPower(-0.5);
             } else{
                 pod.setPower(0);
@@ -711,11 +716,40 @@ public class Methods extends LinearOpMode {
         });
         tpod.start();
     }
+    public void drive_kr(){
+        int i = 0;
+        if (gamepad2.a){
+            i = 1;
+        } else if (gamepad2.y) {
+            i = 0;
+        }
+        if (i == 1) {
+            kr.setPower(0.5);
+        } else if ( i == 0){
+            kr.setPower(0);
+        }
+    }
+
+    public void drive_zaxvat(){
+        Thread tzaxvat = new Thread(() -> {
+            if (gamepad2.left_bumper){
+                zaxvatLeft.setPower(0.5);
+            } else{
+                zaxvatLeft.setPower(0);
+            }
+            if (gamepad2.right_bumper){
+                zaxvatRight.setPower(0.5);
+            } else{
+                zaxvatRight.setPower(0);
+            }});
+        tzaxvat.start();
+    }
+
     public void drive_zx(){
         Thread tzx = new Thread(() -> {
-            if (gamepad1.x){
+            if (gamepad2.x){
                 zx.setPower(0.5);
-            } else if (gamepad1.b) {
+            } else if (gamepad2.b) {
                 zx.setPower(-0.5);
             } else {
                 zx.setPower(0);
@@ -723,6 +757,7 @@ public class Methods extends LinearOpMode {
         });
         tzx.start();
     }
+
 
     public void initGyro() {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();

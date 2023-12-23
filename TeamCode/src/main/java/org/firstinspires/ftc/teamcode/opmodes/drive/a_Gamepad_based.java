@@ -60,7 +60,8 @@ public class a_Gamepad_based extends OpMode {
         }).start();
 
         if (knopka.getState() == true) {
-            telemetry.addData("Digital Touch", "Is Not Pressed");
+            telem
+            etry.addData("Digital Touch", "Is Not Pressed");
             telemetry.update();
         } else {
             telemetry.addData("Digital Touch", "Is Pressed");
