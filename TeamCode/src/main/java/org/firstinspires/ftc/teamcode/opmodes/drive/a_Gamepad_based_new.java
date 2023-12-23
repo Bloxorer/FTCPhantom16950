@@ -59,8 +59,8 @@ public class a_Gamepad_based_new extends Methods {
         while (opModeIsActive()) {
             drive_pnap();
             drive_tp();
-            drive_act();
-            drive_pod();
+            //drive_act();
+            //drive_pod();
             drive_zx();
             drive_zaxvat();
             drive_kr();

@@ -6,6 +6,7 @@ import org.firstinspires.ftc.robotcore.external.android.util.Size;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -82,32 +83,63 @@ public class a_SIn_Bros extends Methods {
         telemetry.addData("Values", valLeft + "  " + valRight);
         telemetry.update();
         // visionPortall.telemetryAprilTag();
+        valLeft = Methods_for_OpenCV.getValLeft();
+        valRight = Methods_for_OpenCV.getValRight();
         runtime.reset();
         waitForStart();
 
+
+
         while (opModeIsActive()) {
+            Thread else3 = new Thread(() -> {
+                podem(1000,0.25);
+                kr.setPower(0.5);
+                kr.setPower(0);
+                zaxvatRight.setPower(-0.8);
+                zaxvatLeft.setPower(-0.8);
+                plun(4000, 1);
+            });
             telemetry.addData("Values", valLeft + "  " + valRight);
             telemetry.update();
-
+            valLeft = Methods_for_OpenCV.getValLeft();
+            valRight = Methods_for_OpenCV.getValRight();
             telemetry.update();
             sleep(150);
             // 291 221
             if (valLeft == 255) {
-                nazad(1000, 0.25);
-                razvarot(750, 0.25);
-                plun(3000, 0.5);
-                vpered(-500, 0.25);
+                zx.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
+                nazad(1000,0.25);
+                nazad(100,0.25);
+                plun(3000,0.4);
+                stop_all();
                 sleep(30000);
             } else if (valRight == 255) {
-                nazad(1000, 0.25);
-                plun(3000, 0.5);
-                vpered(-500, 0.25);
+                zx.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
+                nazad(1000,0.25);
+                razvarot(-750,0.25);
+                nazad(100,0.25);
+                plun(3000,0.4);
+                stop_all();
                 sleep(30000);
             } else {
+                /*zaxvatLeft.setPower(0);
+                zaxvatRight.setPower(-0.1);
+                act(2000, 0.25);
                 nazad(1000, 0.25);
+                razvarot(750, 0.25);
+                else3.start();
+                sleep(1000);
+                vpered(500, 0.25);
+                kr.setPower(0);
                 razvarot(-750, 0.25);
-                plun(3000, 0.5);
-                vpered(-500, 0.25);
+                vpered(300, 0.25);
+                sleep(30000);*/
+                zx.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
+                nazad(1000,0.25);
+                razvarot(750,0.25);
+                nazad(100,0.25);
+                plun(3000,0.4);
+                stop_all();
                 sleep(30000);
             }
         }

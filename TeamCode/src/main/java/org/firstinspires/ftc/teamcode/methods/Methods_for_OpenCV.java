@@ -44,6 +44,22 @@ public class Methods_for_OpenCV extends  LinearOpMode{
         return cols;
     }
 
+    public static float[] getLeftPos() {
+        return leftPos;
+    }
+
+    public static void setLeftPos(float[] leftPos) {
+        Methods_for_OpenCV.leftPos = leftPos;
+    }
+
+    public static float[] getRightPos() {
+        return rightPos;
+    }
+
+    public static void setRightPos(float[] rightPos) {
+        Methods_for_OpenCV.rightPos = rightPos;
+    }
+
     public static void setValLeft(int valLeft) {
         Methods_for_OpenCV.valLeft = valLeft;
     }

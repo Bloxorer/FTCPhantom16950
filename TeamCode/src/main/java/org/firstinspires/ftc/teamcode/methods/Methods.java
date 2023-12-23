@@ -46,6 +46,7 @@ public class Methods extends LinearOpMode {
     public VoltageSensor sensor;
     public double speed;
     public OpenCvWebcam phoneCam;
+    int i = 0;
     public OpenCvInternalCamera phoneCam1, phoneCam2;
 
     //private DistanceSensor sensorRange;
@@ -125,12 +126,32 @@ public class Methods extends LinearOpMode {
         zx.setPower(0);
     }
     public void act(int mills, double power){
-        pod.setPower(power);
+        pod.setPower(-power);
         sleep(mills);
         pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         pod.setPower(0);
     }
-
+    public void actuatorpod(int pos, double speed){
+        pod.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        pod.setTargetPosition(pos);
+        pod.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        pod.setPower(speed);
+        while ((opModeIsActive() && (pod.isBusy()))){
+        }
+        pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        pod.setPower(0);
+    }
+    public void podem(int pos, double speed){
+        pnap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        pnap.setTargetPosition(pos);
+        pnap.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        pnap.setPower(speed);
+        while ((opModeIsActive() && (pnap.isBusy()))){
+        }
+        pnap.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        sleep(100);
+        pnap.setPower(0);
+    }
     //Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
     public void vziat(DistanceSensor sensorRange){
         //60 - есть 100 - нету
@@ -717,28 +738,31 @@ public class Methods extends LinearOpMode {
         tpod.start();
     }
     public void drive_kr(){
-        int i = 0;
         if (gamepad2.a){
             i = 1;
         } else if (gamepad2.y) {
             i = 0;
+        } else if (gamepad2.left_trigger != 0) {
+            i = 2;
         }
         if (i == 1) {
             kr.setPower(0.5);
         } else if ( i == 0){
             kr.setPower(0);
+        } else if (i == 2) {
+            kr.setPower(-0.2);
         }
     }
 
     public void drive_zaxvat(){
         Thread tzaxvat = new Thread(() -> {
             if (gamepad2.left_bumper){
-                zaxvatLeft.setPower(0.5);
+                zaxvatLeft.setPower(-0.8);
             } else{
                 zaxvatLeft.setPower(0);
             }
             if (gamepad2.right_bumper){
-                zaxvatRight.setPower(0.5);
+                zaxvatRight.setPower(-0.8);
             } else{
                 zaxvatRight.setPower(0);
             }});
@@ -748,9 +772,9 @@ public class Methods extends LinearOpMode {
     public void drive_zx(){
         Thread tzx = new Thread(() -> {
             if (gamepad2.x){
-                zx.setPower(0.5);
+                zx.setPower(0.3);
             } else if (gamepad2.b) {
-                zx.setPower(-0.5);
+                zx.setPower(-0.45);
             } else {
                 zx.setPower(0);
             }
