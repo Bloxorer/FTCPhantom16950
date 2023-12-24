@@ -748,7 +748,7 @@ public class Methods extends LinearOpMode {
         if (i == 1) {
             kr.setPower(0.5);
         } else if ( i == 0){
-            kr.setPower(0);
+            kr.setPower(0.1);
         } else if (i == 2) {
             kr.setPower(-0.2);
         }
@@ -764,7 +764,7 @@ public class Methods extends LinearOpMode {
             if (gamepad2.right_bumper){
                 zaxvatRight.setPower(-0.8);
             } else{
-                zaxvatRight.setPower(0);
+                zaxvatRight.setPower(0.1);
             }});
         tzaxvat.start();
     }

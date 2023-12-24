@@ -27,7 +27,7 @@ public class Methods_for_OpenCV extends  LinearOpMode{
     private static float offsetY = 0f / 8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
 
     private static float[] leftPos = {3f / 9f + offsetX, 4f / 8f + offsetY};
-    private static float[] rightPos = {5f / 8f + offsetX, 3 / 8.7f + offsetY};
+    private static float[] rightPos = {5f / 8f + offsetX, 5 / 8.7f + offsetY};
 
     final int rows = 640;
     final int cols = 480;
