@@ -43,6 +43,7 @@ import java.util.List;
 public class a_Gamepad_based_new extends Methods {
     private final ElapsedTime runtime = new ElapsedTime();
     public void runOpMode() throws InterruptedException {
+        knopka = hardwareMap.digitalChannel.get("knp");
         zaxvatLeft = hardwareMap.crservo.get("zxl");
         zaxvatRight = hardwareMap.crservo.get("zxr");
         leftB = hardwareMap.dcMotor.get("lr");

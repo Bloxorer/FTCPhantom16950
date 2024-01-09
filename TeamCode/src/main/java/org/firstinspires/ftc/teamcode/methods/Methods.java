@@ -69,6 +69,7 @@ public class Methods extends LinearOpMode {
 
     public Methods() {
     }
+
     public void kub_verx () {
         pod.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pod.setTargetPosition(3000); //2100 verx
@@ -755,18 +756,27 @@ public class Methods extends LinearOpMode {
     }
 
     public void drive_zaxvat(){
-        Thread tzaxvat = new Thread(() -> {
+        Thread tzaxvatL = new Thread(() -> {
+            boolean knopk = knopka.getState();
             if (gamepad2.left_bumper){
                 zaxvatLeft.setPower(-0.8);
+                if(knopk){
+                    zaxvatLeft.setPower(0);
+                    sleep(500);
+                }
             } else{
                 zaxvatLeft.setPower(0);
             }
+        });
+        Thread tzaxvatR = new Thread(()-> {
             if (gamepad2.right_bumper){
-                zaxvatRight.setPower(-0.8);
-            } else{
+                    zaxvatRight.setPower(-0.8);
+            } else {
                 zaxvatRight.setPower(0.1);
-            }});
-        tzaxvat.start();
+            }
+        });
+        tzaxvatL.start();
+        tzaxvatR.start();
     }
 
     public void drive_zx(){
@@ -796,23 +806,6 @@ public class Methods extends LinearOpMode {
         imu.initialize(parameters);
     }
 
-    /*public void vobla228() {
-        vobla.setPower(-0.6);
-        sleep(500);
-        vobla.setPower(0.1);
-        sleep(200);
-        vobla.setPower(0);
-        sleep(300);
-        zaxvat.setPower(-0.3);
-        vobla.setPower(0);
-        sleep(400);
-        vobla.setPower(0.6);
-        sleep(250);
-        vobla.setPower(0);
-        sleep(300);
-        zaxvat.setPower(0.53);
-        sleep(20);
-    }*/
 
     double getBatteryVoltage() {
         double result = Double.POSITIVE_INFINITY;
