@@ -757,14 +757,18 @@ public class Methods extends LinearOpMode {
 
     public void drive_zaxvat(){
         Thread tzaxvatL = new Thread(() -> {
+            int f = 0;
             boolean knopk = knopka.getState();
-            if (gamepad2.left_bumper){
-                zaxvatLeft.setPower(-0.8);
-                if(knopk){
-                    zaxvatLeft.setPower(0);
-                    sleep(500);
-                }
+            if (knopk){
+                f = 0;
+            } else if (gamepad2.left_bumper){
+                f = 1;
             } else{
+                f = 0;
+            }
+            if (f == 1){
+                zaxvatLeft.setPower(-0.8);
+            } else if(f == 0){
                 zaxvatLeft.setPower(0);
             }
         });
@@ -784,7 +788,7 @@ public class Methods extends LinearOpMode {
             if (gamepad2.x){
                 zx.setPower(0.3);
             } else if (gamepad2.b) {
-                zx.setPower(-0.45);
+                zx.setPower(-1);
             } else {
                 zx.setPower(0);
             }
