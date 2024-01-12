@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -41,7 +42,8 @@ public class Methods extends LinearOpMode {
     public CRServo zaxvat, pisun, big, zaxvatLeft, zaxvatRight, bros, kr;
     public WebcamName webcam1;
     public BNO055IMU imu;
-    public DigitalChannel knopka;
+   // public DigitalChannel knopka;
+    public TouchSensor knopka;
     public Orientation angles;
     public VoltageSensor sensor;
     public double speed;
@@ -758,7 +760,7 @@ public class Methods extends LinearOpMode {
     public void drive_zaxvat(){
         Thread tzaxvatL = new Thread(() -> {
             int f = 0;
-            boolean knopk = knopka.getState();
+            boolean knopk = knopka.isPressed();
             if (knopk){
                 f = 0;
             } else if (gamepad2.left_bumper){
