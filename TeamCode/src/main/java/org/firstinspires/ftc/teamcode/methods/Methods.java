@@ -49,6 +49,7 @@ public class Methods extends LinearOpMode {
     public double speed;
     public OpenCvWebcam phoneCam;
     int i = 0;
+    int f = 0;
     public OpenCvInternalCamera phoneCam1, phoneCam2;
 
     //private DistanceSensor sensorRange;
@@ -759,19 +760,16 @@ public class Methods extends LinearOpMode {
 
     public void drive_zaxvat(){
         Thread tzaxvatL = new Thread(() -> {
-            int f = 0;
             boolean knopk = knopka.isPressed();
             if (knopk){
                 f = 0;
             } else if (gamepad2.left_bumper){
                 f = 1;
-            } else{
-                f = 0;
             }
             if (f == 1){
-                zaxvatLeft.setPower(-0.8);
-            } else if(f == 0){
                 zaxvatLeft.setPower(0);
+            } else if(f == 0){
+                zaxvatLeft.setPower(-0.8);
             }
         });
         Thread tzaxvatR = new Thread(()-> {
