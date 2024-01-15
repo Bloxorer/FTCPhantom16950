@@ -2,29 +2,18 @@ package org.firstinspires.ftc.teamcode.opmodes.autonom.centerstage;
 
 
 
-import org.firstinspires.ftc.robotcore.external.android.util.Size;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.methods.Methods;
 import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
 
 import org.firstinspires.ftc.teamcode.methods.VisionPortall;
-import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
-
-import java.util.List;
 
 /**
  * Created by maryjaneb  on 11/13/2016.
@@ -125,7 +114,7 @@ public class A_KRASN_BROS extends Methods {
                 plun(3000,0.4);
                 razvarot(-750,0.25);
                 vpered(800,0.25);
-                vlevo(4000, 0.25);
+                vlevo(1700, 0.35);
                 stop_all();
                 sleep(30000);
             }
