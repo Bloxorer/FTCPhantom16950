@@ -91,7 +91,6 @@ public class a_Krasn_Bros extends Methods {
 
 
         while (opModeIsActive()) {
-            telemetry.addData("Values", valLeft + "  " + valRight);
             telemetry.update();
             valLeft = Methods_for_OpenCV.getValLeft();
             valRight = Methods_for_OpenCV.getValRight();
@@ -100,35 +99,33 @@ public class a_Krasn_Bros extends Methods {
             // 291 221
             if (valLeft == 255) {
                 zx.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
-                nazad(1100,0.25);
+                nazad(1000,0.25);
                 nazad(100,0.25);
-                plun(1000,0.4);
-                vpered(1000, 0.4);
-                vlevo(1700, 0.25);
+                plun(3000,0.4);
+                vpered(900, 0.25);
+                vlevo(4000, 0.25);
                 stop_all();
                 sleep(30000);
             } else if (valRight == 255) {
                 zx.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
-                nazad(1100,0.4);
+                nazad(1000,0.25);
                 razvarot(-750,0.25);
-                vpered(200,0.4);
-                plun(1000,0.4);
-                nazad(200,0.25);
-                razvarot(750, 0.25);
-                vpered(1000, 0.4);
-                vlevo(1700, 0.25);
+                nazad(100,0.25);
+                plun(3000,0.4);
+                vpered(100,0.25);
+                razvarot(750,0.25);
+                vpered(900, 0.25);
+                vlevo(4000, 0.25);
                 stop_all();
                 sleep(30000);
             } else {
                 zx.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
-                nazad(1100,0.4);
+                nazad(1000,0.25);
                 razvarot(750,0.25);
-                nazad(200,0.25);
-                plun(1000,0.4);
-                vpered(200,0.25);
-                razvarot(-750, 0.25);
-                vpered(1000, 0.4);
-                vlevo(1700, 0.25);
+                plun(3000,0.4);
+                razvarot(-750,0.25);
+                vpered(800,0.25);
+                vlevo(1700, 0.35);
                 stop_all();
                 sleep(30000);
             }
