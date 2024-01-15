@@ -37,10 +37,10 @@ import java.util.List;
  * monitor: 640 x 480
  *YES
  */
-@Autonomous(name= "a_Sin_Bros", group="Autonomous")
+@Autonomous(name= "A_KRAN_BLIZ", group="Autonomous")
 
 //
-public class a_SIn_Bros extends Methods {
+public class A_KRASN_BLIZ extends Methods {
 
     private final ElapsedTime runtime = new ElapsedTime();
     private static int valLeft = -1;
@@ -102,8 +102,8 @@ public class a_SIn_Bros extends Methods {
                 nazad(1000,0.25);
                 nazad(100,0.25);
                 plun(3000,0.4);
-                vpered(1000, 0.25);
-                vpravo(4000, 0.25);
+                vpered(900, 0.25);
+                vlevo(1700, 0.25);
                 stop_all();
                 sleep(30000);
             } else if (valRight == 255) {
@@ -114,18 +114,18 @@ public class a_SIn_Bros extends Methods {
                 plun(3000,0.4);
                 vpered(100,0.25);
                 razvarot(750,0.25);
-                vpered(1000, 0.25);
-                vpravo(4000, 0.35);
+                vpered(900, 0.25);
+                vlevo(1700, 0.25);
                 stop_all();
                 sleep(30000);
             } else {
                 zx.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
                 nazad(1000,0.25);
                 razvarot(750,0.25);
-                vpered(100,0.25);
                 plun(3000,0.4);
-                vpered(100, 0.25);
                 razvarot(-750,0.25);
+                vpered(800,0.25);
+                vlevo(1700, 0.35);
                 stop_all();
                 sleep(30000);
             }

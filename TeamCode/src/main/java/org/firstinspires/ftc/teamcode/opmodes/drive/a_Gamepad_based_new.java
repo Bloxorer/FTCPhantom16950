@@ -43,7 +43,7 @@ import java.util.List;
 public class a_Gamepad_based_new extends Methods {
     private final ElapsedTime runtime = new ElapsedTime();
     public void runOpMode() throws InterruptedException {
-        knopka = hardwareMap.digitalChannel.get("knp");
+        knopka = hardwareMap.touchSensor.get("kn");
         zaxvatLeft = hardwareMap.crservo.get("zxl");
         zaxvatRight = hardwareMap.crservo.get("zxr");
         leftB = hardwareMap.dcMotor.get("lr");
@@ -60,8 +60,8 @@ public class a_Gamepad_based_new extends Methods {
         while (opModeIsActive()) {
             drive_pnap();
             drive_tp();
-            //drive_act();
-            //drive_pod();
+            drive_act();
+            drive_pod();
             drive_zx();
             drive_zaxvat();
             drive_kr();
