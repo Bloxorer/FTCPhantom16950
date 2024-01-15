@@ -98,6 +98,8 @@ public class a_SIn_Bros extends Methods {
             sleep(150);
             // 291 221
             if (valLeft == 255) {
+                phoneCam.stopStreaming();
+                phoneCam.closeCameraDevice();
                 zx.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
                 nazad(1000,0.25);
                 nazad(100,0.25);
@@ -107,6 +109,8 @@ public class a_SIn_Bros extends Methods {
                 stop_all();
                 sleep(30000);
             } else if (valRight == 255) {
+                phoneCam.stopStreaming();
+                phoneCam.closeCameraDevice();
                 zx.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
                 nazad(1000,0.25);
                 razvarot(-750,0.25);
@@ -119,6 +123,8 @@ public class a_SIn_Bros extends Methods {
                 stop_all();
                 sleep(30000);
             } else {
+                phoneCam.stopStreaming();
+                phoneCam.closeCameraDevice();
                 zx.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
                 nazad(1000,0.25);
                 razvarot(750,0.25);
