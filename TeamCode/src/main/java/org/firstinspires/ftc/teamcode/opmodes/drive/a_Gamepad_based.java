@@ -105,9 +105,6 @@ public class a_Gamepad_based extends OpMode {
             rightB.setPower(0);
             rightF.setPower(0);
             leftB.setPower(0);
-
-
-
         }
         /*if (gamepad2.dpad_down){
             pod.setPower(0.7);
