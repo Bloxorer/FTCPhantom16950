@@ -726,15 +726,15 @@ public class Methods extends LinearOpMode {
                     rightF.setPower(-0.6 * pwrTrigger2);
                     leftB.setPower(-0.6 * pwrTrigger2);
                 } else if (gamepad1.left_bumper) {
-                    leftF.setPower(0.2);
-                    rightB.setPower(0.2);
-                    rightF.setPower(0.2);
-                    leftB.setPower(0.2);
+                    leftF.setPower(0.4);
+                    rightB.setPower(0.4);
+                    rightF.setPower(0.4);
+                    leftB.setPower(0.4);
                 } else if (gamepad1.right_bumper) {
-                    leftF.setPower(-0.2);
-                    rightB.setPower(-0.2);
-                    rightF.setPower(-0.2);
-                    leftB.setPower(-0.2);
+                    leftF.setPower(-0.4);
+                    rightB.setPower(-0.4);
+                    rightF.setPower(-0.4);
+                    leftB.setPower(-0.4);
                 } else {
                     leftF.setPower(0);
                     rightB.setPower(0);
