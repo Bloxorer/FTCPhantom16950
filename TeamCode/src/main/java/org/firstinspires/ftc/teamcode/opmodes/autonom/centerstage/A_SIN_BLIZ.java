@@ -95,39 +95,17 @@ public class A_SIN_BLIZ extends Methods {
             sleep(150);
             // 291 221
             if (valLeft == 255) {
-                phoneCam.stopStreaming();
-                phoneCam.closeCameraDevice();
-                zx.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
-                nazad(1000,0.25);
-                nazad(100,0.25);
-                plun(3000,0.4);
-                vpered(900, 0.25);
+                pramo();
                 vpravo(1800, 0.25);
                 stop_all();
                 sleep(30000);
             } else if (valRight == 255) {
-                phoneCam.stopStreaming();
-                phoneCam.closeCameraDevice();
-                zx.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
-                nazad(1000,0.25);
-                razvarot(-750,0.25);
-                nazad(100,0.25);
-                plun(3000,0.4);
-                vpered(100,0.25);
-                razvarot(750,0.25);
-                vpered(900, 0.25);
+                pravo();
                 vpravo(1800, 0.25);
                 stop_all();
                 sleep(30000);
             } else {
-                phoneCam.stopStreaming();
-                phoneCam.closeCameraDevice();
-                zx.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
-                nazad(1000,0.25);
-                razvarot(750,0.25);
-                plun(3000,0.4);
-                razvarot(-750,0.25);
-                vpered(800,0.25);
+                levo();
                 vpravo(1800, 0.35);
                 stop_all();
                 sleep(30000);

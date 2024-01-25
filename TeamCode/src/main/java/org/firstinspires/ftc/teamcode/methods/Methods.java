@@ -657,6 +657,38 @@ public class Methods extends LinearOpMode {
         });
         tpnap.start();
     }
+
+    public void pramo(){
+        phoneCam.stopStreaming();
+        phoneCam.closeCameraDevice();
+        zx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        nazad(1000,0.25);
+        nazad(100,0.25);
+        plun(3000,0.4);
+        vpered(1000, 0.25);
+    }
+    public void pravo(){
+        phoneCam.stopStreaming();
+        phoneCam.closeCameraDevice();
+        zx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        nazad(1000,0.25);
+        razvarot(-750,0.25);
+        nazad(100,0.25);
+        plun(3000,0.4);
+        vpered(100,0.25);
+        razvarot(750,0.25);
+        vpered(1000, 0.25);
+    }
+    public void levo(){
+        phoneCam.stopStreaming();
+        phoneCam.closeCameraDevice();
+        zx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        nazad(1000,0.25);
+        razvarot(750,0.25);
+        plun(3000,0.4);
+        razvarot(-750,0.25);
+        vpered(800,0.25);
+    }
     public void  drive_tp(){
         Thread tmovement = new Thread(() -> {
             float StickX = (gamepad1.right_stick_x);
