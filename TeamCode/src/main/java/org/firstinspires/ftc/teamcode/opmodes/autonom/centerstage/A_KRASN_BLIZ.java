@@ -112,7 +112,7 @@ public class A_KRASN_BLIZ extends Methods {
                 vlevo(1700, 0.35);
                 stop_all();
                 sleep(30000);
-            }
+            }//
         }
     }
 }
