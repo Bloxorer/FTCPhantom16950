@@ -38,10 +38,10 @@ import java.util.List;
  * monitor: 640 x 480
  *YES
  */
-@Autonomous(name= "A_SIN_BLIZ", group="Autonomous")
+@Autonomous(name= "Test1", group="Autonomous")
 
 //
-public class A_SIN_BLIZ extends Methods {
+public class Test extends Methods {
 
     private final ElapsedTime runtime = new ElapsedTime();
     private static int valLeft = -1;
@@ -59,58 +59,25 @@ public class A_SIN_BLIZ extends Methods {
     private static float[] rightPos = {2.8f / 8f + offsetX, 4 / 8f + offsetY};
 
     public void runOpMode() throws InterruptedException {
-        VisionPortall visionPortall = new VisionPortall();
 
-        webcam1 = hardwareMap.get(WebcamName.class, "Webcam 1");
-        zaxvatLeft = hardwareMap.crservo.get("zxl");
-        zaxvatRight = hardwareMap.crservo.get("zxr");
         leftB = hardwareMap.dcMotor.get("lr");
         leftF = hardwareMap.dcMotor.get("lf");
         rightB = hardwareMap.dcMotor.get("rr");
         rightF = hardwareMap.dcMotor.get("rf");
-        pod = hardwareMap.dcMotor.get("pod");
-        actu = hardwareMap.dcMotor.get("act");
-        zx = hardwareMap.dcMotor.get("zx");
-        pnap = hardwareMap.dcMotor.get("pnap");
-        kr = hardwareMap.crservo.get("kr");
-        Methods_for_OpenCV methodsForOpenCV = new Methods_for_OpenCV();
-        int rows = methodsForOpenCV.getRows();
-        int cols = methodsForOpenCV.getCols();
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        phoneCam.openCameraDevice();
-        phoneCam.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
-        phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
-        telemetry.addData("Values", valLeft + "  " + valRight);
-        telemetry.update();
-        // visionPortall.telemetryAprilTag();
-        valLeft = Methods_for_OpenCV.getValLeft();
-        valRight = Methods_for_OpenCV.getValRight();
+
         runtime.reset();
         waitForStart();
         while (opModeIsActive()) {
-            telemetry.update();
-            valLeft = Methods_for_OpenCV.getValLeft();
-            valRight = Methods_for_OpenCV.getValRight();
-            telemetry.update();
-            sleep(150);
             // 291 221
-            if (valLeft == 255) {
-                pramo();
-                vpravo(1800, 0.25);
+            leftF.setPower(0.3);
+            rightF.setPower(0.3);
+            leftB.setPower(0.3);
+            rightB.setPower(0.3);
+            sleep(20000);
                 stop_all();
                 sleep(30000);
-            } else if (valRight == 255) {
-                pravo();
-                vpravo(1800, 0.25);
-                stop_all();
-                sleep(30000);
-            } else {
-                levo();
-                vpravo(1800, 0.35);
-                stop_all();
-                sleep(30000);
-            }
+
+
         }
     }
 }

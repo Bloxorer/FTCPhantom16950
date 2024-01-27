@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorControllerEx;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
@@ -581,11 +582,12 @@ public class Methods extends LinearOpMode {
         leftF.setPower(0);
     }
     public void vpravo(int pos, double speed) {
+
         leftF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftF.setTargetPosition(pos);
+        leftF.setTargetPosition(-pos);
         rightB.setTargetPosition(-pos);
         rightF.setTargetPosition(pos);
         leftB.setTargetPosition(-pos);
@@ -617,6 +619,7 @@ public class Methods extends LinearOpMode {
     }
 
     public void vpered(int pos, double speed) {
+
         leftF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -701,10 +704,8 @@ public class Methods extends LinearOpMode {
             float pwrTrigger4 = (float) (gamepad2.right_trigger * 0.66);
             boolean Bumper_left = (gamepad1.left_bumper);
             boolean Bumper_right = (gamepad1.right_bumper);
-
             float Stick2X = (float) (gamepad1.left_stick_x * 0.3);
             float Stick2Y = (float) (gamepad1.left_stick_y * 0.3);
-            try {
                 if (StickY != 0 || StickX != 0) {
                     leftF.setPower((+StickY - StickX) + pwrTrigger);
                     leftB.setPower((+StickY + StickX) + pwrTrigger);
@@ -741,10 +742,6 @@ public class Methods extends LinearOpMode {
                     rightF.setPower(0);
                     leftB.setPower(0);
                 }
-            } catch (Exception e) {
-                telemetry.addData("Motion error", "yes");
-                throw new RuntimeException(e);
-            }
 
         });
         tmovement.start();

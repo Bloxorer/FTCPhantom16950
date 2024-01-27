@@ -23,4 +23,5 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.acmerobotics.dashboard:dashboard:0.4.14'
     implementation 'org.openftc:apriltag:2.0.0'
+    implementation 'com.acmerobotics.roadrunner:core:0.5.6'
 }
