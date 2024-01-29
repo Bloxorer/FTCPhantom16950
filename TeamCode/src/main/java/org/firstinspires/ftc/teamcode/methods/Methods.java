@@ -6,12 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorControllerEx;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
@@ -70,7 +65,6 @@ public class Methods extends LinearOpMode {
 
     private final int rows = 640;
     private final int cols = 480;
-
     public Methods() {
     }
 
@@ -775,15 +769,11 @@ public class Methods extends LinearOpMode {
             i = 1;
         } else if (gamepad2.y) {
             i = 0;
-        } else if (gamepad2.left_trigger != 0) {
-            i = 2;
         }
         if (i == 1) {
-            kr.setPower(-0.1);
+            kr.setPower(Config.kr_pos1);
         } else if ( i == 0){
-            kr.setPower(-0.75);
-        } else if (i == 2) {
-            kr.setPower(-0.9);
+            kr.setPower(Config.kr_pos0);
         }
     }
 
@@ -792,32 +782,32 @@ public class Methods extends LinearOpMode {
             boolean knopk = knopka.isPressed();
             if (gamepad2.left_bumper){
                 f = 1;
-            } else if (gamepad2.right_bumper){
+            } else if (gamepad2.right_trigger !=0){
                 f = 0;
             }
             if (f == 1){
-                zaxvatLeft.setPower(0);
+                zaxvatLeft.setPower(Config.zxl_pos1);
             } else if(f == 0){
-                zaxvatLeft.setPower(-0.5);
+                zaxvatLeft.setPower(Config.zxl_pos0);
             }
         });
-       /*Thread tzaxvatR = new Thread(()-> {
+       Thread tzaxvatR = new Thread(()-> {
             if (gamepad2.right_bumper){
-                    zaxvatRight.setPower(-0.8);
+                    zaxvatRight.setPower(Config.zxr_pos1);
             } else {
-                zaxvatRight.setPower(0.1);
+                zaxvatRight.setPower(Config.zxr_pos0);
             }
-        });*/
+        });
         tzaxvatL.start();
-        //tzaxvatR.start();
+        tzaxvatR.start();
     }
 
     public void drive_zx(){
         Thread tzx = new Thread(() -> {
             if (gamepad2.x){
-                zx.setPower(0.7);
+                zx.setPower(-Config.zx_zax);
             } else if (gamepad2.b) {
-                zx.setPower(-0.85);
+                zx.setPower(Config.zx_zax);
             } else {
                 zx.setPower(0);
             }
