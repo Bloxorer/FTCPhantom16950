@@ -46,6 +46,7 @@ public class Methods extends LinearOpMode {
     public OpenCvWebcam phoneCam;
     int i = 0;
     int f = 0;
+    int g = 0;
     public OpenCvInternalCamera phoneCam1, phoneCam2;
 
     //private DistanceSensor sensorRange;
@@ -782,7 +783,7 @@ public class Methods extends LinearOpMode {
             boolean knopk = knopka.isPressed();
             if (gamepad2.left_bumper){
                 f = 1;
-            } else if (gamepad2.right_trigger !=0){
+            } else if (gamepad2.left_trigger !=0){
                 f = 0;
             }
             if (f == 1){
@@ -792,11 +793,16 @@ public class Methods extends LinearOpMode {
             }
         });
        Thread tzaxvatR = new Thread(()-> {
-            if (gamepad2.right_bumper){
-                    zaxvatRight.setPower(Config.zxr_pos1);
-            } else {
+           if (gamepad2.right_bumper){
+               g = 1;
+           } else if (gamepad2.right_trigger !=0){
+               g = 0;
+           }
+           if (g == 1){
+                zaxvatRight.setPower(Config.zxr_pos1);
+           } else if (g == 0){
                 zaxvatRight.setPower(Config.zxr_pos0);
-            }
+           }
         });
         tzaxvatL.start();
         tzaxvatR.start();
