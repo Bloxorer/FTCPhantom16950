@@ -7,7 +7,9 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Time;
+import com.acmerobotics.roadrunner.Twist2d;
 import com.acmerobotics.roadrunner.Twist2dDual;
+import com.google.ar.core.Pose;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -55,18 +57,7 @@ public class Methods extends LinearOpMode {
     public double rightbump = 0;
     public double leftbump = 0;
 
-    Pose2d positionlite = new Pose2d(
-            gamepad1.right_stick_x,
-            gamepad1.right_stick_y,
-            rightbump - leftbump
-    );
-    Pose2d position = new Pose2d(
-            gamepad1.left_stick_x,
-            gamepad1.left_stick_y,
-            gamepad1.right_trigger - gamepad1.left_trigger
-    );
-    MecanumDrive drive = new MecanumDrive(hardwareMap, position);
-    MecanumDrive drivelt = new MecanumDrive(hardwareMap, positionlite);
+
     public Orientation angles;
     public VoltageSensor sensor;
     public double speed;
@@ -835,16 +826,31 @@ public class Methods extends LinearOpMode {
         tzaxvatR.start();
     }
     public void drive_tp_rr(){
-        Thread drive = new Thread(() -> {
+        Thread driverr = new Thread(() -> {
             if (gamepad1.right_bumper){
                 rightbump = 0.4;
             } else if (gamepad1.left_bumper){
                 leftbump = 0.4;
             }
-
+            /*drive.localizer.update();
+            drive.actionBuilder(position);
+            drive.actionBuilder(positionlite);*/
+            Pose2d positionlite = new Pose2d(
+                    gamepad1.right_stick_x,
+                    gamepad1.right_stick_y,
+                    rightbump - leftbump
+            );
+            Pose2d position = new Pose2d(
+                    gamepad1.left_stick_x,
+                    gamepad1.left_stick_y,
+                    gamepad1.right_trigger - gamepad1.left_trigger
+            );
+            MecanumDrive drive = new MecanumDrive(hardwareMap, position);
+            MecanumDrive drivelt = new MecanumDrive(hardwareMap, positionlite);
 
 
         });
+        driverr.start();
     }
     public void drive_zx(){
         Thread tzx = new Thread(() -> {
