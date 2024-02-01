@@ -38,7 +38,7 @@ import java.util.List;
  * monitor: 640 x 480
  *YES
  */
-@TeleOp(name = "a_Gamepad_based_new ", group="TeleOP")
+@TeleOp(name = "a_Gamepad_based", group="TeleOP")
 
 //
 public class a_Gamepad_based_new extends Methods {

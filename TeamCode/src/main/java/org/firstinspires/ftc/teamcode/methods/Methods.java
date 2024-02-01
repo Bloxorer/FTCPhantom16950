@@ -1,5 +1,13 @@
 package org.firstinspires.ftc.teamcode.methods;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.InstantAction;
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
+import com.acmerobotics.roadrunner.Time;
+import com.acmerobotics.roadrunner.Twist2dDual;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -16,6 +24,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.roadrunnernew.Localizer;
+import org.firstinspires.ftc.teamcode.roadrunnernew.MecanumDrive;
 import org.firstinspires.ftc.teamcode.tests.A_Test_cam;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -37,9 +47,26 @@ public class Methods extends LinearOpMode {
     public DcMotor leftF, rightF, leftB, rightB, pod, actu , zx, pnap;
     public CRServo zaxvat, pisun, big, zaxvatLeft, zaxvatRight, bros, kr;
     public WebcamName webcam1;
+    private FtcDashboard dash = FtcDashboard.getInstance();
+    private List<Action> runningActions = new ArrayList<>();
     public BNO055IMU imu;
    // public DigitalChannel knopka;
     public TouchSensor knopka;
+    public double rightbump = 0;
+    public double leftbump = 0;
+
+    Pose2d positionlite = new Pose2d(
+            gamepad1.right_stick_x,
+            gamepad1.right_stick_y,
+            rightbump - leftbump
+    );
+    Pose2d position = new Pose2d(
+            gamepad1.left_stick_x,
+            gamepad1.left_stick_y,
+            gamepad1.right_trigger - gamepad1.left_trigger
+    );
+    MecanumDrive drive = new MecanumDrive(hardwareMap, position);
+    MecanumDrive drivelt = new MecanumDrive(hardwareMap, positionlite);
     public Orientation angles;
     public VoltageSensor sensor;
     public double speed;
@@ -807,7 +834,18 @@ public class Methods extends LinearOpMode {
         tzaxvatL.start();
         tzaxvatR.start();
     }
+    public void drive_tp_rr(){
+        Thread drive = new Thread(() -> {
+            if (gamepad1.right_bumper){
+                rightbump = 0.4;
+            } else if (gamepad1.left_bumper){
+                leftbump = 0.4;
+            }
 
+
+
+        });
+    }
     public void drive_zx(){
         Thread tzx = new Thread(() -> {
             if (gamepad2.x){
