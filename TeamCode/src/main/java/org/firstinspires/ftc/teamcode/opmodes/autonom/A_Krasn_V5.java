@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.methods.Methods;
-import org.firstinspires.ftc.teamcode.methods.Trajectories_old;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -62,7 +61,6 @@ public class A_Krasn_V5 extends Methods {
     private final int cols = 480;
     @Override
     public void runOpMode() throws InterruptedException {
-        Trajectories_old hkial = new Trajectories_old();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         phoneCam.openCameraDevice();
@@ -100,17 +98,17 @@ public class A_Krasn_V5 extends Methods {
 
             if (valLeft == 255) { 
                 sleep(5000);
-                hkial.high_krasn();
+                //.high_krasn();
                 stop_all();
                 sleep(30000);
             } else if(valRight == 255){
                 sleep(5000);
-                hkial.high_krasn();
+                //hkial.high_krasn();
                 stop_all();
                 sleep(30000);
             } else{
                 sleep(5000);
-                hkial.high_krasn();
+                //hkial.high_krasn();
                 stop_all();
                 sleep(30000);
             }

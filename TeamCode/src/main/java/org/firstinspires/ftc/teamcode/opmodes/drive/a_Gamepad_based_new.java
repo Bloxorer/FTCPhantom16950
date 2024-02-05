@@ -63,9 +63,11 @@ public class a_Gamepad_based_new extends Methods {
         zx = hardwareMap.dcMotor.get("zx");
         pnap = hardwareMap.dcMotor.get("pnap");
         kr = hardwareMap.crservo.get("kr");
+        psk = hardwareMap.crservo.get("psk");
         runtime.reset();
         waitForStart();
         while (opModeIsActive()) {
+            drive_psk();
             drive_rr_speed(drive);
             drive_pnap();
             drive_act();

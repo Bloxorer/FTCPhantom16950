@@ -49,7 +49,7 @@ import java.util.List;
 @Autonomous(name= "Methods", group="Autonomous")
 public class Methods extends LinearOpMode {
     public DcMotor leftF, rightF, leftB, rightB, pod, actu , zx, pnap;
-    public CRServo zaxvat, pisun, big, zaxvatLeft, zaxvatRight, bros, kr;
+    public CRServo zaxvat, pisun, big, zaxvatLeft, zaxvatRight, bros, kr, psk;
     public WebcamName webcam1;
     private FtcDashboard dash = FtcDashboard.getInstance();
     public BNO055IMU imu;
@@ -65,6 +65,7 @@ public class Methods extends LinearOpMode {
     int i = 0;
     int f = 0;
     int g = 0;
+    int h = 0;
     public OpenCvInternalCamera phoneCam1, phoneCam2;
 
     //private DistanceSensor sensorRange;
@@ -688,6 +689,18 @@ public class Methods extends LinearOpMode {
                     ),
                     -gamepad1.right_trigger + gamepad1.left_trigger // + rightbump() + leftbump()
             ));
+    }
+    public void drive_psk(){
+        if (gamepad2.left_stick_button && gamepad2.right_stick_button){
+            h = 1;
+        } else {
+            h = 0;
+        }
+        if (h == 1){
+            psk.setPower(0.8);
+        } else if (h == 0){
+            psk.setPower(0 );
+        }
     }
 
     public void drive_pnap(){
