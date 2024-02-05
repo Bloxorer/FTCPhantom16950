@@ -3,6 +3,11 @@ package org.firstinspires.ftc.teamcode.opmodes.drive;
 
 
 import org.firstinspires.ftc.robotcore.external.android.util.Size;
+
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
+import com.acmerobotics.roadrunner.Twist2d;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -18,6 +23,7 @@ import org.firstinspires.ftc.teamcode.methods.Methods;
 import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
 
 import org.firstinspires.ftc.teamcode.methods.VisionPortall;
+import org.firstinspires.ftc.teamcode.roadrunnernew.MecanumDrive;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
@@ -44,6 +50,7 @@ import java.util.List;
 public class a_Gamepad_based_new extends Methods {
     private final ElapsedTime runtime = new ElapsedTime();
     public void runOpMode() throws InterruptedException {
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
         knopka = hardwareMap.touchSensor.get("knp");
         zaxvatLeft = hardwareMap.crservo.get("zxl");
         zaxvatRight = hardwareMap.crservo.get("zxr");
@@ -59,8 +66,8 @@ public class a_Gamepad_based_new extends Methods {
         runtime.reset();
         waitForStart();
         while (opModeIsActive()) {
+            drive_rr_speed(drive);
             drive_pnap();
-            drive_tp();
             drive_act();
             drive_pod();
             drive_zx();

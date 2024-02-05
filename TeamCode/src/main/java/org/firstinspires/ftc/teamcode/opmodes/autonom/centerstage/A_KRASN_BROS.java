@@ -76,9 +76,6 @@ public class A_KRASN_BROS extends Methods {
         valRight = Methods_for_OpenCV.getValRight();
         runtime.reset();
         waitForStart();
-
-
-
         while (opModeIsActive()) {
             telemetry.update();
             valLeft = Methods_for_OpenCV.getValLeft();

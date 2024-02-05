@@ -4,11 +4,13 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Time;
 import com.acmerobotics.roadrunner.Twist2d;
 import com.acmerobotics.roadrunner.Twist2dDual;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.google.ar.core.Pose;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -50,13 +52,11 @@ public class Methods extends LinearOpMode {
     public CRServo zaxvat, pisun, big, zaxvatLeft, zaxvatRight, bros, kr;
     public WebcamName webcam1;
     private FtcDashboard dash = FtcDashboard.getInstance();
-    private List<Action> runningActions = new ArrayList<>();
     public BNO055IMU imu;
    // public DigitalChannel knopka;
     public TouchSensor knopka;
     public double rightbump = 0;
     public double leftbump = 0;
-
 
     public Orientation angles;
     public VoltageSensor sensor;
@@ -84,6 +84,7 @@ public class Methods extends LinearOpMode {
 
     private final int rows = 640;
     private final int cols = 480;
+
     public Methods() {
     }
 
@@ -661,6 +662,34 @@ public class Methods extends LinearOpMode {
         leftF.setPower(0);
         sleep(100);
     }
+    public double rightbump(){
+        if (gamepad1.right_bumper){
+            rightbump = -0.4;
+        } else{
+            rightbump = 0;
+        }
+        return rightbump;
+    }
+    public double leftbump(){
+        if (gamepad1.left_bumper){
+            leftbump = 0.4;
+        } else{
+            leftbump = 0;
+        }
+        return leftbump;
+    }
+    public void drive_rr_speed(MecanumDrive drive){
+        double x =-gamepad1.left_stick_y -(gamepad1.right_stick_y * 0.75);
+        double y = (-gamepad1.right_stick_x * 0.75) -gamepad1.left_stick_x;
+            drive.setDrivePowers(new PoseVelocity2d(
+                    new Vector2d(
+                            x, //- (gamepad1.right_stick_y * 0.75),
+                            y //- (gamepad1.right_stick_x * 0.75)
+                    ),
+                    -gamepad1.right_trigger + gamepad1.left_trigger // + rightbump() + leftbump()
+            ));
+    }
+
     public void drive_pnap(){
         Thread tpnap = new Thread(()->{
             if (gamepad2.dpad_left){
@@ -766,7 +795,8 @@ public class Methods extends LinearOpMode {
             } else if(gamepad2.dpad_down){
                 actu.setPower(-1);
             } else {
-                actu.setPower(0);
+                actu.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                actu.setPower(0.05);
             }
         });
         tactu.start();
@@ -825,33 +855,7 @@ public class Methods extends LinearOpMode {
         tzaxvatL.start();
         tzaxvatR.start();
     }
-    public void drive_tp_rr(){
-        Thread driverr = new Thread(() -> {
-            if (gamepad1.right_bumper){
-                rightbump = 0.4;
-            } else if (gamepad1.left_bumper){
-                leftbump = 0.4;
-            }
-            /*drive.localizer.update();
-            drive.actionBuilder(position);
-            drive.actionBuilder(positionlite);*/
-            Pose2d positionlite = new Pose2d(
-                    gamepad1.right_stick_x,
-                    gamepad1.right_stick_y,
-                    rightbump - leftbump
-            );
-            Pose2d position = new Pose2d(
-                    gamepad1.left_stick_x,
-                    gamepad1.left_stick_y,
-                    gamepad1.right_trigger - gamepad1.left_trigger
-            );
-            MecanumDrive drive = new MecanumDrive(hardwareMap, position);
-            MecanumDrive drivelt = new MecanumDrive(hardwareMap, positionlite);
 
-
-        });
-        driverr.start();
-    }
     public void drive_zx(){
         Thread tzx = new Thread(() -> {
             if (gamepad2.x){
