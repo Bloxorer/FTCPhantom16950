@@ -2,30 +2,17 @@ package org.firstinspires.ftc.teamcode.opmodes.autonom.centerstage;
 
 
 
-import org.firstinspires.ftc.robotcore.external.android.util.Size;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.methods.Methods;
 import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
 
 import org.firstinspires.ftc.teamcode.methods.VisionPortall;
-import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
-
-import java.util.List;
 
 /**
  * Created by maryjaneb  on 11/13/2016.
@@ -96,24 +83,29 @@ public class A_SIn_Zadnik extends Methods {
             sleep(150);
             // 291 221
             if (valLeft == 255) {
-                phoneCam.stopStreaming();
-                phoneCam.closeCameraDevice();
-                zx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                pod.setPower(0.05);
+                podAuto(100, 0.25);
+                pramo();
                 nazad(1000,0.25);
-                nazad(300,0.25);
-                vpered(300, 0.25);
-                plun(3000,0.4);
-                razvarot(750,0.25);
-                nazad(4000, 0.3);
-
+                razvarot(-750, 0.25);
+                vpered(3800,0.3);
+                vpravo(400,0.25);
+                podem(1000,0.25);
+                kr.setPower(1);
+                zaxvatLeft.setPower(0);
+                nazad(100, 0.25);
+                vpravo(800,0.25);
+                vpered(600,0.25);
                 stop_all();
                 sleep(30000);
             } else if (valRight == 255) {
-
+                pod.setPower(0.05);
+                pravo();
                 stop_all();
                 sleep(30000);
             } else {
-
+                pod.setPower(0.05);
+                levo();
                 stop_all();
                 sleep(30000);
             }

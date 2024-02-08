@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.opmodes.autonom.centerstage;
 
 
 import org.firstinspires.ftc.robotcore.external.android.util.Size;
+
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -85,6 +87,7 @@ public class A_KRASN_BLIZ extends Methods {
         // visionPortall.telemetryAprilTag();
         valLeft = Methods_for_OpenCV.getValLeft();
         valRight = Methods_for_OpenCV.getValRight();
+        FtcDashboard.getInstance().startCameraStream(phoneCam, 100);
         runtime.reset();
         waitForStart();
 
@@ -99,16 +102,19 @@ public class A_KRASN_BLIZ extends Methods {
             // 291 221
             if (valLeft == 255) {
                 pramo();
+                vpered(600, 0.25);
                 vlevo(1700, 0.25);
                 stop_all();
                 sleep(30000);
             } else if (valRight == 255) {
                 pravo();
+                vpered(900, 0.25);
                 vlevo(1700, 0.25);
                 stop_all();
                 sleep(30000);
             } else {
                 levo();
+                vpered(900, 0.25);
                 vlevo(1700, 0.35);
                 stop_all();
                 sleep(30000);

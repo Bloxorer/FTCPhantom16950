@@ -85,16 +85,20 @@ public class A_KRASN_BROS extends Methods {
             // 291 221
             if (valLeft == 255) {
                 pramo();
+                vpered(600, 0.25);
                 vlevo(4000, 0.25);
                 stop_all();
                 sleep(30000);
             } else if (valRight == 255) {
                 pravo();
+                vpered(900, 0.25);
                 vlevo(4000, 0.25);
                 stop_all();
                 sleep(30000);
             } else {
                 levo();
+                vpered(900, 0.25);
+                vlevo(4000, 0.25);
                 stop_all();
                 sleep(30000);
             }

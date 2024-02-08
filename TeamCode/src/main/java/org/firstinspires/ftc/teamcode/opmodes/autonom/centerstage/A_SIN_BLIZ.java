@@ -97,17 +97,20 @@ public class A_SIN_BLIZ extends Methods {
             // 291 221
             if (valLeft == 255) {
                 pramo();
-                vpravo(1800, 0.25);
+                vpered(600, 0.25);
+                vpravo(4000, 0.25);
                 stop_all();
                 sleep(30000);
             } else if (valRight == 255) {
                 pravo();
-                vpravo(1800, 0.25);
+                vpered(900, 0.25);
+                vpravo(4000, 0.35);
                 stop_all();
                 sleep(30000);
             } else {
                 levo();
-                vpravo(1800, 0.35);
+                vpered(900, 0.25);
+                vpravo(4000, 0.35);
                 stop_all();
                 sleep(30000);
             }

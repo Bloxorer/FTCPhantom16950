@@ -1,17 +1,8 @@
 package org.firstinspires.ftc.teamcode.methods;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.InstantAction;
-import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
-import com.acmerobotics.roadrunner.Time;
-import com.acmerobotics.roadrunner.Twist2d;
-import com.acmerobotics.roadrunner.Twist2dDual;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.google.ar.core.Pose;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -28,7 +19,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.roadrunnernew.Localizer;
 import org.firstinspires.ftc.teamcode.roadrunnernew.MecanumDrive;
 import org.firstinspires.ftc.teamcode.tests.A_Test_cam;
 import org.opencv.core.Core;
@@ -151,16 +141,7 @@ public class Methods extends LinearOpMode {
         pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         pod.setPower(0);
     }
-    public void actuatorpod(int pos, double speed){
-        pod.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        pod.setTargetPosition(pos);
-        pod.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        pod.setPower(speed);
-        while ((opModeIsActive() && (pod.isBusy()))){
-        }
-        pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        pod.setPower(0);
-    }
+
     public void podem(int pos, double speed){
         pnap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pnap.setTargetPosition(pos);
@@ -173,54 +154,6 @@ public class Methods extends LinearOpMode {
         pnap.setPower(0);
     }
     //Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
-    public void vziat(DistanceSensor sensorRange){
-        //60 - есть 100 - нету
-        //sensorRange.getDistance(DistanceUnit.MM);
-        boolean flag = false;
-        double k = sensorRange.getDistance(DistanceUnit.MM);
-        for (int i = 0; i <= 4; i++) {
-            if (flag == true){
-                continue;
-            }
-            pod_castom(1000);
-            telemetry.addData("range", k);
-            telemetry.update();
-            if (k <= 65){
-                pisun.setPower(0);
-                pod_castom(-1000);
-                sleep(500);
-                pisun.setPower(0.55);
-            }
-            else {
-                pisun.setPower(0.55);
-                flag = true;
-
-            }
-        }
-    }
-    public void vverx(){
-
-        // Start code
-
-        // Telemetry
-
-    }
-
-
-
-
-    public void pod_castom(int uroven){
-        pod.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        pod.setTargetPosition(-uroven);
-        pod.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        pod.setPower(1);
-        while ((opModeIsActive() && (pod.isBusy()))){
-
-        }
-        pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        pod.setPower(0.1);
-        sleep(100);
-    }
 
     /*public void vikidisch_verx(double napr){ //1 - left, -1 - right
         kub_verx();
@@ -679,9 +612,19 @@ public class Methods extends LinearOpMode {
         }
         return leftbump;
     }
+    public void podAuto(int pos, double speed){
+      pod.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+      pod.setTargetPosition(pos);
+      pod.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+      pod.setPower(speed);
+      while (opModeIsActive() && (pod.isBusy())){
+        }
+      pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+      pod.setPower(0);
+    }
     public void drive_rr_speed(MecanumDrive drive){
-        double x =-gamepad1.left_stick_y -(gamepad1.right_stick_y * 0.75);
-        double y = (-gamepad1.right_stick_x * 0.75) -gamepad1.left_stick_x;
+        double x =-gamepad1.left_stick_y -(gamepad1.right_stick_y * 0.4);
+        double y = (-gamepad1.right_stick_x * 0.4) -gamepad1.left_stick_x;
             drive.setDrivePowers(new PoseVelocity2d(
                     new Vector2d(
                             x, //- (gamepad1.right_stick_y * 0.75),
@@ -719,33 +662,32 @@ public class Methods extends LinearOpMode {
     public void pramo(){
         phoneCam.stopStreaming();
         phoneCam.closeCameraDevice();
-        zx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        zx.setPower(0.05);
         nazad(1000,0.25);
-        nazad(100,0.25);
+        nazad(200,0.25);
+        vpered(200, 0.25);
         plun(3000,0.4);
-        vpered(1000, 0.25);
+        vpered(200,0.25);
     }
     public void pravo(){
         phoneCam.stopStreaming();
         phoneCam.closeCameraDevice();
-        zx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        zx.setPower(0.05);
         nazad(1000,0.25);
         razvarot(-750,0.25);
         nazad(100,0.25);
         plun(3000,0.4);
         vpered(100,0.25);
         razvarot(750,0.25);
-        vpered(1000, 0.25);
     }
     public void levo(){
         phoneCam.stopStreaming();
         phoneCam.closeCameraDevice();
-        zx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        zx.setPower(0.05);
         nazad(1000,0.25);
         razvarot(750,0.25);
         plun(3000,0.4);
         razvarot(-750,0.25);
-        vpered(800,0.25);
     }
     public void  drive_tp(){
         Thread tmovement = new Thread(() -> {
