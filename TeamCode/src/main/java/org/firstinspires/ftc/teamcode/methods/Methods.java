@@ -640,9 +640,9 @@ public class Methods extends LinearOpMode {
             h = 0;
         }
         if (h == 1){
-            psk.setPower(0.8);
+            psk.setPower(-1);
         } else if (h == 0){
-            psk.setPower(0 );
+            psk.setPower(-0.3);
         }
     }
 

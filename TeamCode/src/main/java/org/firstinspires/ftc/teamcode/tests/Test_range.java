@@ -83,7 +83,6 @@ public class Test_range extends Methods {
         while (opModeIsActive()) {
             telemetry.addData("Values", valLeft + "  " + valRight);
             telemetry.update();
-            vziat(sensorRange);
             stop_all();
             sleep(30000);
         }}
