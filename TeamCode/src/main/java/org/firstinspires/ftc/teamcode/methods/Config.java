@@ -7,7 +7,7 @@ public class Config {
     public static  double zxr_pos1 = -0.2;
     public static double zxl_pos0 = -0.5;
     public static double zxl_pos1 = 0;
-    public static double zx_zax = -0.7;
+    public static double zx_zax = -0.8;
 
 
 

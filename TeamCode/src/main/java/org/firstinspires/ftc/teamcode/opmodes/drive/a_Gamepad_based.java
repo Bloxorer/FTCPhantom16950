@@ -1,208 +1,91 @@
-   package org.firstinspires.ftc.teamcode.opmodes.drive;
+package org.firstinspires.ftc.teamcode.opmodes.drive;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
+
+import org.firstinspires.ftc.robotcore.external.android.util.Size;
+
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
+import com.acmerobotics.roadrunner.Twist2d;
+import com.acmerobotics.roadrunner.Vector2d;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
-
-//TODO: РџР РћР›Р•РўРђР РР™, РџР•Р Р•Р” РўР•РњР¬, РљРђРљ РњР•РќРЇРўР¬ Р§РўРћ-РўРћ Р’ Р“РђРњРђРџР•Р”Р•, РџР РћР’Р•Р Р¬ РЎРќРђР§РђР›Рђ РњРђРўР¬ РђР“РђРџРђ!!!
-@TeleOp(name = "Gamepad", group = "TeleOP")
-@Disabled
-public class a_Gamepad_based extends OpMode {
-    DcMotor leftF, rightF, leftB, rightB, pod, drin;
-    CRServo zaxvat, pisun, big;
-    DigitalChannel knopka;
-    private ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
 
-    @Override
-    public void init() {
-        leftF = hardwareMap.dcMotor.get("lf");
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.methods.Methods;
+import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
+
+import org.firstinspires.ftc.teamcode.methods.VisionPortall;
+import org.firstinspires.ftc.teamcode.roadrunnernew.MecanumDrive;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvInternalCamera;
+
+import java.util.List;
+
+/**
+ * Created by maryjaneb  on 11/13/2016.
+ *
+ * nerverest ticks
+ * 60 1680
+ * 40 1120
+ * 20 560
+ *
+ * monitor: 640 x 480
+ *YES
+ */
+@TeleOp(name = "a_Gamepad_based_lite", group="TeleOP")
+
+//
+public class a_Gamepad_based extends Methods {
+    private final ElapsedTime runtime = new ElapsedTime();
+    public void runOpMode() throws InterruptedException {
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
+        knopka = hardwareMap.touchSensor.get("knp");
+        zaxvatLeft = hardwareMap.crservo.get("zxl");
+        zaxvatRight = hardwareMap.crservo.get("zxr");
         leftB = hardwareMap.dcMotor.get("lr");
-        rightF = hardwareMap.dcMotor.get("rf");
+        leftF = hardwareMap.dcMotor.get("lf");
         rightB = hardwareMap.dcMotor.get("rr");
-        /*pisun = hardwareMap.crservo.get("pis");
+        rightF = hardwareMap.dcMotor.get("rf");
         pod = hardwareMap.dcMotor.get("pod");
-        drin = hardwareMap.dcMotor.get("drin");
-        big = hardwareMap.crservo.get("big");
-        zaxvat = hardwareMap.crservo.get("zx");
-        knopka = hardwareMap.get(DigitalChannel.class, "knp");
-        knopka.setMode(DigitalChannel.Mode.INPUT);*/
+        actu = hardwareMap.dcMotor.get("act");
+        zx = hardwareMap.dcMotor.get("zx");
+        pnap = hardwareMap.dcMotor.get("pnap");
+        kr = hardwareMap.crservo.get("kr");
+        psk = hardwareMap.crservo.get("psk");
+        runtime.reset();
+        waitForStart();
+        while (opModeIsActive()) {
+            drive_psk();
+            drive_tp();
+            drive_pnap();
+            drive_act();
+            drive_pod();
+            drive_zx();
+            drive_zaxvat();
+            drive_kr();
+        }
+
     }
-
-
-    @Override
-
-    public void loop() {
-        float pwrTrigger = (gamepad1.left_trigger);
-        float pwrTrigger2 = (gamepad1.right_trigger);
-        float pwrTrigger6 = (gamepad2.left_trigger);
-        float pwrTrigger5 = (gamepad2.right_trigger);
-        float pwrTrigger3 = (float) (gamepad2.left_trigger * 0.66);
-        float pwrTrigger4 = (float) (gamepad2.right_trigger * 0.66);
-        float StickX = (gamepad1.right_stick_x);
-        float StickY = (gamepad1.right_stick_y);
-        float Stick2X = (float) (gamepad1.left_stick_x * 0.3);
-        float Stick2Y = (float) (gamepad1.left_stick_y * 0.3);
-        //korob.setTargetPosition(720);
-        double power = -1;
-        /*new Thread(() -> {
-            if (gamepad1.dpad_down){
-                drin.setPower(1);
-            } else if (gamepad1.dpad_up){
-                while (knopka.getState() == true){
-                    drin.setPower(-1);
-                }
-            } else{
-                drin.setPower(0);
-            }
-        }).start();
-
-        if (knopka.getState() == true) {
-            telem
-            etry.addData("Digital Touch", "Is Not Pressed");
-            telemetry.update();
-        } else {
-            telemetry.addData("Digital Touch", "Is Pressed");
-            telemetry.update();
-        }
-        // Р·Р°РЅСЏС‚Рѕ 1 РіРµР№РјРїР°Рґ: СЃС‚РёРєРё , С‚СЂРёРіРіРµСЂС‹ , Р±Р°РјРїРµСЂР°
-        // Р·Р°РЅСЏС‚Рѕ 2 РіРµР№РјРїР°Рґ: РєСЂРµСЃС‚РѕРІРёРЅР° РІРІРµСЂС… Рё РІРЅРёР·, Р±Р°РјРїРµСЂР°, Р±СѓРєРІС‹, С‚СЂРёРіРіРµСЂС‹
-
-        */if (StickY != 0 || StickX != 0) {
-            leftF.setPower((+StickY - StickX) + pwrTrigger);
-            leftB.setPower((+StickY + StickX) + pwrTrigger);
-            rightB.setPower((-StickY + StickX) + pwrTrigger2);
-            rightF.setPower((-StickY - StickX) - pwrTrigger2);
-        } else if (Stick2Y != 0 || Stick2X != 0) {
-            leftF.setPower((+Stick2Y - Stick2X) + pwrTrigger);
-            rightB.setPower((-Stick2Y + Stick2X) + pwrTrigger2);
-            rightF.setPower((-Stick2Y - Stick2X) + pwrTrigger2);
-            leftB.setPower((+Stick2Y + Stick2X) + pwrTrigger);
-        } else if (pwrTrigger != 0) {
-            leftF.setPower(0.6 * pwrTrigger);
-            rightB.setPower(0.6 * pwrTrigger);
-            rightF.setPower(0.6 * pwrTrigger);
-            leftB.setPower(0.6 * pwrTrigger);
-        } else if (pwrTrigger2 != 0) {
-            leftF.setPower(-0.6 * pwrTrigger2);
-            rightB.setPower(-0.6 * pwrTrigger2);
-            rightF.setPower(-0.6 * pwrTrigger2);
-            leftB.setPower(-0.6 * pwrTrigger2);
-        } else if (gamepad1.left_bumper) {
-            leftF.setPower(0.4);
-            rightB.setPower(0.4);
-            rightF.setPower(0.4);
-            leftB.setPower(0.4);
-        } else if (gamepad1.right_bumper) {
-            leftF.setPower(-0.4);
-            rightB.setPower(-0.4);
-            rightF.setPower(-0.4);
-            leftB.setPower(-0.4);
-        } else {
-            leftF.setPower(0);
-            rightB.setPower(0);
-            rightF.setPower(0);
-            leftB.setPower(0);
-        }
-        /*if (gamepad2.dpad_down){
-            pod.setPower(0.7);
-        } else if (gamepad2.dpad_up) {
-            pod.setPower(-1);
-        } else if (gamepad2.dpad_left) {
-            pod.setPower(-0.01);
-        }else if(gamepad2.dpad_right){
-            pod.setPower(-0.1);
-        } else {
-            pod.setPower(0);
-            pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        }
-
-        if (gamepad2.left_bumper){
-            pisun.setPower(-0.15);
-        } else {
-            pisun.setPower(0.25);
-        }
-
-        if (gamepad2.a) {
-            drin.setPower(1);
-        }  else if (gamepad2.y){
-            drin.setPower(-1);
-        } else {
-            drin.setPower(0);
-        }
-        if (gamepad2.b){
-            zaxvat.setPower(0.18);
-        }
-        else if (knopka.getState() == false){
-            zaxvat.setPower(0.18);
-        }
-        else {
-            zaxvat.setPower(-0.24);
-        }
-
-        if (gamepad2.x){
-            big.setPower(-0.86);
-        } else {
-            big.setPower(0.86);
-        }
-
-
-        /*if (pwrTrigger5 != 0) {
-            vobla.setPower(0.5 * pwrTrigger5);
-        } else if (pwrTrigger6 != 0) {
-            vobla.setPower(-0.5 * pwrTrigger6);
-        }  else {
-            vobla.setPower(0);
-        }*/
-
-       /* if (gamepad2.dpad_left) {
-            krut.setPower(0.9);
-        }
-        else if (gamepad2.dpad_right){
-            krut.setPower(-0.9);
-        }
-        else {
-            krut.setPower(0);
-        }*/
-    }
-
 }
-      /*  if (gamepad1.start) {
-            runtime.reset();
-            while (runtime.time() <= 450) {
-                tolk.setPower(0.75);
-            }
-            runtime.reset();
-            while (runtime.time() <= 450) {
-                tolk.setPower(0);
-            }
-            runtime.reset();
-            while (runtime.time() <= 450) {
-                tolk.setPower(0.75);
-            }
-            runtime.reset();
-            while (runtime.time() <= 450) {
-                tolk.setPower(0);
-            }
-            runtime.reset();
-            while (runtime.time() <= 450) {
-                tolk.setPower(0.75);
-            }
-            runtime.reset();
-            while (runtime.time() <= 450) {
-                tolk.setPower(0);
-            }
-            runtime.reset();
-            while (runtime.time() <= 450) {
-                tolk.setPower(0.75);
-            }
-            runtime.reset();
-            while (runtime.time() <= 450) {
-                tolk.setPower(0);
-            }
-        }
-*/
+            /*
+            if (valLeft == 255) {
+            } else if (valRight == 255) {
+            } else {
+            }*/
+
+
+
+
+

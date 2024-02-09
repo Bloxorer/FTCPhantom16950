@@ -788,6 +788,8 @@ public class Methods extends LinearOpMode {
                 f = 1;
             } else if (gamepad2.left_trigger !=0){
                 f = 0;
+            } else if (knopk){
+                f = 0;
             }
             if (f == 1){
                 zaxvatLeft.setPower(Config.zxl_pos1);
