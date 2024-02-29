@@ -8,18 +8,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.methods.Methods;
 import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
-import org.firstinspires.ftc.teamcode.methods.VisionPortall;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import java.util.List;
 
@@ -57,9 +54,6 @@ public class NewCamTest extends Methods {
     private final ElapsedTime runtime = new ElapsedTime();
     @Override
     public void runOpMode() throws InterruptedException {
-        VisionPortall visionPortall = new VisionPortall();
-        tfod = visionPortall.getTfod();
-        aprilTag = visionPortall.getAprilTag();
         Methods_for_OpenCV methodsForOpenCV = new Methods_for_OpenCV();
 
         rows = methodsForOpenCV.getRows();
@@ -72,9 +66,6 @@ public class NewCamTest extends Methods {
         phoneCam.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
 
         phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
-        //initVisionPortal();
-            // end method initAprilTag()
-        //telemetryTfod();
         runtime.reset();
 
         waitForStart();

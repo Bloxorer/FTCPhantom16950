@@ -2,31 +2,22 @@ package org.firstinspires.ftc.teamcode.opmodes.autonom.centerstage;
 
 
 
-import org.firstinspires.ftc.robotcore.external.android.util.Size;
+import android.util.Size;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 import org.firstinspires.ftc.teamcode.methods.Methods;
 import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
 
-import org.firstinspires.ftc.teamcode.methods.VisionPortall;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
-
-import java.util.List;
 
 /**
  * Created by maryjaneb  on 11/13/2016.
@@ -59,8 +50,6 @@ public class A_KRASN_BLIZ extends Methods {
     private static float[] rightPos = {2.8f / 8f + offsetX, 4 / 8f + offsetY};
 
     public void runOpMode() throws InterruptedException {
-        VisionPortall visionPortall = new VisionPortall();
-
         webcam1 = hardwareMap.get(WebcamName.class, "Webcam 1");
         zaxvatLeft = hardwareMap.crservo.get("zxl");
         zaxvatRight = hardwareMap.crservo.get("zxr");
@@ -73,26 +62,34 @@ public class A_KRASN_BLIZ extends Methods {
         zx = hardwareMap.dcMotor.get("zx");
         pnap = hardwareMap.dcMotor.get("pnap");
         kr = hardwareMap.crservo.get("kr");
-
         Methods_for_OpenCV methodsForOpenCV = new Methods_for_OpenCV();
         int rows = methodsForOpenCV.getRows();
         int cols = methodsForOpenCV.getCols();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(webcam1,2);
         phoneCam.openCameraDevice();
         phoneCam.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
         phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
-        telemetry.addData("Values", valLeft + "  " + valRight);
-        telemetry.update();
-        // visionPortall.telemetryAprilTag();
-        valLeft = Methods_for_OpenCV.getValLeft();
-        valRight = Methods_for_OpenCV.getValRight();
+
+        aprilTag = new AprilTagProcessor.Builder().build();
+        VisionPortal.Builder builder = new VisionPortal.Builder();
+        builder.setCamera(webcam1).addProcessor(aprilTag).setLiveViewContainerId(1);
+        Thread thread = new Thread(()-> {
+            telemetry.addData("Values", valLeft + "  " + valRight);
+            while(opModeInInit()){
+                telemetry.update();
+                valLeft = Methods_for_OpenCV.getValLeft();
+                valRight = Methods_for_OpenCV.getValRight();
+            }
+        }); thread.start();
+        telemetryAprilTag();
+        visionPortal = builder
+                .enableLiveView(true)
+                .setCameraResolution(new Size(640, 480))
+                .build();
         FtcDashboard.getInstance().startCameraStream(phoneCam, 100);
         runtime.reset();
         waitForStart();
-
-
-
         while (opModeIsActive()) {
             telemetry.update();
             valLeft = Methods_for_OpenCV.getValLeft();

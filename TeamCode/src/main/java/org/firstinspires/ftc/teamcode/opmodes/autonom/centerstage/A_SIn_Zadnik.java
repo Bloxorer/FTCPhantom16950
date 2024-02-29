@@ -10,10 +10,6 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.methods.Methods;
 import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
 
-import org.firstinspires.ftc.teamcode.methods.VisionPortall;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-
 /**
  * Created by maryjaneb  on 11/13/2016.
  *
@@ -46,8 +42,6 @@ public class A_SIn_Zadnik extends Methods {
     private static float[] rightPos = {2.8f / 8f + offsetX, 4 / 8f + offsetY};
 
     public void runOpMode() throws InterruptedException {
-        VisionPortall visionPortall = new VisionPortall();
-
         webcam1 = hardwareMap.get(WebcamName.class, "Webcam 1");
         zaxvatLeft = hardwareMap.crservo.get("zxl");
         zaxvatRight = hardwareMap.crservo.get("zxr");
@@ -61,18 +55,15 @@ public class A_SIn_Zadnik extends Methods {
         pnap = hardwareMap.dcMotor.get("pnap");
         kr = hardwareMap.crservo.get("kr");
         Methods_for_OpenCV methodsForOpenCV = new Methods_for_OpenCV();
-        int rows = methodsForOpenCV.getRows();
-        int cols = methodsForOpenCV.getCols();
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        phoneCam.openCameraDevice();
-        phoneCam.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
-        phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
-        telemetry.addData("Values", valLeft + "  " + valRight);
-        telemetry.update();
-        // visionPortall.telemetryAprilTag();
-        valLeft = Methods_for_OpenCV.getValLeft();
-        valRight = Methods_for_OpenCV.getValRight();
+        methodsForOpenCV.startOpenCV();
+        Thread thread = new Thread(() -> {
+            while (opModeInInit()){
+                valLeft = Methods_for_OpenCV.getValLeft();
+                valRight = Methods_for_OpenCV.getValRight();
+                telemetry.update();
+            }
+        });
+        thread.start();
         runtime.reset();
         waitForStart();
         while (opModeIsActive()) {

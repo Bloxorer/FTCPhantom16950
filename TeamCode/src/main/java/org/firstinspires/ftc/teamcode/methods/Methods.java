@@ -21,6 +21,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.roadrunnernew.MecanumDrive;
 import org.firstinspires.ftc.teamcode.tests.A_Test_cam;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -38,6 +41,8 @@ import java.util.List;
 
 @Autonomous(name= "Methods", group="Autonomous")
 public class Methods extends LinearOpMode {
+    public AprilTagProcessor aprilTag;
+    public VisionPortal visionPortal;
     public DcMotor leftF, rightF, leftB, rightB, pod, actu , zx, pnap;
     public CRServo zaxvat, pisun, big, zaxvatLeft, zaxvatRight, bros, kr, psk;
     public WebcamName webcam1;
@@ -852,122 +857,35 @@ public class Methods extends LinearOpMode {
         return result;
 
     }
+    public void telemetryAprilTag() {
 
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        telemetry.addData("# AprilTags Detected", currentDetections.size());
+
+        // Step through the list of detections and display info for each one.
+        for (AprilTagDetection detection : currentDetections) {
+            if (detection.metadata != null) {
+                telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
+                telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
+                telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
+                telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
+            } else {
+                telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
+                telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
+            }
+        }   // end for() loop
+
+        // Add "key" information to telemetry
+        telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
+        telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
+        telemetry.addLine("RBE = Range, Bearing & Elevation");
+
+    }   // end method telemetryAprilTag()
 
 
     public void runOpMode() throws InterruptedException {}
 
-    static class StageSwitchingPipeline extends OpenCvPipeline {
-        Mat yCbCrChan2Mat = new Mat();
-        Mat thresholdMat = new Mat();
-        Mat all = new Mat();
-        List<MatOfPoint> contoursList = new ArrayList<>();
-
-        enum Stage {//color difference. greyscale
-            detection,//includes outlines
-            THRESHOLD,//b&w
-            RAW_IMAGE,//displays raw view
-        }
-
-        private A_Test_cam.StageSwitchingPipeline.Stage stageToRenderToViewport = A_Test_cam.StageSwitchingPipeline.Stage.detection;
-        private A_Test_cam.StageSwitchingPipeline.Stage[] stages = A_Test_cam.StageSwitchingPipeline.Stage.values();
-
-        @Override
-        public void onViewportTapped() {
-            /*
-             * Note that this method is invoked from the UI thread
-             * so whatever we do here, we must do quickly.
-             */
-
-            int currentStageNum = stageToRenderToViewport.ordinal();
-
-            int nextStageNum = currentStageNum + 1;
-
-            if (nextStageNum >= stages.length) {
-                nextStageNum = 0;
-            }
-
-            stageToRenderToViewport = stages[nextStageNum];
-        }
-
-        @Override
-        public Mat processFrame(Mat input) {
-            contoursList.clear();
-            /*
-             * This pipeline finds the contours of yellow blobs such as the Gold Mineral
-             * from the Rover Ruckus game.
-             */
-
-            //color diff cb.
-            //lower cb = more blue = skystone = white
-            //higher cb = less blue = yellow stone = grey
-            Imgproc.cvtColor(input, yCbCrChan2Mat, Imgproc.COLOR_RGB2YCrCb);//converts rgb to ycrcb
-            Core.extractChannel(yCbCrChan2Mat, yCbCrChan2Mat, 2);//takes cb difference and stores
-
-            //b&w
-            Imgproc.threshold(yCbCrChan2Mat, thresholdMat, 112, 255, Imgproc.THRESH_BINARY_INV);
-
-            //outline/contour
-            Imgproc.findContours(thresholdMat, contoursList, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
-            yCbCrChan2Mat.copyTo(all);//copies mat object
-            //Imgproc.drawContours(all, contoursList, -1, new Scalar(255, 0, 0), 3, 8);//draws blue contours
 
 
-            //get values from frame
 
-
-            double[] pixLeft = thresholdMat.get((int) (input.rows() * leftPos[1]), (int) (input.cols() * leftPos[0]));//gets value at circle
-            valLeft = (int) pixLeft[0];
-
-            double[] pixRight = thresholdMat.get((int) (input.rows() * rightPos[1]), (int) (input.cols() * rightPos[0]));//gets value at circle
-            valRight = (int) pixRight[0];
-
-            //create three points
-            Point pointLeft = new Point((int) (input.cols() * leftPos[0]), (int) (input.rows() * leftPos[1]));
-            Point pointRight = new Point((int) (input.cols() * rightPos[0]), (int) (input.rows() * rightPos[1]));
-
-            //draw circles on those points
-            Imgproc.circle(all, pointLeft, 5, new Scalar(255, 0, 0), 1);//draws circle
-            Imgproc.circle(all, pointRight, 5, new Scalar(255, 0, 0), 1);//draws circle
-
-            //draw 3 rectangles
-            Imgproc.rectangle(//1-3
-                    all,
-                    new Point(
-                            input.cols() * (leftPos[0] - rectWidth1 / 2),
-                            input.rows() * (leftPos[1] - rectHeight1 / 2)),
-                    new Point(
-                            input.cols() * (leftPos[0] + rectWidth1 / 2),
-                            input.rows() * (leftPos[1] + rectHeight1 / 2)),
-                    new Scalar(0, 255, 0), 3);
-
-            Imgproc.rectangle(//5-7
-                    all,
-                    new Point(
-                            input.cols() * (rightPos[0] - rectWidth / 2),
-                            input.rows() * (rightPos[1] - rectHeight / 2)),
-                    new Point(
-                            input.cols() * (rightPos[0] + rectWidth / 2),
-                            input.rows() * (rightPos[1] + rectHeight / 2)),
-                    new Scalar(0, 255, 0), 3);
-
-            switch (stageToRenderToViewport) {
-                case THRESHOLD: {
-                    return thresholdMat;
-                }
-
-                case detection: {
-                    return all;
-                }
-
-                case RAW_IMAGE: {
-                    return input;
-                }
-
-                default: {
-                    return input;
-                }
-            }
-        }
-    }
 }

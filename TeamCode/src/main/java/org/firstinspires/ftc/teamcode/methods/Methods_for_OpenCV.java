@@ -1,10 +1,21 @@
 package org.firstinspires.ftc.teamcode.methods;
+import android.graphics.Canvas;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessorImpl;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +26,8 @@ import java.util.List;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 //Todo: create there all necessary for OpenCV instead of creating new instance in every Autonomous Method
-public class Methods_for_OpenCV extends  LinearOpMode{
+public class Methods_for_OpenCV extends Methods{
+
     static int valLeft;
     static int valRight;
     private static double rectHeight = 0.5 / 8;
@@ -73,7 +85,6 @@ public class Methods_for_OpenCV extends  LinearOpMode{
     public static void setValRight(int valRight) {
         Methods_for_OpenCV.valRight = valRight;
     }
-
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -155,33 +166,18 @@ public class Methods_for_OpenCV extends  LinearOpMode{
             Core.bitwise_and(rgbImage, rgbImage, yellowResult, yellowMask);
             Mat yellowResultRGB = new Mat();
             Imgproc.cvtColor(yellowResult, yellowResultRGB, Imgproc.COLOR_HSV2RGB);
-
-
-
             //color diff cb.
             //lower cb = more blue = skystone = white
             //higher cb = less blue = oyellow stne = grey
-
-
-
             Imgproc.cvtColor(yellowResultRGB, yCbCrChan2Mat, Imgproc.COLOR_RGB2YCrCb);//converts rgb to ycrcb
-
-
             Core.extractChannel(yCbCrChan2Mat, yCbCrChan2Mat, 2);//takes cb difference and stores
-
-
             //b&w
             Imgproc.threshold(yCbCrChan2Mat, thresholdMat, 120, 255, Imgproc.THRESH_BINARY_INV);
-
             //outline/contour
             Imgproc.findContours(thresholdMat, contoursList, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
             yCbCrChan2Mat.copyTo(all);//copies mat object
             // Imgproc.drawContours(all, contoursList, -1, new Scalar(255, 0, 0), 3, 8);//draws blue contours
-
-
             //get values from frame
-
-
             double[] pixLeft = thresholdMat.get((int) (input.rows() * leftPos[1]), (int) (input.cols() * leftPos[0]));//gets value at circle
             valLeft = (int) pixLeft[0];
 
@@ -234,7 +230,20 @@ public class Methods_for_OpenCV extends  LinearOpMode{
                     return input;
                 }
             }
+
         }
+    }
+    public void startOpenCV(){
+        Methods_for_OpenCV methodsForOpenCV = new Methods_for_OpenCV();
+        int rows = methodsForOpenCV.getRows();
+        int cols = methodsForOpenCV.getCols();
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        phoneCam.openCameraDevice();
+        phoneCam.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
+        phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
+        telemetry.addData("Values", valLeft + "  " + valRight);
+        telemetry.update();
     }
 }
 

@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.opmodes.autonom.centerstage;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -11,7 +10,6 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.methods.Methods;
 import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
 
-import org.firstinspires.ftc.teamcode.methods.VisionPortall;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
@@ -46,8 +44,6 @@ public class A_KRASN_BROS extends Methods {
     private static float[] rightPos = {2.8f / 8f + offsetX, 4 / 8f + offsetY};
 
     public void runOpMode() throws InterruptedException {
-        VisionPortall visionPortall = new VisionPortall();
-
         webcam1 = hardwareMap.get(WebcamName.class, "Webcam 1");
         zaxvatLeft = hardwareMap.crservo.get("zxl");
         zaxvatRight = hardwareMap.crservo.get("zxr");
