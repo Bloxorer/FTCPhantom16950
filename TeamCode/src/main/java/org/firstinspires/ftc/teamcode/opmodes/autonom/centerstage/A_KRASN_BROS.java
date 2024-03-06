@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.opmodes.autonom.centerstage;
 
 
 
+import android.util.Size;
+
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -10,6 +13,8 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.methods.Methods;
 import org.firstinspires.ftc.teamcode.methods.Methods_for_OpenCV;
 
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
@@ -65,9 +70,24 @@ public class A_KRASN_BROS extends Methods {
         phoneCam.openCameraDevice();
         phoneCam.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
         phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
-        telemetry.addData("Values", valLeft + "  " + valRight);
-        telemetry.update();
-        // visionPortall.telemetryAprilTag();
+        Thread thread = new Thread(()-> {
+            telemetry.addData("Values", valLeft + "  " + valRight);
+            while(opModeInInit()){
+                telemetry.update();
+                valLeft = Methods_for_OpenCV.getValLeft();
+                valRight = Methods_for_OpenCV.getValRight();
+            }
+        }); thread.start();
+        aprilTag = new AprilTagProcessor.Builder().build();
+        VisionPortal.Builder builder = new VisionPortal.Builder();
+        builder.setCamera(webcam1).addProcessor(aprilTag);
+
+        // telemetryAprilTag();
+        visionPortal = builder
+                .enableLiveView(true)
+                .setCameraResolution(new Size(640, 480))
+                .build();
+        FtcDashboard.getInstance().startCameraStream(phoneCam, 100);
         valLeft = Methods_for_OpenCV.getValLeft();
         valRight = Methods_for_OpenCV.getValRight();
         runtime.reset();
