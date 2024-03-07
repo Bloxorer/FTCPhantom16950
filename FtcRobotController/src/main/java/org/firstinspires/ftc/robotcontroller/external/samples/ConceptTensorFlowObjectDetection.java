@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
+import android.util.Size;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -130,7 +131,7 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
             // set parameters for custom models.
             //.setModelLabels(LABELS)
             //.setIsModelTensorFlow2(true)
-            // .setIsModelQuantized(true)
+            //.setIsModelQuantized(true)
             //.setModelInputSize(300)
             //.setModelAspectRatio(16.0 / 9.0)
 

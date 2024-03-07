@@ -54,7 +54,7 @@ public class Methods_for_OpenCV extends Methods{
         return rows;
     }
 
-    public int getCols() {
+    public  int getCols() {
         return cols;
     }
 
@@ -91,10 +91,32 @@ public class Methods_for_OpenCV extends Methods{
     }
 
     public static class StageSwitchingPipeline extends OpenCvPipeline {
+        Mat hsvImage = new Mat();
         Mat yCbCrChan2Mat = new Mat();
         Mat thresholdMat = new Mat();
+        Mat rgbImage = new Mat();
         Mat all = new Mat();
+        // Определение диапазона красного цвета в HSV
+        Scalar lowerRed = new Scalar(0,20,20);
+        Scalar upperRed = new Scalar(160,255,255);
+
+        // Определение диапазона синего цвета в HSV
+        Scalar lowerBlue = new Scalar(160, 40, 40);
+        Scalar upperBlue = new Scalar(255, 255, 255);
+        // Создание маски для желтого цвета
+        Mat yellowMask = new Mat();
+        //Core.addWeighted(redMask, 1.0, blueMask, 1.0, 0.0, yellowMask);
+        // Core.bitwise_or(redMask, blueMask, yellowMask);
+
+        // Применение маски к изображению
+        Mat hsvImageBlue = new Mat();
+        Mat hsvImageRed = new Mat();
+
+        Mat yellowResult = new Mat();
         List<MatOfPoint> contoursList = new ArrayList<>();
+        Mat redMask = new Mat();
+        Mat blueMask = new Mat();
+        Mat yellowResultRGB = new Mat();
 
         enum Stage {//color difference. greyscale
             detection,//includes outlines
@@ -130,41 +152,15 @@ public class Methods_for_OpenCV extends Methods{
              * This pipeline finds the contours of yellow blobs such as the Gold Mineral
              * from the Rover Ruckus game.
              */
-            Mat rgbImage = new Mat();
             Imgproc.cvtColor(input, rgbImage, Imgproc.COLOR_BGR2RGB);
-
             // Преобразование RGB в HSV
-            Mat hsvImage = new Mat();
             Imgproc.cvtColor(rgbImage, hsvImage, Imgproc.COLOR_RGB2HSV);
-
-            // Определение диапазона красного цвета в HSV
-            Scalar lowerRed = new Scalar(0,20,20);
-            Scalar upperRed = new Scalar(160,255,255);
-
-            // Определение диапазона синего цвета в HSV
-            Scalar lowerBlue = new Scalar(160, 40, 40);
-            Scalar upperBlue = new Scalar(255, 255, 255);
-
             // Создание масок для красного и синего цветов
-            Mat redMask = new Mat();
-            Mat blueMask = new Mat();
             Core.inRange(hsvImage, lowerRed, upperRed, redMask);
             Core.inRange(hsvImage, lowerBlue, upperBlue, blueMask);
-
-            // Создание маски для желтого цвета
-            Mat yellowMask = new Mat();
-            //Core.addWeighted(redMask, 1.0, blueMask, 1.0, 0.0, yellowMask);
-            // Core.bitwise_or(redMask, blueMask, yellowMask);
-
-            // Применение маски к изображению
-            Mat hsvImageBlue = new Mat();
-            Mat hsvImageRed = new Mat();
-
-            Mat yellowResult = new Mat();
             Core.add(hsvImage, new Scalar(60, 100, 100), rgbImage, blueMask);
             Core.add(hsvImage, new Scalar(60, 100, 100), rgbImage, redMask);
             Core.bitwise_and(rgbImage, rgbImage, yellowResult, yellowMask);
-            Mat yellowResultRGB = new Mat();
             Imgproc.cvtColor(yellowResult, yellowResultRGB, Imgproc.COLOR_HSV2RGB);
             //color diff cb.
             //lower cb = more blue = skystone = white
@@ -232,18 +228,6 @@ public class Methods_for_OpenCV extends Methods{
             }
 
         }
-    }
-    public void startOpenCV(){
-        Methods_for_OpenCV methodsForOpenCV = new Methods_for_OpenCV();
-        int rows = methodsForOpenCV.getRows();
-        int cols = methodsForOpenCV.getCols();
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        phoneCam.openCameraDevice();
-        phoneCam.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
-        phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
-        telemetry.addData("Values", valLeft + "  " + valRight);
-        telemetry.update();
     }
 }
 
