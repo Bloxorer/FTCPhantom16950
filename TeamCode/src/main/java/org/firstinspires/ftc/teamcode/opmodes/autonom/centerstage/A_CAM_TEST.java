@@ -55,23 +55,22 @@ public class A_CAM_TEST extends Methods {
     int num[] = makeMultiPortalView(4, VisionPortal.MultiPortalLayout.VERTICAL);
     @Override
     public void runOpMode() throws InterruptedException {
-
+       
+        webcam1 = hardwareMap.get(WebcamName.class, "Webcam 1");
         aprilTag = new AprilTagProcessor.Builder().build();
         VisionPortal.Builder builder = new VisionPortal.Builder();
-        builder.setCamera(BuiltinCameraDirection.BACK).addProcessor(aprilTag);
+        builder.setCamera(webcam1).addProcessor(aprilTag);
 
         visionPortal = builder
                 .setLiveViewContainerId(num[2])
                 .setCameraResolution(new Size(640,480))
                 .build();
-        Methods_for_OpenCV methodsForOpenCV = new Methods_for_OpenCV();
 
-            int rows = methodsForOpenCV.getRows();
-            int cols = methodsForOpenCV.getCols();
-           // int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-            phoneCam1 = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, num[1]);
-            phoneCam1.openCameraDevice();phoneCam1.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
-            phoneCam1.startStreaming(1920, 1080, OpenCvCameraRotation.UPRIGHT);
+        Methods_for_OpenCV methodsForOpenCV = new Methods_for_OpenCV();
+            phoneCam = OpenCvCameraFactory.getInstance().createWebcam(webcam1, num[1]);
+            phoneCam.openCameraDevice();
+            phoneCam.setPipeline(new Methods_for_OpenCV.StageSwitchingPipeline());
+            phoneCam.startStreaming(640, 480, OpenCvCameraRotation.UPRIGHT);
 
         Thread telemetryopencv = new Thread(()-> {
             while(opModeInInit()){

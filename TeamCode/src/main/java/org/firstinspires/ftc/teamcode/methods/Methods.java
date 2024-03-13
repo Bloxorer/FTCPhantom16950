@@ -9,32 +9,21 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Mechanism.Movement;
+import org.firstinspires.ftc.teamcode.Mechanism.Motors;
+import org.firstinspires.ftc.teamcode.Mechanism.Servos;
 import org.firstinspires.ftc.teamcode.roadrunnernew.MecanumDrive;
-import org.firstinspires.ftc.teamcode.tests.A_Test_cam;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
-import org.opencv.core.Point;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvInternalCamera;
-import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -45,7 +34,7 @@ public class Methods extends LinearOpMode {
     public VisionPortal visionPortal;
     public DcMotor leftF, rightF, leftB, rightB, pod, actu , zx, pnap;
     public CRServo zaxvat, pisun, big, zaxvatLeft, zaxvatRight, bros, kr, psk;
-    public WebcamName webcam1;
+    public WebcamName webcam1,webcam;
     private FtcDashboard dash = FtcDashboard.getInstance();
     public BNO055IMU imu;
    // public DigitalChannel knopka;
@@ -62,7 +51,9 @@ public class Methods extends LinearOpMode {
     int g = 0;
     int h = 0;
     public OpenCvInternalCamera phoneCam1, phoneCam2;
-
+    Movement movement = new Movement();
+    Motors motors = new Motors();
+    Servos servos = new Servos();
     //private DistanceSensor sensorRange;
 
     private static int valLeft = -1;
@@ -83,70 +74,12 @@ public class Methods extends LinearOpMode {
 
     public Methods() {
     }
-
-    public void kub_verx () {
-        pod.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        pod.setTargetPosition(3000); //2100 verx
-        pod.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        pod.setPower(1);
-        while ((opModeIsActive() && (pod.isBusy()))){
-        }
-        pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        pod.setPower(0);
-        sleep(100);
-
-    }
-    public void kub_mid () {
-        pod.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        pod.setTargetPosition(2250); //2100 verx
-        pod.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        pod.setPower(1);
-        while ((opModeIsActive() && (pod.isBusy()))){
-        }
-        pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        pod.setPower(0);
-        sleep(100);
-
-    }
-    public void kub_niz (){
-        pod.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        pod.setTargetPosition(1250); //2100 verx
-        pod.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        pod.setPower(1);
-        while ((opModeIsActive() && (pod.isBusy()))){
-        }
-        pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        pod.setPower(0);
-        sleep(100);
-
-    }
-
-    public void kub_down (int uroven) {
-        pod.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        pod.setTargetPosition(-uroven);
-        pod.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        pod.setPower(1);
-        while ((opModeIsActive() && (pod.isBusy()))){
-        }
-        pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        sleep(100);
-
-        pod.setPower(0);
-        sleep(1);
-    }
     public void plun(int mills, double power){
         zx.setPower(power);
         sleep(mills);
         zx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         zx.setPower(0);
     }
-    public void act(int mills, double power){
-        pod.setPower(-power);
-        sleep(mills);
-        pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        pod.setPower(0);
-    }
-
     public void podem(int pos, double speed){
         pnap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pnap.setTargetPosition(pos);
@@ -160,33 +93,6 @@ public class Methods extends LinearOpMode {
     }
     //Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
 
-    /*public void vikidisch_verx(double napr){ //1 - left, -1 - right
-        kub_verx();
-        stop_all();
-        sleep(100);
-        vikidisch.setPower(napr);
-        sleep(2000);
-        vikidisch.setPower(0.05);
-        sleep(500);
-    }
-    public void vikidisch_mid(double napr){
-        kub_mid();
-        stop_all();
-        sleep(100);
-        vikidisch.setPower(napr); //-1
-        sleep(2000);
-        vikidisch.setPower(0.05);
-        sleep(500);
-    }
-    public void vikidisch_niz(double napr){
-        kub_niz();
-        stop_all();
-        sleep(100);
-        vikidisch.setPower(napr); //-1
-        sleep(2000);
-        vikidisch.setPower(0.05);
-        sleep(500);
-    }*/
 
 
     public void resetEncoders() {
@@ -200,311 +106,12 @@ public class Methods extends LinearOpMode {
         rightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-
-
-
-
-
-
-    public void LB(int pos, double speed) {
-
-        leftF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftF.setTargetPosition(pos);
-        rightB.setTargetPosition(-pos);
-        leftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftF.setPower(speed);
-        rightB.setPower(speed);
-
-        while (opModeIsActive() && (leftF.isBusy()) && (rightB.isBusy())) {
-
-            telemetry.addData("Path2", "Running at %7d :%7d : %7d :%7d",
-                    leftF.getCurrentPosition(),
-                    rightB.getCurrentPosition(), rightF.getCurrentPosition(), leftB.getCurrentPosition());
-            telemetry.update();
-        }
-
-        // Stop all motion;
-        rightB.setPower(0);
-        leftB.setPower(0);
-        rightF.setPower(0);
-        leftF.setPower(0);
-        sleep(100);
-    }
-
-    public void RB(int pos, double speed) {
-
-        leftF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftB.setTargetPosition(pos);
-        rightF.setTargetPosition(-pos);
-        leftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightF.setPower(speed);
-        leftB.setPower(speed);
-
-        while (opModeIsActive() && (leftB.isBusy()) && (rightF.isBusy())) {
-
-            telemetry.addData("Path2", "Running at %7d :%7d : %7d :%7d",
-                    leftF.getCurrentPosition(),
-                    rightB.getCurrentPosition(), rightF.getCurrentPosition(), leftB.getCurrentPosition());
-            telemetry.update();
-        }
-
-        // Stop all motion;
-        rightB.setPower(0);
-        leftB.setPower(0);
-        rightF.setPower(0);
-        leftF.setPower(0);
-        sleep(100);
-
-    }
-
-    public void LF(int pos, double speed) {
-
-        leftF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftB.setTargetPosition(-pos);
-        rightF.setTargetPosition(pos);
-        leftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightF.setPower(speed);
-        leftB.setPower(speed);
-
-        while (opModeIsActive() && (leftB.isBusy()) && (rightF.isBusy())) {
-
-            telemetry.addData("Path2", "Running at %7d :%7d : %7d :%7d",
-                    leftF.getCurrentPosition(),
-                    rightB.getCurrentPosition(), rightF.getCurrentPosition(), leftB.getCurrentPosition());
-            telemetry.update();
-        }
-
-        // Stop all motion;
-        rightB.setPower(0);
-        leftB.setPower(0);
-        rightF.setPower(0);
-        leftF.setPower(0);
-        sleep(100);
-
-    }
-
-    /*public void nazad() {
-        leftF.setPower(speed);
-        rightB.setPower(-speed);
-        rightF.setPower(-speed);
-        leftB.setPower(speed);
-    }*/
-
-    public void vpered2() {
-        leftF.setPower(-speed);
-        rightB.setPower(speed);
-        rightF.setPower(speed);
-        leftB.setPower(-speed);
-
-    }
-
-
-    public void vpravo2() {
-        leftF.setPower(-speed);
-        rightB.setPower(speed);
-        rightF.setPower(-speed);
-        leftB.setPower(speed);
-
-    }
-
-    /*public void vlevo() {
-        leftF.setPower(speed);
-        rightB.setPower(-speed);
-        rightF.setPower(speed);
-        leftB.setPower(-speed);
-    }*/
-
-    public void razvarotplus() {
-        leftF.setPower(speed);
-        rightB.setPower(speed);
-        rightF.setPower(speed);
-        leftB.setPower(speed);
-    }
-
-
-    public void razvarotminus() {
-        leftF.setPower(-speed);
-        rightB.setPower(-speed);
-        rightF.setPower(-speed);
-        leftB.setPower(-speed);
-    }
-
     public void stop_all() {
         rightB.setPower(-0);
         leftB.setPower(0);
         rightF.setPower(-0);
         leftF.setPower(0);
     }
-
-    public void stop_all3() {
-        rightB.setPower(-0);
-        leftB.setPower(0);
-        rightF.setPower(-0);
-        leftF.setPower(0);
-    }
-
-    public void turnl(double ugol, double speed) {
-        leftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-        double degrees = angles.firstAngle;
-        while ((ugol - degrees) >= 4) {
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-            degrees = angles.firstAngle;
-            telemetry.addData("degrees", degrees);
-            telemetry.addData("ugol", ugol);
-            telemetry.addData("rasn", (ugol - degrees));
-            telemetry.update();
-
-            leftF.setPower(speed);
-            rightF.setPower(speed);
-            leftB.setPower(speed);
-            rightB.setPower(speed);
-        }
-        leftF.setPower(0);
-        rightF.setPower(0);
-        leftB.setPower(0);
-        rightB.setPower(0);
-        sleep(500);
-        while ((ugol - degrees) <= -0.1) {
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-            degrees = angles.firstAngle;
-            telemetry.addData("degrees", degrees);
-            telemetry.addData("ugol", ugol);
-            telemetry.addData("rasn", (ugol - degrees));
-            telemetry.update();
-            leftF.setPower(-speed);
-            rightF.setPower(-speed);
-            leftB.setPower(-speed);
-            rightB.setPower(-speed);
-
-
-        }
-
-        leftB.setPower(0);
-        rightB.setPower(0);
-        leftB.setPower(0);
-        rightB.setPower(0);
-    }
-
-    public void turnr(double ugol, double speed) {
-        leftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-        double degrees = angles.firstAngle;
-        while ((ugol - degrees) <= -4.0) {
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-            degrees = angles.firstAngle;
-            telemetry.addData("degrees", degrees);
-            telemetry.addData("ugol", ugol);
-            telemetry.addData("rasn", Math.abs(ugol - degrees));
-            telemetry.update();
-
-            leftF.setPower(-speed);
-            rightF.setPower(-speed);
-            leftF.setPower(-speed);
-            rightB.setPower(-speed);
-        }
-        leftF.setPower(0);
-        rightF.setPower(0);
-        leftB.setPower(0);
-        rightB.setPower(0);
-        sleep(500);
-        while ((ugol - degrees) >= 4) {
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-            degrees = angles.firstAngle;
-            telemetry.addData("degrees", degrees);
-            telemetry.addData("ugol", ugol);
-            telemetry.addData("rasn", Math.abs(ugol - degrees));
-            telemetry.update();
-            leftF.setPower(speed);
-            rightF.setPower(speed);
-            leftB.setPower(speed);
-            rightB.setPower(speed);
-
-
-        }
-        leftB.setPower(0);
-        rightB.setPower(0);
-        leftB.setPower(0);
-        rightB.setPower(0);
-
-    }
-
-    public void turnr2(double ugol, double speed) {
-        leftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
-        double degrees = angles.firstAngle;
-        while (Math.abs(ugol - degrees) >= 4) {
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
-            degrees = angles.firstAngle;
-            telemetry.addData("degrees", degrees);
-            telemetry.addData("ugol", ugol);
-            telemetry.addData("rasn", Math.abs(ugol - degrees));
-            telemetry.update();
-            leftF.setPower(-speed);
-            rightF.setPower(-speed);
-            leftB.setPower(-speed);
-            rightB.setPower(-speed);
-
-
-        }
-        leftF.setPower(0);
-        rightF.setPower(0);
-        leftB.setPower(0);
-        rightB.setPower(0);
-        sleep(500);
-        while ((ugol - degrees) >= 4.0) {
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
-            degrees = angles.firstAngle;
-            telemetry.addData("degrees", degrees);
-            telemetry.addData("ugol", ugol);
-            telemetry.addData("rasn", (ugol - degrees));
-            telemetry.update();
-
-            leftF.setPower(speed);
-            rightF.setPower(speed);
-            leftF.setPower(speed);
-            rightB.setPower(speed);
-        }
-        leftF.setPower(0);
-        rightF.setPower(0);
-        leftB.setPower(0);
-        rightB.setPower(0);
-        sleep(500);
-
-        leftB.setPower(0);
-        rightB.setPower(0);
-        leftB.setPower(0);
-        rightB.setPower(0);
-
-    }
-
     public void razvarot(int pos, double speed) {
         leftF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -564,6 +171,24 @@ public class Methods extends LinearOpMode {
         sleep(100);
 
     }
+    public void robot(String name){
+        switch (name){
+            case "pnap":
+                motors.pnap();
+            case "psk":
+                servos.kr();
+            case "pod":
+                motors.pod();
+            case "act":
+                motors.act();
+            case "zx":
+                servos.zaxvat();
+            case "mzx":
+                motors.zx();
+            case "kr":
+                servos.kr();
+        }
+    }
     public void vlevo(int pos, double speed) {
         vpravo(-pos, speed);
     }
@@ -601,22 +226,6 @@ public class Methods extends LinearOpMode {
         leftF.setPower(0);
         sleep(100);
     }
-    public double rightbump(){
-        if (gamepad1.right_bumper){
-            rightbump = -0.4;
-        } else{
-            rightbump = 0;
-        }
-        return rightbump;
-    }
-    public double leftbump(){
-        if (gamepad1.left_bumper){
-            leftbump = 0.4;
-        } else{
-            leftbump = 0;
-        }
-        return leftbump;
-    }
     public void podAuto(int pos, double speed){
       pod.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
       pod.setTargetPosition(pos);
@@ -627,16 +236,8 @@ public class Methods extends LinearOpMode {
       pod.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
       pod.setPower(0);
     }
-    public void drive_rr_speed(MecanumDrive drive){
-        double x =-gamepad1.left_stick_y -(gamepad1.right_stick_y * 0.4);
-        double y = (-gamepad1.right_stick_x * 0.4) -gamepad1.left_stick_x;
-            drive.setDrivePowers(new PoseVelocity2d(
-                    new Vector2d(
-                            x, //- (gamepad1.right_stick_y * 0.75),
-                            y //- (gamepad1.right_stick_x * 0.75)
-                    ),
-                    -gamepad1.right_trigger + gamepad1.left_trigger // + rightbump() + leftbump()
-            ));
+    public void movement(MecanumDrive drive){
+        movement.drive_rr_speed(drive);
     }
     public void drive_psk(){
         if (gamepad2.left_stick_button && gamepad2.right_stick_button){
@@ -650,7 +251,17 @@ public class Methods extends LinearOpMode {
             psk.setPower(-0.3);//
         }
     }
-
+    public void drive_rr_speed(MecanumDrive drive){
+        double x =-gamepad1.left_stick_y -(gamepad1.right_stick_y * 0.4);
+        double y = (-gamepad1.right_stick_x * 0.4) -gamepad1.left_stick_x;
+        drive.setDrivePowers(new PoseVelocity2d(
+                new Vector2d(
+                        x, //- (gamepad1.right_stick_y * 0.75),
+                        y //- (gamepad1.right_stick_x * 0.75)
+                ),
+                -gamepad1.right_trigger + gamepad1.left_trigger // + rightbump() + leftbump()
+        ));
+    }
     public void drive_pnap(){
         Thread tpnap = new Thread(()->{
             if (gamepad2.dpad_left){
@@ -663,6 +274,7 @@ public class Methods extends LinearOpMode {
         });
         tpnap.start();
     }
+
 
     public void pramo(){
         phoneCam.stopStreaming();
@@ -858,10 +470,8 @@ public class Methods extends LinearOpMode {
 
     }
     public void telemetryAprilTag() {
-
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
         telemetry.addData("# AprilTags Detected", currentDetections.size());
-
         // Step through the list of detections and display info for each one.
         for (AprilTagDetection detection : currentDetections) {
             if (detection.metadata != null) {

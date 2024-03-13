@@ -39,7 +39,7 @@ import java.util.List;
 @Disabled
 //
 public class A_Krasn_V5 extends Methods {
-    double rand = Math.random();    
+    double rand = Math.random();
     private final ElapsedTime runtime = new ElapsedTime();
     private DistanceSensor sensorRange;
     DigitalChannel knopka;
@@ -63,7 +63,7 @@ public class A_Krasn_V5 extends Methods {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        var cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         phoneCam.openCameraDevice();
         phoneCam.setPipeline(new StageSwitchingPipeline());

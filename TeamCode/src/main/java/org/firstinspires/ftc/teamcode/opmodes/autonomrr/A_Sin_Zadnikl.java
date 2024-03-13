@@ -46,7 +46,7 @@ public class A_Sin_Zadnikl extends Methods {
     public void runOpMode() throws InterruptedException {
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
         Methods_for_OpenCV methodsForOpenCV = new Methods_for_OpenCV();
-        methodsForOpenCV.startOpenCV();
+
         Thread thread = new Thread(() -> {
             while (opModeInInit()){
                 valLeft = Methods_for_OpenCV.getValLeft();

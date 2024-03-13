@@ -55,7 +55,7 @@ public class A_SIn_Zadnik extends Methods {
         pnap = hardwareMap.dcMotor.get("pnap");
         kr = hardwareMap.crservo.get("kr");
         Methods_for_OpenCV methodsForOpenCV = new Methods_for_OpenCV();
-        methodsForOpenCV.startOpenCV();
+
         Thread thread = new Thread(() -> {
             while (opModeInInit()){
                 valLeft = Methods_for_OpenCV.getValLeft();
