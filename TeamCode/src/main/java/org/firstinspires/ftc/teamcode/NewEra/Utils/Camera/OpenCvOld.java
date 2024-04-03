@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //Todo: create there all necessary for OpenCV instead of creating new instance in every Autonomous Method
-public class OpenCvOld extends Phantom {
+public class OpenCvOld{
 
     static int valLeft;
     static int valRight;
@@ -71,10 +71,7 @@ public class OpenCvOld extends Phantom {
     public static void setValRight(int valRight) {
         OpenCvOld.valRight = valRight;
     }
-    @Override
-    public void runOpMode() throws InterruptedException {
 
-    }
 
     public static class StageSwitchingPipeline extends OpenCvPipeline {
         Mat hsvImage = new Mat();

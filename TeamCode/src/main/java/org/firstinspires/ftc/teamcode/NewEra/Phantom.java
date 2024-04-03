@@ -6,8 +6,6 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
@@ -15,14 +13,16 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.NewEra.Roadrunner.MecanumDrive;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 public class Phantom extends LinearOpMode {
-    public AprilTagProcessor aprilTag;
+    public TfodProcessor tfodProcessor;
+    public AprilTagProcessor aprilTagProcessor;
     public VisionPortal visionPortal;
     public DcMotor leftF, rightF, leftB, rightB, pod, actu , zx, pnap;
     public CRServo zaxvat, pisun, big, zaxvatLeft, zaxvatRight, bros, kr, psk;
-    public WebcamName webcam1,webcam;
     private FtcDashboard dash = FtcDashboard.getInstance();
     public BNO055IMU imu;
     // public DigitalChannel knopka;
@@ -32,9 +32,11 @@ public class Phantom extends LinearOpMode {
 
     public VoltageSensor sensor;
 
-    public OpenCvWebcam phoneCam;
+    public OpenCvWebcam camera;
+    public OpenCvInternalCamera phonecam;
     public MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
-
+    public double valLeft;
+    public double valRight;
     @Override
     public void runOpMode() throws InterruptedException {
 

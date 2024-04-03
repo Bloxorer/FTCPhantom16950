@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.NewEra.Utils.PID;
 
 public class Movement extends PID {
     //TODO: здесь хочу самодельные пиды для колес с отладкой в дэщборде
+    PID pid = new PID();
     public void move_withPID(){
 
     }
