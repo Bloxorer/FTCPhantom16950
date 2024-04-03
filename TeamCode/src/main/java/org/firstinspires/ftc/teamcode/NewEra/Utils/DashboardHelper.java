@@ -11,11 +11,16 @@ public class DashboardHelper extends Phantom {
         dashboard.startCameraStream(camera, 100);
     }
     public void dashTelemetry(){
-       Telemetry telemetry1 = dashboard.getTelemetry();
-       telemetry1.addData("valLeft", valLeft);
-       telemetry1.addData("valRight", valRight);
-       telemetry1.update();
+        Thread thread = new Thread(() -> {
+            while (opModeInInit()){
+                Telemetry telemetry1 = dashboard.getTelemetry();
+                telemetry1.addData("valLeft", valLeft);
+                telemetry1.addData("valRight", valRight);
+                telemetry1.update();
 
+            }
+        });
+       thread.start();
     }
 
 }

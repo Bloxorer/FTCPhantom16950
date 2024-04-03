@@ -51,8 +51,7 @@ public class EasyCam extends AprilTag {
         AprilTagIsTrue = aprilTagIsTrue;
         TenserFlowIsTrue = tenserFlowIsTrue;
     }
-
-    public void cameraEasy(){
+    Thread Opencv = new Thread(() -> {
         if(OpenCvIsTrue){
             if (Camera){
                 camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), i[1]);
@@ -64,14 +63,16 @@ public class EasyCam extends AprilTag {
                 thread.start();
             }
         }
+    });
+    Thread AprilTensor = new Thread(() -> {
         if (AprilTagIsTrue) {
             startAprilTag();
             if (Camera){
-            visionPortal = new VisionPortal.Builder()
-                    .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                    .addProcessor(aprilTagProcessor)
-                    .setLiveViewContainerId(i[2])
-                    .build();
+                visionPortal = new VisionPortal.Builder()
+                        .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                        .addProcessor(aprilTagProcessor)
+                        .setLiveViewContainerId(i[2])
+                        .build();
             } else{
                 visionPortal = new VisionPortal.Builder()
                         .setCamera(BuiltinCameraDirection.BACK)
@@ -97,7 +98,7 @@ public class EasyCam extends AprilTag {
         } else if (TenserFlowIsTrue | AprilTagIsTrue) {
             startTenserflow();
             startAprilTag();
-            if (Camera){
+            if (Camera) {
                 visionPortal = new VisionPortal.Builder()
                         .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                         .addProcessors(tfodProcessor, aprilTagProcessor)
@@ -112,5 +113,10 @@ public class EasyCam extends AprilTag {
 
             }
         }
+    });
+
+    public void cameraEasy(){
+        Opencv.start();
+        AprilTensor.start();
     }
 }
