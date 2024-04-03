@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode.Mechanism;
+package org.firstinspires.ftc.teamcode.NewEra.Mechanism;
 
-import org.firstinspires.ftc.teamcode.Phantom;
-import org.firstinspires.ftc.teamcode.Utils.Camera.PID;
+import org.firstinspires.ftc.teamcode.NewEra.Utils.Camera.PID;
 
 public class Movement extends PID {
     //TODO: здесь хочу самодельные пиды для колес с отладкой в дэщборде
