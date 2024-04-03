@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.NewEra.Utils.Camera;
+package org.firstinspires.ftc.teamcode.NewEra.Utils;
 
 import org.firstinspires.ftc.teamcode.NewEra.Phantom;
 

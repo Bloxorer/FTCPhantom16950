@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.NewEra;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -11,6 +12,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.NewEra.Roadrunner.MecanumDrive;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.openftc.easyopencv.OpenCvWebcam;
@@ -31,7 +33,7 @@ public class Phantom extends LinearOpMode {
     public VoltageSensor sensor;
 
     public OpenCvWebcam phoneCam;
-
+    public MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
 
     @Override
     public void runOpMode() throws InterruptedException {
