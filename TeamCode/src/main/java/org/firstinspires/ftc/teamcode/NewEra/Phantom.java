@@ -19,6 +19,7 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 public class Phantom extends LinearOpMode {
+    // Объявляем общие переменные
     public TfodProcessor tfodProcessor;
     public AprilTagProcessor aprilTagProcessor;
     public VisionPortal visionPortal;
@@ -42,7 +43,7 @@ public class Phantom extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
     }
-
+    // присваеваем моторам имена
     public void hardwareMapGetter(){
         leftF = hardwareMap.get(DcMotorEx.class, "lf");
         leftB = hardwareMap.get(DcMotorEx.class, "lr");

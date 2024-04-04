@@ -17,7 +17,6 @@ public class Movement extends PID {
     // TODO: УБРАТЬ ОТСЮДА ЭТОТ КОД Я ЕГО ВИДЕТЬ НЕ МОГУ
     //старое передвижение используемое много сезонов
     public void vpered(int pos, double speed) {
-
         leftF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -35,11 +34,20 @@ public class Movement extends PID {
         rightF.setPower(speed);
         leftB.setPower(speed);
         while (opModeIsActive() && (leftF.isBusy()) && (rightF.isBusy()) && (rightB.isBusy()) && (leftB.isBusy())) {
-
-            telemetry.addData("Path2", "Running at %7d :%7d : %7d :%7d",
+            telemetry.addData("Path", "Running at %7d :%7d : %7d :%7d",
                     leftF.getCurrentPosition(), rightB.getCurrentPosition(), rightF.getCurrentPosition(), leftB.getCurrentPosition());
             telemetry.update();
         }
+        // Аккуратно тормозим
+        rightB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightB.setPower(0.05);
+        leftB.setPower(0.05);
+        rightF.setPower(0.05);
+        leftF.setPower(0.05);
+        sleep(200);
         rightB.setPower(0);
         leftB.setPower(0);
         rightF.setPower(0);
@@ -65,10 +73,20 @@ public class Movement extends PID {
         rightF.setPower(speed);
         leftB.setPower(speed);
         while (opModeIsActive() && (leftF.isBusy()) && (rightF.isBusy()) && (rightB.isBusy()) && (leftB.isBusy())) {
-
+            telemetry.addData("Path", "Running at %7d :%7d : %7d :%7d",
+                    leftF.getCurrentPosition(), rightB.getCurrentPosition(), rightF.getCurrentPosition(), leftB.getCurrentPosition());
+            telemetry.update();
         }
-
-        // Stop all motion;
+        // Аккуратно тормозим
+        rightB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightB.setPower(0.05);
+        leftB.setPower(0.05);
+        rightF.setPower(0.05);
+        leftF.setPower(0.05);
+        sleep(200);
         rightB.setPower(0);
         leftB.setPower(0);
         rightF.setPower(0);
@@ -94,16 +112,26 @@ public class Movement extends PID {
         rightF.setPower(speed);
         leftB.setPower(speed);
         while (opModeIsActive() && (leftF.isBusy()) && (rightF.isBusy()) && (rightB.isBusy()) && (leftB.isBusy())) {
-
             telemetry.addData("Path2", "Running at %7d :%7d : %7d :%7d",
                     leftF.getCurrentPosition(),
                     rightB.getCurrentPosition(), rightF.getCurrentPosition(), leftB.getCurrentPosition());
             telemetry.update();
         }
+        // Аккуратно тормозим
+        rightB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightB.setPower(0.05);
+        leftB.setPower(0.05);
+        rightF.setPower(0.05);
+        leftF.setPower(0.05);
+        sleep(200);
         rightB.setPower(0);
         leftB.setPower(0);
         rightF.setPower(0);
         leftF.setPower(0);
+        sleep(100);
     }
     public void old_move(String s,int pos, double speed){
         switch (s){
