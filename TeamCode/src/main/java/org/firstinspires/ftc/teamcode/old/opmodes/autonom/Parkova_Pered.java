@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.old.opmodes.autonom;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -37,6 +38,7 @@ import java.util.List;
  *YES
  */
 @Autonomous(name= "Parkova_Pered'", group="Autonomous")
+@Disabled
 //comment out this line before using
 public class Parkova_Pered extends LinearOpMode {
     DcMotor leftF, rightF, leftB, rightB, krut, vobla;

@@ -6,6 +6,7 @@ import android.util.Size;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -30,7 +31,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
  *YES
  */
 @Autonomous(name= "A_KRASN_BROS", group="Autonomous")
-
+@Disabled
 //
 public class A_KRASN_BROS extends Methods {
 

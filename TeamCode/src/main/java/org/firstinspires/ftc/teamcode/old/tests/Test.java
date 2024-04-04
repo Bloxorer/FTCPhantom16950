@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.old.tests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -25,6 +26,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 //TODO: ПРОЛЕТАРИЙ, ПЕРЕД ТЕМЬ, КАК МЕНЯТЬ ЧТО-ТО В ГАМАПЕДЕ, ПРОВЕРЬ СНАЧАЛА МАТЬ АГАПА!!!
 @TeleOp(name = "Test", group = "TeleOP")
+@Disabled
 public class Test extends OpMode {
     DcMotor leftF, rightF, leftB, rightB, krut, vobla, pod, sos;
     CRServo zaxvat, vikidisch;

@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.old.opmodes.autonom;
 import android.util.Size;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -32,7 +33,7 @@ import java.util.List;
  *YES
  */
 @Autonomous(name= "CamTestNew", group="Autonomous")
-
+@Disabled
 //
 public class NewCamTest extends Methods {
     // Declare class members

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.old.opmodes.autonom.centerstage;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -25,7 +26,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
  *YES
  */
 @Autonomous(name= "A_SIN_BLIZ", group="Autonomous")
-
+@Disabled
 //
 public class A_SIN_BLIZ extends Methods {
 

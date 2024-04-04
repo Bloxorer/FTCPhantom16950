@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.old.tests;
 
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -34,6 +35,7 @@ import java.util.List;
  *YES
  */
 @Autonomous(name= "Test_touch", group="Autonomous")
+@Disabled
 //
 public class Test_touch extends Methods {
     private final ElapsedTime runtime = new ElapsedTime();

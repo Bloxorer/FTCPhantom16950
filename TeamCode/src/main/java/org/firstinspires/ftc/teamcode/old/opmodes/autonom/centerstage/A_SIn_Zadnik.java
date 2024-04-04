@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.old.opmodes.autonom.centerstage;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -22,7 +23,7 @@ import org.firstinspires.ftc.teamcode.old.methods.Methods_for_OpenCV;
  *YES
  */
 @Autonomous(name= "A_SIn_Zadnik", group="Autonomous")
-
+@Disabled
 //
 public class A_SIn_Zadnik extends Methods {
 

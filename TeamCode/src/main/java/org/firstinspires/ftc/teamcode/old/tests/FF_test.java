@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.old.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -21,6 +22,7 @@ import java.util.List;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 @Autonomous(name= "FF_test", group="Autonomous")
+@Disabled
 //comment out this line before using
 public class FF_test extends LinearOpMode {
 

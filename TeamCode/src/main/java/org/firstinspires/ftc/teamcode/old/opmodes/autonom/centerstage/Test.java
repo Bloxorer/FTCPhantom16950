@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.old.opmodes.autonom.centerstage;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -20,7 +21,7 @@ import org.firstinspires.ftc.teamcode.old.methods.Methods;
  *YES
  */
 @Autonomous(name= "Test1", group="Autonomous")
-
+@Disabled
 //
 public class Test extends Methods {
 

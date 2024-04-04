@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.old.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -31,6 +32,7 @@ import java.util.List;
  *YES
  */
 @Autonomous(name= "A_Test_cam", group="Autonomous")
+@Disabled
 //
 public class A_Test_cam extends Methods {
     private final ElapsedTime runtime = new ElapsedTime();

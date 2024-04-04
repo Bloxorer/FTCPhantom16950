@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.old.opmodes.drive;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -11,6 +12,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 //TODO: РџР РћР›Р•РўРђР РР™, РџР•Р Р•Р” РўР•РњР¬, РљРђРљ РњР•РќРЇРўР¬ Р§РўРћ-РўРћ Р’ Р“РђРњРђРџР•Р”Р•, РџР РћР’Р•Р Р¬ РЎРќРђР§РђР›Рђ РњРђРўР¬ РђР“РђРџРђ!!!
 @TeleOp(name = "Gamepad_Vikrot", group = "TeleOP")
+@Disabled
 public class a_Gamepad_Viktor extends OpMode {
     DcMotor leftF, rightF, leftB, rightB, pod, drin;
     CRServo zaxvat, pisun, big;

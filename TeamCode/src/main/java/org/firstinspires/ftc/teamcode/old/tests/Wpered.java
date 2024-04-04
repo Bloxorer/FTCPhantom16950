@@ -7,6 +7,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
@@ -46,6 +47,7 @@ import java.util.List;
 // TODO: Uncomment if using FTC dashboard (only works with Android Studio) (must have FTC dashboard imported in gradle)
 // import com.acmerobotics.dashboard.FtcDashboard;
 @Autonomous(name= "Wpered_PIDi!!!'", group="Autonomous")
+@Disabled
 //comment out this line before using
 public class Wpered extends LinearOpMode  {
     DcMotorEx leftF, rightF, leftB, rightB, krut, vobla;

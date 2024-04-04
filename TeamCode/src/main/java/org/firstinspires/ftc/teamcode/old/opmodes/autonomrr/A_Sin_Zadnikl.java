@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.old.opmodes.autonomrr;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -24,7 +25,7 @@ import org.firstinspires.ftc.teamcode.old.roadrunnernew.MecanumDrive;
  *YES
  */
 @Autonomous(name= "A_SIn_Zadnik_RR", group="Autonomous")
-
+@Disabled
 //
 public class A_Sin_Zadnikl extends Methods {
 

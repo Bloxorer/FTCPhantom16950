@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.old.opmodes.drive;
 
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -23,7 +24,7 @@ import org.firstinspires.ftc.teamcode.old.roadrunnernew.MecanumDrive;
  *YES
  */
 @TeleOp(name = "a_Gamepad_based", group="TeleOP")
-
+@Disabled
 //
 public class a_Gamepad_based_new extends Methods {
     private final ElapsedTime runtime = new ElapsedTime();

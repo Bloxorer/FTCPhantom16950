@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.vision.VisionPortal.makeMultiPortalView;
 import android.util.Size;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -31,7 +32,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
  *YES
  */
 @Autonomous(name= "A_CAM_TEST", group="Autonomous")
-
+@Disabled
 //
 public class A_CAM_TEST extends Methods {
 
