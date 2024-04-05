@@ -14,7 +14,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
 public class EasyCam extends AprilTag {
-    int[] i = makeMultiPortalView(2, VisionPortal.MultiPortalLayout.VERTICAL);
+    int[] i = makeMultiPortalView(3, VisionPortal.MultiPortalLayout.VERTICAL);
     boolean OpenCvIsTrue = false;
     boolean Camera = false;
     boolean AprilTagIsTrue = false;
@@ -51,7 +51,12 @@ public class EasyCam extends AprilTag {
         AprilTagIsTrue = aprilTagIsTrue;
         TenserFlowIsTrue = tenserFlowIsTrue;
     }
-    Thread Opencv = new Thread(() -> {
+
+
+
+
+
+    public void cameraEasy(){
         if(OpenCvIsTrue){
             if (Camera){
                 camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), i[1]);
@@ -63,8 +68,6 @@ public class EasyCam extends AprilTag {
                 thread.start();
             }
         }
-    });
-    Thread AprilTensor = new Thread(() -> {
         if (AprilTagIsTrue) {
             startAprilTag();
             if (Camera){
@@ -113,10 +116,5 @@ public class EasyCam extends AprilTag {
 
             }
         }
-    });
-
-    public void cameraEasy(){
-        Opencv.start();
-        AprilTensor.start();
     }
 }

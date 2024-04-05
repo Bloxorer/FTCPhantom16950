@@ -36,7 +36,7 @@ public class Phantom extends LinearOpMode {
 
     public OpenCvWebcam camera;
     public OpenCvInternalCamera phonecam;
-    public MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
+    public MecanumDrive drive;
     public double valLeft;
     public double valRight;
     @Override
@@ -45,6 +45,7 @@ public class Phantom extends LinearOpMode {
     }
     // присваеваем моторам имена
     public void hardwareMapGetter(){
+        drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
         leftF = hardwareMap.get(DcMotorEx.class, "lf");
         leftB = hardwareMap.get(DcMotorEx.class, "lr");
         rightF = hardwareMap.get(DcMotorEx.class, "rf");

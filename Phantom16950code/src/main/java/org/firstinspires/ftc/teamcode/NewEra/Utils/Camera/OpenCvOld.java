@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //Todo: create there all necessary for OpenCV instead of creating new instance in every Autonomous Method
-public class OpenCvOld{
+public class OpenCvOld extends Phantom{
 
     static int valLeft;
     static int valRight;

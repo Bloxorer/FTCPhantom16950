@@ -13,15 +13,17 @@ public class CamTest extends Phantom {
     private final ElapsedTime runtime = new ElapsedTime();
     @Override
     public void runOpMode() throws InterruptedException {
-        EasyCam easyCam = new EasyCam(true, true, true, true);
+        EasyCam easyCam = new EasyCam(true, false, true, true);
         DashboardHelper dashboardHelper = new DashboardHelper();
         dashboardHelper.DashCam();
-        dashboardHelper.dashTelemetry();
         TelemetryOpModes tom = new TelemetryOpModes();
-        tom.telemetryCam();
         easyCam.cameraEasy();
         runtime.reset();
         waitForStart();
+        while (opModeIsActive()){
+            tom.telemetryCam();
+            dashboardHelper.dashTelemetry();
+        }
     }
 
 }
