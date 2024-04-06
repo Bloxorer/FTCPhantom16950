@@ -51,9 +51,9 @@ public class Methods extends LinearOpMode {
     int g = 0;
     int h = 0;
     public OpenCvInternalCamera phoneCam1, phoneCam2;
-    Movement movement = new Movement();
-    Motors motors = new Motors();
-    Servos servos = new Servos();
+    Movement movement;
+    Motors motors;
+    Servos servos;
     //private DistanceSensor sensorRange;
 
     private static int valLeft = -1;

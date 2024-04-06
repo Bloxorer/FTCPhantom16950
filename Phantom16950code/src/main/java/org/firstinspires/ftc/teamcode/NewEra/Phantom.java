@@ -20,7 +20,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 
 public class Phantom extends LinearOpMode {
     // Объявляем общие переменные
-    public TfodProcessor tfodProcessor;
+    public TfodProcessor tfod;
     public AprilTagProcessor aprilTagProcessor;
     public VisionPortal visionPortal;
     public DcMotorEx leftF, rightF, leftB, rightB, pod, actu , zx, pnap;
@@ -46,13 +46,17 @@ public class Phantom extends LinearOpMode {
     // присваеваем моторам имена
     public void hardwareMapGetter(){
         drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
-        leftF = hardwareMap.get(DcMotorEx.class, "lf");
+        zaxvatLeft = hardwareMap.crservo.get("zxl");
+        zaxvatRight = hardwareMap.crservo.get("zxr");
         leftB = hardwareMap.get(DcMotorEx.class, "lr");
-        rightF = hardwareMap.get(DcMotorEx.class, "rf");
+        leftF = hardwareMap.get(DcMotorEx.class, "lf");
         rightB = hardwareMap.get(DcMotorEx.class, "rr");
-        pisun = hardwareMap.crservo.get("pis");
+        rightF = hardwareMap.get(DcMotorEx.class, "rf");
         pod = hardwareMap.get(DcMotorEx.class, "pod");
-        big = hardwareMap.crservo.get("big");
-        zaxvat = hardwareMap.crservo.get("zx");
+        actu = hardwareMap.get(DcMotorEx.class, "act");
+        zx = hardwareMap.get(DcMotorEx.class, "zx");
+        pnap = hardwareMap.get(DcMotorEx.class, "pnap");
+        kr = hardwareMap.crservo.get("kr");
+        psk = hardwareMap.crservo.get("psk");
     }
 }

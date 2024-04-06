@@ -32,7 +32,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
  *YES
  */
 @Autonomous(name= "A_CAM_TEST", group="Autonomous")
-@Disabled
+
 //
 public class A_CAM_TEST extends Methods {
 

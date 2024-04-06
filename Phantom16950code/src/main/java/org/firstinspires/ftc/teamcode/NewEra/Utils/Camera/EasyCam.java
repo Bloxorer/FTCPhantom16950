@@ -14,6 +14,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
 public class EasyCam extends AprilTag {
+    WebcamName webcamName;
     int[] i = makeMultiPortalView(3, VisionPortal.MultiPortalLayout.VERTICAL);
     boolean OpenCvIsTrue = false;
     boolean Camera = false;
@@ -45,21 +46,20 @@ public class EasyCam extends AprilTag {
         public void onError(int i) {
         }
     };
-    public EasyCam(boolean openCvIsTrue, boolean camera, boolean aprilTagIsTrue, boolean tenserFlowIsTrue) {
+
+    public EasyCam(WebcamName webcamName, boolean openCvIsTrue, boolean camera, boolean aprilTagIsTrue, boolean tenserFlowIsTrue) {
+        this.webcamName = webcamName;
         OpenCvIsTrue = openCvIsTrue;
         Camera = camera;
         AprilTagIsTrue = aprilTagIsTrue;
         TenserFlowIsTrue = tenserFlowIsTrue;
     }
 
-
-
-
-
     public void cameraEasy(){
+
         if(OpenCvIsTrue){
             if (Camera){
-                camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), i[1]);
+                camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName, i[1]);
                 camera.openCameraDeviceAsync(cameraAsync);
                 thread.start();
             } else {
@@ -68,11 +68,11 @@ public class EasyCam extends AprilTag {
                 thread.start();
             }
         }
-        if (AprilTagIsTrue) {
+        if (AprilTagIsTrue && !TenserFlowIsTrue) {
             startAprilTag();
             if (Camera){
                 visionPortal = new VisionPortal.Builder()
-                        .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                        .setCamera(webcamName)
                         .addProcessor(aprilTagProcessor)
                         .setLiveViewContainerId(i[2])
                         .build();
@@ -83,34 +83,34 @@ public class EasyCam extends AprilTag {
                         .setLiveViewContainerId(i[2])
                         .build();
             }
-        } else if (TenserFlowIsTrue) {
+        } else if (TenserFlowIsTrue && !AprilTagIsTrue) {
             startTenserflow();
             if (Camera){
                 visionPortal = new VisionPortal.Builder()
-                        .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                        .addProcessor(tfodProcessor)
+                        .setCamera(webcamName)
+                        .addProcessor(tfod)
                         .setLiveViewContainerId(i[2])
                         .build();
             } else {
                 visionPortal = new VisionPortal.Builder()
                         .setCamera(BuiltinCameraDirection.BACK)
-                        .addProcessor(tfodProcessor)
+                        .addProcessor(tfod)
                         .setLiveViewContainerId(i[2])
                         .build();
             }
-        } else if (TenserFlowIsTrue | AprilTagIsTrue) {
+        } else if (TenserFlowIsTrue && AprilTagIsTrue) {
             startTenserflow();
             startAprilTag();
             if (Camera) {
                 visionPortal = new VisionPortal.Builder()
-                        .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                        .addProcessors(tfodProcessor, aprilTagProcessor)
+                        .setCamera(webcamName)
+                        .addProcessors(tfod, aprilTagProcessor)
                         .setLiveViewContainerId(i[2])
                         .build();
             } else {
                 visionPortal = new VisionPortal.Builder()
                         .setCamera(BuiltinCameraDirection.BACK)
-                        .addProcessors(tfodProcessor, aprilTagProcessor)
+                        .addProcessors(tfod, aprilTagProcessor)
                         .setLiveViewContainerId(i[2])
                         .build();
 
