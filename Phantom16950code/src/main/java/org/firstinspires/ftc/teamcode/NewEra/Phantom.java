@@ -21,6 +21,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 public class Phantom extends LinearOpMode {
     // Объявляем общие переменные
     public TfodProcessor tfod;
+    public int f,g,i,h;
     public AprilTagProcessor aprilTagProcessor;
     public VisionPortal visionPortal;
     public DcMotorEx leftF, rightF, leftB, rightB, pod, actu , zx, pnap;
