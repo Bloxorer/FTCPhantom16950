@@ -1,7 +1,14 @@
 package org.firstinspires.ftc.teamcode.NewEra.Mechanism;
 
-public class Podem extends Actuator{
-    public class OLD{
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.NewEra.Phantom;
+@Autonomous
+@Disabled
+public class Podem extends Phantom {
+
         public void drive_pod(){
             Thread tpod = new Thread(() ->{
                 if(gamepad1.y){
@@ -38,5 +45,10 @@ public class Podem extends Actuator{
                 psk.setPower(-0.3);//
             }
         }
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+
     }
 }
+

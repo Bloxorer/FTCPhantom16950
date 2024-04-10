@@ -24,13 +24,13 @@ import org.firstinspires.ftc.teamcode.old.roadrunnernew.MecanumDrive;
  *YES
  */
 @TeleOp(name = "a_Gamepad_based", group="TeleOP")
-@Disabled
+
 //
 public class a_Gamepad_based_new extends Methods {
     private final ElapsedTime runtime = new ElapsedTime();
     public void runOpMode() throws InterruptedException {
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
-        knopka = hardwareMap.touchSensor.get("knp");
+        
         zaxvatLeft = hardwareMap.crservo.get("zxl");
         zaxvatRight = hardwareMap.crservo.get("zxr");
         leftB = hardwareMap.dcMotor.get("lr");

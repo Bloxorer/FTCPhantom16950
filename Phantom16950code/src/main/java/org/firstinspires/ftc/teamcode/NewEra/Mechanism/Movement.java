@@ -6,9 +6,11 @@ import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.NewEra.Phantom;
+import org.firstinspires.ftc.teamcode.NewEra.Roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.NewEra.Utils.PID;
 
-public class Movement extends PID {
+public class Movement extends Phantom {
     //TODO: здесь хочу самодельные пиды для колес с отладкой в дэщборде
 
     public void move_withPID(){
@@ -143,19 +145,15 @@ public class Movement extends PID {
         }
     }
     // передвижение через методы роадраннера
-    public void moveTeleOP(){
-        Thread thread = new Thread(() -> {
-            double x =-gamepad1.left_stick_y -(gamepad1.right_stick_y * 0.4); //
-            double y = (-gamepad1.right_stick_x * 0.4) -gamepad1.left_stick_x;
+    public void moveTeleOP(MecanumDrive drive){
             drive.setDrivePowers(new PoseVelocity2d(
                     new Vector2d(
                             x, //- (gamepad1.right_stick_y * 0.75),
                             y //- (gamepad1.right_stick_x * 0.75)
                     ),
-                    -gamepad1.right_trigger + gamepad1.left_trigger // + rightbump() + leftbump()
+                    g1rt + g1lt // + rightbump() + leftbump()
             ));
-        });
-        thread.start();
+
     }
     // TODO: НАПИСАТЬ РАЗВОРОТ С ГИРОСКОПОМ НОРМАЛЬНЫЙ А НЕ НАШ ПРИКОЛИСТКИЙ
     public void razvarotGyro(){

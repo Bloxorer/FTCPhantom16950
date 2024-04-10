@@ -7,14 +7,11 @@ import org.firstinspires.ftc.teamcode.NewEra.Phantom;
 import org.firstinspires.ftc.teamcode.NewEra.Mechanism.Movement;
 
 public class Utility extends Phantom {
-    Movement movement = new Movement();
-    Actuator actuator = new Actuator();
-    Podem podem= new Podem();
-    Zaxvat zaxvat = new Zaxvat();
-    public void movement(){
-        movement.moveTeleOP();
+
+    public void teleOP(){
+
     }
-    public void actuator(){}
+
 
 
     public void stop_all(){

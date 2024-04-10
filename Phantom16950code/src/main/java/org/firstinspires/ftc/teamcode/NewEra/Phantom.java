@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.NewEra;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,8 +19,12 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvWebcam;
-
+@Config
+@Disabled
 public class Phantom extends LinearOpMode {
+    public float g1lt, g1rt;
+    public double x; //
+    public double y;
     // Объявляем общие переменные
     public TfodProcessor tfod;
     public int f,g,i,h;
@@ -37,16 +43,16 @@ public class Phantom extends LinearOpMode {
 
     public OpenCvWebcam camera;
     public OpenCvInternalCamera phonecam;
-    public MecanumDrive drive;
+
     public double valLeft;
     public double valRight;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
     }
     // присваеваем моторам имена
     public void hardwareMapGetter(){
-        drive = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
         zaxvatLeft = hardwareMap.crservo.get("zxl");
         zaxvatRight = hardwareMap.crservo.get("zxr");
         leftB = hardwareMap.get(DcMotorEx.class, "lr");

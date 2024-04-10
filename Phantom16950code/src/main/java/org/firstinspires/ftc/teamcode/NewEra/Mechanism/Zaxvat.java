@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.NewEra.Mechanism;
 
+import org.firstinspires.ftc.teamcode.NewEra.Phantom;
 import org.firstinspires.ftc.teamcode.old.methods.Config;
 import org.firstinspires.ftc.teamcode.old.methods.Methods;
 
-public class Zaxvat extends Movement {
-    public class OLDZAX extends Zaxvat {
+public class Zaxvat extends Phantom {
+
         public void drive_zx(){
             Thread tzx = new Thread(() -> {
                 if (gamepad2.x){
@@ -58,5 +59,5 @@ public class Zaxvat extends Movement {
             tzaxvatL.start();
         }
     }
-}
+
 

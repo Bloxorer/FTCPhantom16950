@@ -400,7 +400,7 @@ public class Methods extends LinearOpMode {
 
     public void drive_zaxvat(){
         Thread tzaxvatL = new Thread(() -> {
-            boolean knopk = knopka.isPressed();
+            boolean knopk = false;
             if (gamepad2.left_bumper){
                 f = 1;
             } else if (gamepad2.left_trigger !=0){

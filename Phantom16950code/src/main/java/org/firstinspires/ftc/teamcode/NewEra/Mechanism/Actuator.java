@@ -2,13 +2,16 @@ package org.firstinspires.ftc.teamcode.NewEra.Mechanism;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-public class Actuator extends Zaxvat {
-    public class OLD extends Actuator{
+import org.firstinspires.ftc.teamcode.NewEra.Phantom;
+
+public class Actuator extends Phantom {
         public void drive_act(){
+            boolean dpadup = gamepad2.dpad_up;
+            boolean dpaddown = gamepad2.dpad_down;
             Thread tactu = new Thread(() -> {
-                if (gamepad2.dpad_up){
+                if (dpadup){
                     actu.setPower(1);
-                } else if(gamepad2.dpad_down){
+                } else if(dpaddown){
                     actu.setPower(-1);
                 } else {
                     actu.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -20,4 +23,3 @@ public class Actuator extends Zaxvat {
 
     }
 
-}
