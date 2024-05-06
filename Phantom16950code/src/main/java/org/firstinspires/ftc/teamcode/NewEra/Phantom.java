@@ -16,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.NewEra.Mechanism.Actuator;
 import org.firstinspires.ftc.teamcode.NewEra.Mechanism.Napravlaushie;
 import org.firstinspires.ftc.teamcode.NewEra.Mechanism.Wheels;
+import org.firstinspires.ftc.teamcode.NewEra.Mechanism.Zaxvat;
 import org.firstinspires.ftc.teamcode.NewEra.Mechanism.ZaxvatLR;
 import org.firstinspires.ftc.teamcode.NewEra.Roadrunner.MecanumDrive;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -31,6 +32,7 @@ public class Phantom extends LinearOpMode {
     public Actuator actuator = new Actuator();
     public ZaxvatLR zaxvatLR = new ZaxvatLR();
     public Napravlaushie napravlaushie = new Napravlaushie();
+    public Zaxvat zaxvat = new Zaxvat();
 
 
 
@@ -62,5 +64,6 @@ public class Phantom extends LinearOpMode {
         actuator.initActu();
         zaxvatLR.initZaxvatLR();
         napravlaushie.initNapr();
+        zaxvat.initZaxvat();
     }
 }

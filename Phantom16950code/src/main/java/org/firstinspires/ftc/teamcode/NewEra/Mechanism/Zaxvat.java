@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 public class Zaxvat extends LinearOpMode {
-    public DcMotorEx zx;
+    private DcMotorEx zx;
     public void initZaxvat(){
         zx = hardwareMap.get(DcMotorEx.class, "zx");
     }
