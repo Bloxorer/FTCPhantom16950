@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.NewEra.Mechanism.Actuator;
+import org.firstinspires.ftc.teamcode.NewEra.Mechanism.Napravlaushie;
 import org.firstinspires.ftc.teamcode.NewEra.Mechanism.Wheels;
 import org.firstinspires.ftc.teamcode.NewEra.Mechanism.ZaxvatLR;
 import org.firstinspires.ftc.teamcode.NewEra.Roadrunner.MecanumDrive;
@@ -26,9 +27,11 @@ import org.openftc.easyopencv.OpenCvWebcam;
 @Disabled
 public class Phantom extends LinearOpMode {
     //объявляем механизмы для последующего использования в коде
-    Wheels wheels = new Wheels();
-    Actuator actuator = new Actuator();
-    ZaxvatLR zaxvatLR = new ZaxvatLR();
+    public Wheels wheels = new Wheels();
+    public Actuator actuator = new Actuator();
+    public ZaxvatLR zaxvatLR = new ZaxvatLR();
+    public Napravlaushie napravlaushie = new Napravlaushie();
+
 
 
     //объявляем процессоры камеры и сами камеры
@@ -49,21 +52,6 @@ public class Phantom extends LinearOpMode {
     // перменные для использования в дэшборде
     private FtcDashboard dash = FtcDashboard.getInstance();
 
-    public DcMotorEx pod, actu , zx, pnap;
-    public CRServo zaxvatLeft, zaxvatRight, kr, psk;
-
-    public BNO055IMU imu;
-    // public DigitalChannel knopka;
-    public TouchSensor knopka;
-    public double rightbump = 0;
-    public double leftbump = 0;
-
-    public VoltageSensor sensor;
-
-
-
-
-
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -73,9 +61,6 @@ public class Phantom extends LinearOpMode {
         wheels.initWheels();
         actuator.initActu();
         zaxvatLR.initZaxvatLR();
-        zx = hardwareMap.get(DcMotorEx.class, "zx");
-        pnap = hardwareMap.get(DcMotorEx.class, "pnap");
-
-        psk = hardwareMap.crservo.get("psk");
+        napravlaushie.initNapr();
     }
 }
