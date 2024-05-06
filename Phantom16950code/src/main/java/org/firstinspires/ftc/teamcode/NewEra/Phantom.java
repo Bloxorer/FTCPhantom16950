@@ -13,6 +13,9 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.NewEra.Mechanism.Actuator;
+import org.firstinspires.ftc.teamcode.NewEra.Mechanism.Wheels;
+import org.firstinspires.ftc.teamcode.NewEra.Mechanism.ZaxvatLR;
 import org.firstinspires.ftc.teamcode.NewEra.Roadrunner.MecanumDrive;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -22,17 +25,33 @@ import org.openftc.easyopencv.OpenCvWebcam;
 @Config
 @Disabled
 public class Phantom extends LinearOpMode {
-    public float g1lt, g1rt;
-    public double x; //
-    public double y;
-    // Объявляем общие переменные
+    //объявляем механизмы для последующего использования в коде
+    Wheels wheels = new Wheels();
+    Actuator actuator = new Actuator();
+    ZaxvatLR zaxvatLR = new ZaxvatLR();
+
+
+    //объявляем процессоры камеры и сами камеры
     public TfodProcessor tfod;
-    public int f,g,i,h;
     public AprilTagProcessor aprilTagProcessor;
     public VisionPortal visionPortal;
-    public DcMotorEx leftF, rightF, leftB, rightB, pod, actu , zx, pnap;
-    public CRServo zaxvat, pisun, big, zaxvatLeft, zaxvatRight, bros, kr, psk;
+    public OpenCvWebcam camera;
+    public OpenCvInternalCamera phonecam;
+    // объявляем перменные со значениями с камер
+    public double valLeft;
+    public double valRight;
+
+
+    // числовые значения
+    public int f,g,i,h;
+
+
+    // перменные для использования в дэшборде
     private FtcDashboard dash = FtcDashboard.getInstance();
+
+    public DcMotorEx pod, actu , zx, pnap;
+    public CRServo zaxvatLeft, zaxvatRight, kr, psk;
+
     public BNO055IMU imu;
     // public DigitalChannel knopka;
     public TouchSensor knopka;
@@ -41,29 +60,22 @@ public class Phantom extends LinearOpMode {
 
     public VoltageSensor sensor;
 
-    public OpenCvWebcam camera;
-    public OpenCvInternalCamera phonecam;
 
-    public double valLeft;
-    public double valRight;
+
+
 
     @Override
     public void runOpMode() throws InterruptedException {
 
     }
-    // присваеваем моторам имена
+    // инициализируем все механизмы
     public void hardwareMapGetter(){
-        zaxvatLeft = hardwareMap.crservo.get("zxl");
-        zaxvatRight = hardwareMap.crservo.get("zxr");
-        leftB = hardwareMap.get(DcMotorEx.class, "lr");
-        leftF = hardwareMap.get(DcMotorEx.class, "lf");
-        rightB = hardwareMap.get(DcMotorEx.class, "rr");
-        rightF = hardwareMap.get(DcMotorEx.class, "rf");
-        pod = hardwareMap.get(DcMotorEx.class, "pod");
-        actu = hardwareMap.get(DcMotorEx.class, "act");
+        wheels.initWheels();
+        actuator.initActu();
+        zaxvatLR.initZaxvatLR();
         zx = hardwareMap.get(DcMotorEx.class, "zx");
         pnap = hardwareMap.get(DcMotorEx.class, "pnap");
-        kr = hardwareMap.crservo.get("kr");
+
         psk = hardwareMap.crservo.get("psk");
     }
 }

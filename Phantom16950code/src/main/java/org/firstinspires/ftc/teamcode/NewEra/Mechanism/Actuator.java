@@ -1,25 +1,17 @@
 package org.firstinspires.ftc.teamcode.NewEra.Mechanism;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-
-import org.firstinspires.ftc.teamcode.NewEra.Phantom;
-
-public class Actuator extends Phantom {
-        public void drive_act(){
-            boolean dpadup = gamepad2.dpad_up;
-            boolean dpaddown = gamepad2.dpad_down;
-            Thread tactu = new Thread(() -> {
-                if (dpadup){
-                    actu.setPower(1);
-                } else if(dpaddown){
-                    actu.setPower(-1);
-                } else {
-                    actu.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                    actu.setPower(0.05);
-                }
-            });
-            tactu.start();
-        }
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+@Disabled
+public class Actuator extends LinearOpMode {
+    private DcMotorEx pod, actu;
+    public void initActu(){
+        pod = hardwareMap.get(DcMotorEx.class, "pod");
+        actu = hardwareMap.get(DcMotorEx.class, "act");
+    }
+    @Override
+    public void runOpMode() throws InterruptedException {
 
     }
-
+}
