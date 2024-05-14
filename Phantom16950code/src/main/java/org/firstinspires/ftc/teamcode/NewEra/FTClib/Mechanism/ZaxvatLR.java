@@ -6,19 +6,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 public class ZaxvatLR extends LinearOpMode {
-
-    private ServoEx kr = new SimpleServo(hardwareMap, "kr", 0, 270);
-    private CRServo zaxvatLeft, zaxvatRight;
+    private ServoEx kr, zaxvatLeft, zaxvatRight;
     public void initZaxvatLR(){
-        zaxvatLeft = hardwareMap.crservo.get("zxl");
-        zaxvatRight = hardwareMap.crservo.get("zxr");
+        zaxvatLeft = new SimpleServo(hardwareMap,"zxl", 0, 270);
+        zaxvatRight = new SimpleServo(hardwareMap,"zxr", 0, 270);
+        kr = new SimpleServo(hardwareMap, "kr", 0, 270);
+    }
 
-    }
-    public void driveKr(){
-        Thread thread = new Thread(()->{
-            kr.setPosition(0);
-        });
-    }
     @Override
     public void runOpMode() throws InterruptedException {
 
