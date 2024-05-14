@@ -1,7 +1,5 @@
-package org.firstinspires.ftc.teamcode.NewEra.Utils.Camera;
+package org.firstinspires.ftc.teamcode.NewEra.Own.Utils.Camera;
 
-import org.firstinspires.ftc.teamcode.NewEra.Phantom;
-import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 public class AprilTag extends TenserFlow {

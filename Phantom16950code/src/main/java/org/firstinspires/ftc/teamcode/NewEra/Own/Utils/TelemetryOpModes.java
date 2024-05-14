@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode.NewEra.Utils;
+package org.firstinspires.ftc.teamcode.NewEra.Own.Utils;
 
-import org.firstinspires.ftc.teamcode.NewEra.Phantom;
+import org.firstinspires.ftc.teamcode.NewEra.Own.Phantom;
 
 public class TelemetryOpModes extends Phantom {
     public void telemetryCam(){

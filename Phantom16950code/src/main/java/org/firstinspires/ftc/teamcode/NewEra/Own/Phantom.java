@@ -1,24 +1,15 @@
-package org.firstinspires.ftc.teamcode.NewEra;
+package org.firstinspires.ftc.teamcode.NewEra.Own;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.TouchSensor;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.NewEra.Mechanism.Actuator;
-import org.firstinspires.ftc.teamcode.NewEra.Mechanism.Napravlaushie;
-import org.firstinspires.ftc.teamcode.NewEra.Mechanism.Wheels;
-import org.firstinspires.ftc.teamcode.NewEra.Mechanism.Zaxvat;
-import org.firstinspires.ftc.teamcode.NewEra.Mechanism.ZaxvatLR;
-import org.firstinspires.ftc.teamcode.NewEra.Roadrunner.MecanumDrive;
+import org.firstinspires.ftc.teamcode.NewEra.FTClib.Mechanism.Actuator;
+import org.firstinspires.ftc.teamcode.NewEra.FTClib.Mechanism.Napravlaushie;
+import org.firstinspires.ftc.teamcode.NewEra.FTClib.Mechanism.Wheels;
+import org.firstinspires.ftc.teamcode.NewEra.FTClib.Mechanism.Zaxvat;
+import org.firstinspires.ftc.teamcode.NewEra.FTClib.Mechanism.ZaxvatLR;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;

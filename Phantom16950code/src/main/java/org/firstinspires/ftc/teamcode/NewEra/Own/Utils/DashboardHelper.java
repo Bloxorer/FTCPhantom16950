@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.NewEra.Utils;
+package org.firstinspires.ftc.teamcode.NewEra.Own.Utils;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.NewEra.Phantom;
+import org.firstinspires.ftc.teamcode.NewEra.Own.Phantom;
 
 public class DashboardHelper extends Phantom {
     FtcDashboard dashboard = FtcDashboard.getInstance();

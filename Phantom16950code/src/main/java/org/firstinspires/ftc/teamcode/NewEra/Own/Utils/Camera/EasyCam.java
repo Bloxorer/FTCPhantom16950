@@ -1,13 +1,10 @@
-package org.firstinspires.ftc.teamcode.NewEra.Utils.Camera;
+package org.firstinspires.ftc.teamcode.NewEra.Own.Utils.Camera;
 
 import static org.firstinspires.ftc.vision.VisionPortal.makeMultiPortalView;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.NewEra.Utils.Camera.AprilTag;
-import org.firstinspires.ftc.teamcode.old.methods.Methods_for_OpenCV;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.VisionPortalImpl;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;

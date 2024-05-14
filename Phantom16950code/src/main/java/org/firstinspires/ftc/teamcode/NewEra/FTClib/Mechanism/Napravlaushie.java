@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.NewEra.Mechanism;
+package org.firstinspires.ftc.teamcode.NewEra.FTClib.Mechanism;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
