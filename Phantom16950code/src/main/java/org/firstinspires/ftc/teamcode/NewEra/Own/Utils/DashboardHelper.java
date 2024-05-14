@@ -1,26 +1,12 @@
 package org.firstinspires.ftc.teamcode.NewEra.Own.Utils;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 
+import org.checkerframework.checker.compilermsgs.qual.CompilerMessageKey;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.NewEra.Own.Phantom;
-
+@Config
 public class DashboardHelper extends Phantom {
-    FtcDashboard dashboard = FtcDashboard.getInstance();
-    public void DashCam(){
-        dashboard.startCameraStream(camera, 100);
-    }
-    public void dashTelemetry(){
-        Thread thread = new Thread(() -> {
-            while (opModeInInit()){
-                Telemetry telemetry1 = dashboard.getTelemetry();
-                telemetry1.addData("valLeft", valLeft);
-                telemetry1.addData("valRight", valRight);
-                telemetry1.update();
-
-            }
-        });
-       thread.start();
-    }
 
 }
