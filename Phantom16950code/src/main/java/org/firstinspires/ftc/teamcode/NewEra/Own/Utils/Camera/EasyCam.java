@@ -54,7 +54,7 @@ public class EasyCam extends AprilTag {
     };
 
     /**
-     * конструктор камеры, принимает значнеия от пользователя
+     * Конструктор камеры, принимает значнеия от пользователя
      * @param webcamName имя вебкмеры, требуется  hardwareMap.get(WebcamName.class, "имя камеры")
      * @param openCvIsTrue используете ли вы opencv
      * @param camera используете ли вы внешнюю камеру

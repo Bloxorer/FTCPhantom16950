@@ -10,6 +10,10 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 public class Actuator extends LinearOpMode {
 
     private MotorEx pod, actu;
+
+    /**
+     * Инициализация моторов актуатора
+     */
     public void initActu(){
         pod = new MotorEx(hardwareMap, "pod");
         actu = new MotorEx(hardwareMap, "act");

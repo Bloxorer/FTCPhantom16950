@@ -7,6 +7,10 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 public class Zaxvat extends LinearOpMode {
     private MotorEx zx;
+
+    /**
+     * инициализация мотора захвата
+     */
     public void initZaxvat(){
         zx = new MotorEx(hardwareMap, "zx", Motor.GoBILDA.RPM_312);
     }

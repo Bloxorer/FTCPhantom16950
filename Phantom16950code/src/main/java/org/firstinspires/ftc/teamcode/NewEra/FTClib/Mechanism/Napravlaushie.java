@@ -6,6 +6,10 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 public class Napravlaushie extends LinearOpMode {
     private MotorEx pnap;
+
+    /**
+     * Инициализация подъёмника
+     */
     public void initNapr(){
         pnap = new MotorEx(hardwareMap, "pnap");
     }

@@ -7,6 +7,10 @@ import com.qualcomm.robotcore.hardware.CRServo;
 
 public class ZaxvatLR extends LinearOpMode {
     private ServoEx kr, zaxvatLeft, zaxvatRight;
+
+    /**
+     * Инициализация сервомотров захвата
+     */
     public void initZaxvatLR(){
         zaxvatLeft = new SimpleServo(hardwareMap,"zxl", 0, 270);
         zaxvatRight = new SimpleServo(hardwareMap,"zxr", 0, 270);

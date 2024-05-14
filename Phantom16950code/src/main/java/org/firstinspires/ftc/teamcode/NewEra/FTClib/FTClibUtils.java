@@ -11,11 +11,16 @@ import org.firstinspires.ftc.teamcode.NewEra.FTClib.Mechanism.ZaxvatLR;
 
 @Disabled
 public class FTClibUtils extends LinearOpMode {
+    // создаем объекты классов механизмов
     public Wheels wheels = new Wheels();
     public Actuator actuator = new Actuator();
     public Napravlaushie napravlaushie = new Napravlaushie();
     public Zaxvat zaxvat = new Zaxvat();
     public ZaxvatLR zaxvatLR = new ZaxvatLR();
+
+    /**
+     * Инициализация всех механизмов робота
+     */
     public void initall(){
         wheels.initWheels();
         actuator.initActu();

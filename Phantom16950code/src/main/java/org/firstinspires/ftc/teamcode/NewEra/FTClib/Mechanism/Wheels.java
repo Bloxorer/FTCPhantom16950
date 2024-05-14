@@ -28,7 +28,7 @@ public class Wheels extends LinearOpMode {
     private MotorGroup movement = new MotorGroup(leftF, leftB, rightB, rightF);
 
     /**
-     * инициализация всех моторов
+     * инициализация всех моторов колесной базы
      */
     public void initWheels(){
         leftB = new MotorEx(hardwareMap, "lr", Motor.GoBILDA.RPM_312);
