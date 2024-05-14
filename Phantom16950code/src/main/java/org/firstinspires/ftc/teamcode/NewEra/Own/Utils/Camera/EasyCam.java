@@ -10,6 +10,9 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
+/**
+ * класс запуска камеры
+ */
 public class EasyCam extends AprilTag {
     WebcamName webcamName;
     int[] i = makeMultiPortalView(3, VisionPortal.MultiPortalLayout.VERTICAL);
@@ -23,6 +26,9 @@ public class EasyCam extends AprilTag {
             valRight = OpenCvOld.getValRight();
         }
     });
+    /**
+     * открытваем внешнюю камеру ассинхронно
+     */
     OpenCvCamera.AsyncCameraOpenListener cameraAsync = new OpenCvCamera.AsyncCameraOpenListener() {
         @Override
         public void onOpened() {
@@ -33,6 +39,9 @@ public class EasyCam extends AprilTag {
         public void onError(int i) {
         }
     };
+    /**
+     * открытваем камеру телефона ассинхронно
+     */
     OpenCvCamera.AsyncCameraOpenListener phonecamlistener = new OpenCvCamera.AsyncCameraOpenListener() {
         @Override
         public void onOpened() {
@@ -44,6 +53,14 @@ public class EasyCam extends AprilTag {
         }
     };
 
+    /**
+     * конструктор камеры, принимает значнеия от пользователя
+     * @param webcamName имя вебкмеры, требуется  hardwareMap.get(WebcamName.class, "имя камеры")
+     * @param openCvIsTrue используете ли вы opencv
+     * @param camera используете ли вы внешнюю камеру
+     * @param aprilTagIsTrue используете ли вы април тэги
+     * @param tenserFlowIsTrue используете ли вы април тэнсорфлоу
+     */
     public EasyCam(WebcamName webcamName, boolean openCvIsTrue, boolean camera, boolean aprilTagIsTrue, boolean tenserFlowIsTrue) {
         this.webcamName = webcamName;
         OpenCvIsTrue = openCvIsTrue;
@@ -51,8 +68,8 @@ public class EasyCam extends AprilTag {
         AprilTagIsTrue = aprilTagIsTrue;
         TenserFlowIsTrue = tenserFlowIsTrue;
     }
-
-    public void cameraEasy(){
+    // проверяем значения полученные от пользователя
+        public void cameraEasy(){
 
         if(OpenCvIsTrue){
             if (Camera){

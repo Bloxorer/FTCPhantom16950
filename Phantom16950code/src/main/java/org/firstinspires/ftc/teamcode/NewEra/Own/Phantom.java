@@ -15,6 +15,9 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvWebcam;
+/**
+ * общий класс со всеми основными переменными
+ */
 @Config
 @Disabled
 public class Phantom extends LinearOpMode {
@@ -48,13 +51,5 @@ public class Phantom extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-    }
-    // инициализируем все механизмы
-    public void hardwareMapGetter(){
-        wheels.initWheels();
-        actuator.initActu();
-        zaxvatLR.initZaxvatLR();
-        napravlaushie.initNapr();
-        zaxvat.initZaxvat();
     }
 }

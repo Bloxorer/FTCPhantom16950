@@ -5,6 +5,9 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.NewEra.Own.Phantom;
 
+/**
+ * класс телеметрии
+ */
 public class TelemetryOpModes extends Phantom {
 
     public void telemetryCam(){
