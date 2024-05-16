@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.New.Own.Utils.Camera;
 
+import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
+import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibrationHelper;
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibrationIdentity;
 import org.firstinspires.ftc.teamcode.New.Own.Phantom;
 import org.firstinspires.ftc.vision.VisionProcessor;
@@ -14,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //Todo: create there all necessary for OpenCV instead of creating new instance in every Autonomous Method
-public class OpenCvOld extends Phantom{
+public class OpenCV extends Phantom{
 
     static int valLeft;
     static int valRight;
@@ -51,7 +53,7 @@ public class OpenCvOld extends Phantom{
     }
 
     public static void setLeftPos(float[] leftPos) {
-        OpenCvOld.leftPos = leftPos;
+        OpenCV.leftPos = leftPos;
     }
 
     public static float[] getRightPos() {
@@ -59,11 +61,11 @@ public class OpenCvOld extends Phantom{
     }
 
     public static void setRightPos(float[] rightPos) {
-        OpenCvOld.rightPos = rightPos;
+        OpenCV.rightPos = rightPos;
     }
 
     public static void setValLeft(int valLeft) {
-        OpenCvOld.valLeft = valLeft;
+        OpenCV.valLeft = valLeft;
     }
 
     public static int getValRight() {
@@ -71,11 +73,13 @@ public class OpenCvOld extends Phantom{
     }
 
     public static void setValRight(int valRight) {
-        OpenCvOld.valRight = valRight;
+        OpenCV.valRight = valRight;
     }
 
 
     public static class StageSwitchingPipeline extends OpenCvPipeline {
+        private VisionProcessor processor;
+        private CameraCalibrationIdentity ident;
         Mat hsvImage = new Mat();
         Mat yCbCrChan2Mat = new Mat();
         Mat thresholdMat = new Mat();
@@ -108,12 +112,21 @@ public class OpenCvOld extends Phantom{
             THRESHOLD,//b&w
             RAW_IMAGE,//displays raw view
         }
+        public StageSwitchingPipeline(VisionProcessor processor)
+        {
+            this.processor = processor;
+        }
+        public void noteCalibrationIdentity(CameraCalibrationIdentity ident)
+        {
+            this.ident = ident;
+        }
 
         private OpenCvOld.StageSwitchingPipeline.Stage stageToRenderToViewport = OpenCvOld.StageSwitchingPipeline.Stage.detection;
         private  OpenCvOld.StageSwitchingPipeline.Stage[] stages = OpenCvOld.StageSwitchingPipeline.Stage.values();
         @Override
         public void init(Mat firstFrame){
-
+            CameraCalibration calibration = CameraCalibrationHelper.getInstance().getCalibration(ident, firstFrame.width(), firstFrame.height());
+            processor.init(firstFrame.width(), firstFrame.height(), calibration);
         }
         @Override
         public void onViewportTapped() {
@@ -135,6 +148,9 @@ public class OpenCvOld extends Phantom{
 
         @Override
         public Mat processFrame(Mat input) {
+            Object drawCtx = processor.processFrame(input, captureTimeNanos);
+            requestViewportDrawHook(drawCtx);
+            return input;
             contoursList.clear();
             /*
              * This pipeline finds the contours of yellow blobs such as the Gold Mineral
